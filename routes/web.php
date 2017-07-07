@@ -11,6 +11,17 @@
 |
 */
 
+Route::group([
+    'prefix' => config('backpack.base.route_prefix', 'admin'),
+    'middleware' => ['admin'],
+    'namespace' => 'Admin'
+], function() {
+    // your CRUD resources and other admin routes here
+    CRUD::resource('category', 'CategoryCrudController');
+    CRUD::resource('gender', 'GenderCrudController');
+    CRUD::resource('season', 'SeasonCrudController');
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
