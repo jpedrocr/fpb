@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
+
 class DeleteAllSeeder extends Seeder
 {
     /**
@@ -13,6 +14,7 @@ class DeleteAllSeeder extends Seeder
     {
         DB::table('associations')->delete();
         DB::table('seasons')->delete();
+        DB::table('age_groups')->delete();
         DB::table('genders')->delete();
         DB::table('categories')->delete();
     }

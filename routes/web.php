@@ -19,6 +19,7 @@ Route::group([
     // your CRUD resources and other admin routes here
     CRUD::resource('category', 'CategoryCrudController');
     CRUD::resource('gender', 'GenderCrudController');
+    CRUD::resource('age_group', 'AgeGroupCrudController');
     CRUD::resource('season', 'SeasonCrudController');
     CRUD::resource('association', 'AssociationCrudController');
 });

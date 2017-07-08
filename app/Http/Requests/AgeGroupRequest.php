@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class SeasonRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
+class AgeGroupRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +25,8 @@ class SeasonRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
     public function rules()
     {
         return [
-            'fpb_id' => 'required',
-            'start_year' => 'required',
-            'end_year' => 'required',
+            'gender_id' => 'required',
+            'description' => 'required|min:5|max:255'
         ];
     }
 
