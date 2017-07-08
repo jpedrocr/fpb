@@ -9,6 +9,7 @@
         "backpack/base": "^0.7.19",
         "backpack/crud": "^3.2",
         "backpack/permissionmanager": "^2.1",
+        "fabpot/goutte": "^3.2",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0"
     },

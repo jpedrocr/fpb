@@ -19,8 +19,8 @@ class Season extends Model
     protected $primaryKey = 'id';
     public $timestamps = true;
     protected $guarded = ['id'];
-    protected $fillable = ['fpb_id', 'current'];
-    protected $hidden = ['created_at', 'updated_at', 'start_year', 'end_year'];
+    protected $fillable = ['fpb_id', 'start_year', 'end_year', 'current'];
+    protected $hidden = ['created_at', 'updated_at'];
     protected $dates = ['created_at', 'updated_at'];
     protected $appends = ['description'];
 
