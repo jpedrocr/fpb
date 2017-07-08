@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
 
-class Gender extends Model
+class Competitionlevel extends Model
 {
     use CrudTrait;
 
@@ -15,11 +15,11 @@ class Gender extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'genders';
+    protected $table = 'competition_levels';
     protected $primaryKey = 'id';
     public $timestamps = true;
     protected $guarded = ['id'];
-    protected $fillable = ['fpb_id', 'description'];
+    protected $fillable = ['gender_id', 'description'];
     protected $hidden = ['created_at', 'updated_at'];
     protected $dates = ['created_at', 'updated_at'];
     protected $appends = [];
@@ -35,13 +35,9 @@ class Gender extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-    public function age_groups()
+    public function gender()
     {
-        return $this->hasMany('App\Model\AgeGroup');
-    }
-    public function competition_levels()
-    {
-        return $this->hasMany('App\Model\CompetitionLevel');
+        return $this->belongsTo('App\Models\Gender');
     }
 
     /*

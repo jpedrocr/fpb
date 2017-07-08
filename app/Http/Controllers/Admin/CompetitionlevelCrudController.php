@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Admin;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
-use App\Http\Requests\AgeGroupRequest as StoreRequest;
-use App\Http\Requests\AgeGroupRequest as UpdateRequest;
+use App\Http\Requests\CompetitionlevelRequest as StoreRequest;
+use App\Http\Requests\CompetitionlevelRequest as UpdateRequest;
 
-class AgeGroupCrudController extends CrudController
+class CompetitionlevelCrudController extends CrudController
 {
     public function setup()
     {
@@ -18,9 +18,9 @@ class AgeGroupCrudController extends CrudController
         | BASIC CRUD INFORMATION
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\AgeGroup');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/age_group');
-        $this->crud->setEntityNameStrings('age group', 'age groups');
+        $this->crud->setModel('App\Models\Competitionlevel');
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/competition_level');
+        $this->crud->setEntityNameStrings('competition level', 'competition levels');
 
         /*
         |--------------------------------------------------------------------------
