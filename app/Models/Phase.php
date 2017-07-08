@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
 
-class Competition extends Model
+class Phase extends Model
 {
     use CrudTrait;
 
@@ -15,11 +15,11 @@ class Competition extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'competitions';
+    protected $table = 'phases';
     protected $primaryKey = 'id';
     public $timestamps = true;
     protected $guarded = ['id'];
-    protected $fillable = ['association_id', 'category_id', 'fpb_id', 'name', 'image', 'age_group_id', 'competition_level_id', 'season_id'];
+    protected $fillable = ['competition_id', 'fpb_id', 'description', 'status'];
     protected $hidden = ['created_at', 'updated_at'];
     protected $dates = ['created_at', 'updated_at'];
     protected $appends = [];
@@ -35,29 +35,9 @@ class Competition extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-    public function association()
+    public function competition()
     {
-        return $this->belongsTo('App\Models\Association');
-    }
-    public function category()
-    {
-        return $this->belongsTo('App\Models\Category');
-    }
-    public function age_group()
-    {
-        return $this->belongsTo('App\Models\AgeGroup');
-    }
-    public function competition_level()
-    {
-        return $this->belongsTo('App\Models\CompetitionLevel');
-    }
-    public function season()
-    {
-        return $this->belongsTo('App\Models\Season');
-    }
-    public function phases()
-    {
-        return $this->hasMany('App\Model\Phase');
+        return $this->belongsTo('App\Models\Competition');
     }
 
     /*

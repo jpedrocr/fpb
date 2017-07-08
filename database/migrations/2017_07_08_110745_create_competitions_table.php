@@ -18,7 +18,7 @@ class CreateCompetitionsTable extends Migration
             $table->foreign('association_id')->references('id')->on('associations');
             $table->unsignedInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
-            $table->integer('fpb_id')->unique();
+            $table->unsignedInteger('fpb_id')->unique();
             $table->string('name');
             $table->string('image')->nullable();
             $table->unsignedInteger('age_group_id');

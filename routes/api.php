@@ -30,5 +30,8 @@ Route::group([
     Route::get('association/getFromFPB', 'AssociationController@getFromFPB');
     Route::get('/competition', 'CompetitionController@index');
     Route::get('association/{association_fpb_id}/season/{season_fpb_id}/competition', 'CompetitionController@indexFromAssociationAndSeason');
-    Route::get('association/{association_id}/season/{season_id}/competition/getFromFPB', 'CompetitionController@getFromFPB');
+    Route::get('association/{association_fpb_id}/season/{season_fpb_id}/competition/getFromFPB', 'CompetitionController@getFromFPB');
+    Route::get('/phase', 'PhaseController@index');
+    Route::get('competition/{competition_fpb_id}/phase', 'PhaseController@indexFromCompetition');
+    Route::get('competition/{competition_fpb_id}/phase/getFromFPB', 'PhaseController@getFromFPB');
 });
