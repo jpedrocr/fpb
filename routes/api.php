@@ -24,4 +24,6 @@ Route::group([
     Route::get('gender', 'GenderController@index');
     Route::get('season', 'SeasonController@index');
     Route::get('season/getFromFPB', 'SeasonController@getFromFPB');
+    Route::get('association', 'AssociationController@index');
+    Route::get('association/getFromFPB', 'AssociationController@getFromFPB');
 });

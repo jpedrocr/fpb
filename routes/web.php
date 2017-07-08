@@ -20,6 +20,7 @@ Route::group([
     CRUD::resource('category', 'CategoryCrudController');
     CRUD::resource('gender', 'GenderCrudController');
     CRUD::resource('season', 'SeasonCrudController');
+    CRUD::resource('association', 'AssociationCrudController');
 });
 
 Route::get('/', function () {

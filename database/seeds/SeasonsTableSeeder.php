@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\Season;
 
 class SeasonsTableSeeder extends Seeder
 {
@@ -11,8 +12,7 @@ class SeasonsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('seasons')->truncate();
-        DB::table('seasons')->insert([
+        Season::create([
             'fpb_id' => 55,
             'start_year' => 2016,
             'end_year' => 2017,
