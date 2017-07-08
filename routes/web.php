@@ -23,6 +23,7 @@ Route::group([
     CRUD::resource('competition_level', 'CompetitionLevelCrudController');
     CRUD::resource('season', 'SeasonCrudController');
     CRUD::resource('association', 'AssociationCrudController');
+    CRUD::resource('competition', 'CompetitionCrudController');
 });
 
 Route::get('/', function () {

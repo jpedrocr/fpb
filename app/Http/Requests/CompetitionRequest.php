@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class AssociationRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
+class CompetitionRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +25,14 @@ class AssociationRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
     public function rules()
     {
         return [
+            'association_id' => 'required|number',
             'category_id' => 'required|number',
             'fpb_id' => 'required|number',
             'name' => 'required|min:5|max:255'
             'image' => 'url'
+            'age_group_id' => 'required|number',
+            'competition_level_id' => 'required|number',
+            'season_id' => 'required|number',
         ];
     }
 

@@ -43,6 +43,10 @@ class Gender extends Model
     {
         return $this->hasMany('App\Model\CompetitionLevel');
     }
+    public function competitions()
+    {
+        return $this->hasMany('App\Model\Competition');
+    }
 
     /*
     |--------------------------------------------------------------------------

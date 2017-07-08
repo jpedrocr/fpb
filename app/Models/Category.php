@@ -42,6 +42,10 @@ class Category extends Model
     {
         return $this->hasMany('App\Model\Association');
     }
+    public function competitions()
+    {
+        return $this->hasMany('App\Model\Competition');
+    }
 
     /*
     |--------------------------------------------------------------------------

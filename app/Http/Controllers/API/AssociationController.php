@@ -15,7 +15,7 @@ class AssociationController extends Controller
 {
     public function index()
     {
-        return Season::all();
+        return Association::all();
     }
     public function getFromFPB()
     {
@@ -30,9 +30,9 @@ class AssociationController extends Controller
             ->filterXPath('//div[@id="Associacao"]')
             ->each(function ($node) {
                 $fpb_id = $node->filterXPath('//div[@id="Descricao"]/a')->evaluate('substring-after(@href, "&id=")')[0];
+                $name = $node->filterXPath('//div[@id="Descricao"]/a')->text();
+                $image = $node->filterXPath('//div[@id="Logo"]/img')->attr('src');
                 if (Association::where('fpb_id',$fpb_id)->count()==0) {
-                    $name = $node->filterXPath('//div[@id="Descricao"]/a')->text();
-                    $image = $node->filterXPath('//div[@id="Logo"]/img')->attr('src');
                     Association::create([
                         'category_id' => Category::where('fpb_id','ass')->first()->id,
                         'fpb_id' => $fpb_id,

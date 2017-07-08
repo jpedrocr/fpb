@@ -39,6 +39,10 @@ class Competitionlevel extends Model
     {
         return $this->belongsTo('App\Models\Gender');
     }
+    public function competitions()
+    {
+        return $this->hasMany('App\Model\Competition');
+    }
 
     /*
     |--------------------------------------------------------------------------

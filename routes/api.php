@@ -28,4 +28,7 @@ Route::group([
     Route::get('season/getFromFPB', 'SeasonController@getFromFPB');
     Route::get('association', 'AssociationController@index');
     Route::get('association/getFromFPB', 'AssociationController@getFromFPB');
+    Route::get('/competition', 'CompetitionController@index');
+    Route::get('association/{association_fpb_id}/season/{season_fpb_id}/competition', 'CompetitionController@indexFromAssociationAndSeason');
+    Route::get('association/{association_id}/season/{season_id}/competition/getFromFPB', 'CompetitionController@getFromFPB');
 });

@@ -39,6 +39,10 @@ class Association extends Model
     {
         return $this->belongsTo('App\Models\Category');
     }
+    public function competitions()
+    {
+        return $this->hasMany('App\Model\Competition');
+    }
 
     /*
     |--------------------------------------------------------------------------
