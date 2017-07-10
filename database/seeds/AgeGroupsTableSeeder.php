@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\AgeGroup;
+use App\Models\Agegroup;
 use App\Models\Gender;
 
-class AgeGroupsTableSeeder extends Seeder
+class AgegroupsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,7 +13,7 @@ class AgeGroupsTableSeeder extends Seeder
      */
     public function run()
     {
-        AgeGroup::create([
+        Agegroup::create([
             'gender_id' => Gender::where('fpb_id','-')->first()->id,
             'description' => 'Sénior',
         ]);

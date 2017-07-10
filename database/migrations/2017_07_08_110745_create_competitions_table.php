@@ -21,10 +21,10 @@ class CreateCompetitionsTable extends Migration
             $table->unsignedInteger('fpb_id')->unique();
             $table->string('name');
             $table->string('image')->nullable();
-            $table->unsignedInteger('age_group_id');
-            $table->foreign('age_group_id')->references('id')->on('age_groups');
-            $table->unsignedInteger('competition_level_id');
-            $table->foreign('competition_level_id')->references('id')->on('competition_levels');
+            $table->unsignedInteger('agegroup_id');
+            $table->foreign('agegroup_id')->references('id')->on('agegroups');
+            $table->unsignedInteger('competitionlevel_id');
+            $table->foreign('competitionlevel_id')->references('id')->on('competitionlevels');
             $table->unsignedInteger('season_id');
             $table->foreign('season_id')->references('id')->on('seasons');
             $table->timestamps();

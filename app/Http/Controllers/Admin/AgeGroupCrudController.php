@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Admin;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
-use App\Http\Requests\AgeGroupRequest as StoreRequest;
-use App\Http\Requests\AgeGroupRequest as UpdateRequest;
+use App\Http\Requests\AgegroupRequest as StoreRequest;
+use App\Http\Requests\AgegroupRequest as UpdateRequest;
 
-class AgeGroupCrudController extends CrudController
+class AgegroupCrudController extends CrudController
 {
     public function setup()
     {
@@ -18,8 +18,8 @@ class AgeGroupCrudController extends CrudController
         | BASIC CRUD INFORMATION
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\AgeGroup');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/age_group');
+        $this->crud->setModel('App\Models\Agegroup');
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/agegroup');
         $this->crud->setEntityNameStrings('age group', 'age groups');
 
         /*
@@ -40,7 +40,7 @@ class AgeGroupCrudController extends CrudController
                'entity' => 'gender', // the method that defines the relationship in your Model
                'attribute' => 'description', // foreign key attribute that is shown to user
                'model' => "App\Models\Gender" // foreign key model
-           ],
+            ],
             [ // Text
                 'name' => 'description',
                 'label' => "Description",

@@ -4,12 +4,12 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\CompetitionLevel;
+use App\Models\Competitionlevel;
 
-class CompetitionLevelController extends Controller
+class CompetitionlevelController extends Controller
 {
     public function index()
     {
-        return CompetitionLevel::all();
+        return Competitionlevel::all();
     }
 }

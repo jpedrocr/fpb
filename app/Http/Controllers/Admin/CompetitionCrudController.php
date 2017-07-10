@@ -74,18 +74,18 @@ class CompetitionCrudController extends CrudController
             [  // Select2
                'label' => "Age Group",
                'type' => 'select2',
-               'name' => 'age_group_id', // the db column for the foreign key
-               'entity' => 'age_group', // the method that defines the relationship in your Model
+               'name' => 'agegroup_id', // the db column for the foreign key
+               'entity' => 'agegroup', // the method that defines the relationship in your Model
                'attribute' => 'description', // foreign key attribute that is shown to user
-               'model' => "App\Models\AgeGroup" // foreign key model
+               'model' => "App\Models\Agegroup" // foreign key model
             ],
             [  // Select2
                'label' => "Competition Level",
                'type' => 'select2',
-               'name' => 'competition_level_id', // the db column for the foreign key
-               'entity' => 'competition_level', // the method that defines the relationship in your Model
+               'name' => 'competitionlevel_id', // the db column for the foreign key
+               'entity' => 'competitionlevel', // the method that defines the relationship in your Model
                'attribute' => 'description', // foreign key attribute that is shown to user
-               'model' => "App\Models\CompetitionLevel" // foreign key model
+               'model' => "App\Models\Competitionlevel" // foreign key model
             ],
             [  // Select2
                'label' => "Season",
@@ -138,18 +138,18 @@ class CompetitionCrudController extends CrudController
             [  // Select2
                'label' => "Age Group",
                'type' => 'select',
-               'name' => 'age_group_id', // the db column for the foreign key
-               'entity' => 'age_group', // the method that defines the relationship in your Model
+               'name' => 'agegroup_id', // the db column for the foreign key
+               'entity' => 'agegroup', // the method that defines the relationship in your Model
                'attribute' => 'description', // foreign key attribute that is shown to user
-               'model' => "App\Models\AgeGroup" // foreign key model
+               'model' => "App\Models\Agegroup" // foreign key model
             ],
             [  // Select2
                'label' => "Competition Level",
                'type' => 'select',
-               'name' => 'competition_level_id', // the db column for the foreign key
-               'entity' => 'competition_level', // the method that defines the relationship in your Model
+               'name' => 'competitionlevel_id', // the db column for the foreign key
+               'entity' => 'competitionlevel', // the method that defines the relationship in your Model
                'attribute' => 'description', // foreign key attribute that is shown to user
-               'model' => "App\Models\CompetitionLevel" // foreign key model
+               'model' => "App\Models\Competitionlevel" // foreign key model
             ],
             [  // Select2
                'label' => "Season",

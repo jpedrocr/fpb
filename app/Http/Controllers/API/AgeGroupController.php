@@ -4,12 +4,12 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\AgeGroup;
+use App\Models\Agegroup;
 
-class AgeGroupController extends Controller
+class AgegroupController extends Controller
 {
     public function index()
     {
-        return AgeGroup::all();
+        return Agegroup::all();
     }
 }

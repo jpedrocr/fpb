@@ -35,13 +35,13 @@ class Gender extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-    public function age_groups()
+    public function agegroups()
     {
-        return $this->hasMany('App\Model\AgeGroup');
+        return $this->hasMany('App\Model\Agegroup');
     }
-    public function competition_levels()
+    public function competitionlevels()
     {
-        return $this->hasMany('App\Model\CompetitionLevel');
+        return $this->hasMany('App\Model\Competitionlevel');
     }
     public function competitions()
     {

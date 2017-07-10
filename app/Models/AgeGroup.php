@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
 
-class AgeGroup extends Model
+class Agegroup extends Model
 {
     use CrudTrait;
 
@@ -15,7 +15,7 @@ class AgeGroup extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'age_groups';
+    protected $table = 'agegroups';
     protected $primaryKey = 'id';
     public $timestamps = true;
     protected $guarded = ['id'];

@@ -15,7 +15,7 @@ class Competitionlevel extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'competition_levels';
+    protected $table = 'competitionlevels';
     protected $primaryKey = 'id';
     public $timestamps = true;
     protected $guarded = ['id'];

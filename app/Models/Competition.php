@@ -19,7 +19,9 @@ class Competition extends Model
     protected $primaryKey = 'id';
     public $timestamps = true;
     protected $guarded = ['id'];
-    protected $fillable = ['association_id', 'category_id', 'fpb_id', 'name', 'image', 'age_group_id', 'competition_level_id', 'season_id'];
+    protected $fillable = [
+        'association_id', 'category_id', 'fpb_id', 'name', 'image', 'agegroup_id', 'competitionlevel_id', 'season_id'
+    ];
     protected $hidden = ['created_at', 'updated_at'];
     protected $dates = ['created_at', 'updated_at'];
     protected $appends = [];
@@ -43,13 +45,13 @@ class Competition extends Model
     {
         return $this->belongsTo('App\Models\Category');
     }
-    public function age_group()
+    public function agegroup()
     {
-        return $this->belongsTo('App\Models\AgeGroup');
+        return $this->belongsTo('App\Models\Agegroup');
     }
-    public function competition_level()
+    public function competitionlevel()
     {
-        return $this->belongsTo('App\Models\CompetitionLevel');
+        return $this->belongsTo('App\Models\Competitionlevel');
     }
     public function season()
     {

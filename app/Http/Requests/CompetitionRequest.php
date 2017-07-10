@@ -30,8 +30,8 @@ class CompetitionRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
             'fpb_id' => 'required|number',
             'name' => 'required|min:5|max:255'
             'image' => 'url'
-            'age_group_id' => 'required|number',
-            'competition_level_id' => 'required|number',
+            'agegroup_id' => 'required|number',
+            'competitionlevel_id' => 'required|number',
             'season_id' => 'required|number',
         ];
     }

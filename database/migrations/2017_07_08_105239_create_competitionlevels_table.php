@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCompetitionLevelsTable extends Migration
+class CreateCompetitionlevelsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateCompetitionLevelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('competition_levels', function (Blueprint $table) {
+        Schema::create('competitionlevels', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('gender_id');
             $table->foreign('gender_id')->references('id')->on('genders');
@@ -28,6 +28,6 @@ class CreateCompetitionLevelsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('competition_levels');
+        Schema::drop('competitionlevels');
     }
 }

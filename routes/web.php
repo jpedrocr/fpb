@@ -19,8 +19,8 @@ Route::group([
     // your CRUD resources and other admin routes here
     CRUD::resource('category', 'CategoryCrudController');
     CRUD::resource('gender', 'GenderCrudController');
-    CRUD::resource('age_group', 'AgeGroupCrudController');
-    CRUD::resource('competition_level', 'CompetitionLevelCrudController');
+    CRUD::resource('agegroup', 'AgegroupCrudController');
+    CRUD::resource('competitionlevel', 'CompetitionlevelCrudController');
     CRUD::resource('season', 'SeasonCrudController');
     CRUD::resource('association', 'AssociationCrudController');
     CRUD::resource('competition', 'CompetitionCrudController');

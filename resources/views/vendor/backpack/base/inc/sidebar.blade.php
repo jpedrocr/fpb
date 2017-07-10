@@ -37,8 +37,8 @@
                     <ul class="treeview-menu">
                         <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/category') }}"><i class="fa fa-user"></i> <span>Categories</span></a></li>
                         <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/gender') }}"><i class="fa fa-user"></i> <span>Genders</span></a></li>
-                        <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/age_group') }}"><i class="fa fa-user"></i> <span>AgeGroups</span></a></li>
-                        <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/competition_level') }}"><i class="fa fa-user"></i> <span>CompetitionLevels</span></a></li>
+                        <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/agegroup') }}"><i class="fa fa-user"></i> <span>Agegroups</span></a></li>
+                        <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/competitionlevel') }}"><i class="fa fa-user"></i> <span>Competitionlevels</span></a></li>
                         <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/season') }}"><i class="fa fa-user"></i> <span>Seasons</span></a></li>
                         <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/association') }}"><i class="fa fa-user"></i> <span>Associations</span></a></li>
                         <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/competition') }}"><i class="fa fa-user"></i> <span>Competitions</span></a></li>

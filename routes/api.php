@@ -22,8 +22,8 @@ Route::group([
 ], function() {
     Route::get('category', 'CategoryController@index');
     Route::get('gender', 'GenderController@index');
-    Route::get('age_group', 'AgeGroupController@index');
-    Route::get('competition_level', 'CompetitionLevelController@index');
+    Route::get('agegroup', 'AgegroupController@index');
+    Route::get('competitionlevel', 'CompetitionlevelController@index');
     Route::get('season', 'SeasonController@index');
     Route::get('season/getFromFPB', 'SeasonController@getFromFPB');
     Route::get('association', 'AssociationController@index');

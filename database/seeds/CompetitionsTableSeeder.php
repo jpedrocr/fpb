@@ -4,8 +4,8 @@ use Illuminate\Database\Seeder;
 use App\Models\Competition;
 use App\Models\Association;
 use App\Models\Category;
-use App\Models\AgeGroup;
-use App\Models\CompetitionLevel;
+use App\Models\Agegroup;
+use App\Models\Competitionlevel;
 use App\Models\Season;
 
 class CompetitionsTableSeeder extends Seeder
@@ -23,8 +23,8 @@ class CompetitionsTableSeeder extends Seeder
             'fpb_id' => 6171,
             'name' => 'XIV Campeonato da Proliga',
             'image' => '/fpb_zone/sa/img/COM/COM_6171_LOGO.gif',
-            'age_group_id' => AgeGroup::where('description','Sénior')->first()->id,
-            'competition_level_id' => CompetitionLevel::where('description','Proliga')->first()->id,
+            'agegroup_id' => Agegroup::where('description','Sénior')->first()->id,
+            'competitionlevel_id' => Competitionlevel::where('description','Proliga')->first()->id,
             'season_id' => Season::where('fpb_id',55)->first()->id,
         ]);
     }

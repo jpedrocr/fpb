@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\CompetitionLevel;
+use App\Models\Competitionlevel;
 use App\Models\Gender;
 
-class CompetitionLevelsTableSeeder extends Seeder
+class CompetitionlevelsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,7 +13,7 @@ class CompetitionLevelsTableSeeder extends Seeder
      */
     public function run()
     {
-        CompetitionLevel::create([
+        Competitionlevel::create([
             'gender_id' => Gender::where('fpb_id','-')->first()->id,
             'description' => 'Proliga',
         ]);

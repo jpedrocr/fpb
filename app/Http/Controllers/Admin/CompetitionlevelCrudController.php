@@ -19,7 +19,7 @@ class CompetitionlevelCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel('App\Models\Competitionlevel');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/competition_level');
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/competitionlevel');
         $this->crud->setEntityNameStrings('competition level', 'competition levels');
 
         /*
@@ -40,7 +40,7 @@ class CompetitionlevelCrudController extends CrudController
                'entity' => 'gender', // the method that defines the relationship in your Model
                'attribute' => 'description', // foreign key attribute that is shown to user
                'model' => "App\Models\Gender" // foreign key model
-           ],
+            ],
             [ // Text
                 'name' => 'description',
                 'label' => "Description",

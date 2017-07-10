@@ -15,8 +15,8 @@ class DeleteAllSeeder extends Seeder
         DB::table('competitions')->delete();
         DB::table('associations')->delete();
         DB::table('seasons')->delete();
-        DB::table('age_groups')->delete();
-        DB::table('competition_levels')->delete();
+        DB::table('agegroups')->delete();
+        DB::table('competitionlevels')->delete();
         DB::table('genders')->delete();
         DB::table('categories')->delete();
     }

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAgeGroupsTable extends Migration
+class CreateAgegroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateAgeGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('age_groups', function (Blueprint $table) {
+        Schema::create('agegroups', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('gender_id');
             $table->foreign('gender_id')->references('id')->on('genders');
@@ -28,6 +28,6 @@ class CreateAgeGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('age_groups');
+        Schema::drop('agegroups');
     }
 }
