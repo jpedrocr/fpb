@@ -14,7 +14,7 @@ class CompetitionlevelsTableSeeder extends Seeder
     public function run()
     {
         Competitionlevel::create([
-            'gender_id' => Gender::where('fpb_id','-')->first()->id,
+            'gender_id' => Gender::where('fpb_id', '-')->first()->id,
             'description' => 'Proliga',
         ]);
     }

@@ -14,7 +14,7 @@ class AgegroupsTableSeeder extends Seeder
     public function run()
     {
         Agegroup::create([
-            'gender_id' => Gender::where('fpb_id','-')->first()->id,
+            'gender_id' => Gender::where('fpb_id', '-')->first()->id,
             'description' => 'Sénior',
         ]);
     }

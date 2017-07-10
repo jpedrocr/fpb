@@ -18,14 +18,14 @@ class CompetitionsTableSeeder extends Seeder
     public function run()
     {
         Competition::create([
-            'association_id' => Association::where('fpb_id',50)->first()->id,
-            'category_id' => Category::where('fpb_id','com')->first()->id,
+            'association_id' => Association::where('fpb_id', 50)->first()->id,
+            'category_id' => Category::where('fpb_id', 'com')->first()->id,
             'fpb_id' => 6171,
             'name' => 'XIV Campeonato da Proliga',
             'image' => '/fpb_zone/sa/img/COM/COM_6171_LOGO.gif',
-            'agegroup_id' => Agegroup::where('description','Sénior')->first()->id,
-            'competitionlevel_id' => Competitionlevel::where('description','Proliga')->first()->id,
-            'season_id' => Season::where('fpb_id',55)->first()->id,
+            'agegroup_id' => Agegroup::where('description', 'Sénior')->first()->id,
+            'competitionlevel_id' => Competitionlevel::where('description', 'Proliga')->first()->id,
+            'season_id' => Season::where('fpb_id', 55)->first()->id,
         ]);
     }
 }

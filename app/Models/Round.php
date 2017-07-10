@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
 
-class Phase extends Model
+class Round extends Model
 {
     use CrudTrait;
 
@@ -15,11 +15,11 @@ class Phase extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'phases';
+    protected $table = 'rounds';
     protected $primaryKey = 'id';
     public $timestamps = true;
     protected $guarded = ['id'];
-    protected $fillable = ['competition_id', 'fpb_id', 'description', 'status'];
+    protected $fillable = ['phase_id', 'fpb_id', 'lap_number', 'round_number'];
     protected $hidden = ['created_at', 'updated_at'];
     protected $dates = ['created_at', 'updated_at'];
     protected $appends = [];
@@ -35,13 +35,9 @@ class Phase extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-    public function competition()
+    public function phase()
     {
-        return $this->belongsTo('App\Models\Competition');
-    }
-    public function rounds()
-    {
-        return $this->hasMany('App\Model\Round');
+        return $this->belongsTo('App\Models\Phase');
     }
 
     /*

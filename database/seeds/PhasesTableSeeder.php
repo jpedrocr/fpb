@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\Competition;
 use App\Models\Phase;
+use App\Models\Competition;
 
 class PhasesTableSeeder extends Seeder
 {
@@ -14,7 +14,7 @@ class PhasesTableSeeder extends Seeder
     public function run()
     {
         Phase::create([
-            'competition_id' => Competition::where('fpb_id','6171')->first()->id,
+            'competition_id' => Competition::where('fpb_id', 6171)->first()->id,
             'fpb_id' => 15045,
             'description' => '1ª Fase - Zona Norte',
             'status' => 'Terminado'

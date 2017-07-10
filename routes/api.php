@@ -34,4 +34,7 @@ Route::group([
     Route::get('/phase', 'PhaseController@index');
     Route::get('competition/{competition_fpb_id}/phase', 'PhaseController@indexFromCompetition');
     Route::get('competition/{competition_fpb_id}/phase/getFromFPB', 'PhaseController@getFromFPB');
+    Route::get('/round', 'RoundController@index');
+    Route::get('phase/{phase_fpb_id}/round', 'RoundController@indexFromPhase');
+    Route::get('phase/{phase_fpb_id}/round/getFromFPB', 'RoundController@getFromFPB');
 });
