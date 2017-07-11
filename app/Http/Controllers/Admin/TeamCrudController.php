@@ -34,28 +34,28 @@ class TeamCrudController extends CrudController
         // $this->crud->addField($options, 'update/create/both');
         $this->crud->addFields([
             [  // Select2
-               'label' => "Club",
-               'type' => 'select2',
-               'name' => 'club_id', // the db column for the foreign key
-               'entity' => 'club', // the method that defines the relationship in your Model
-               'attribute' => 'name', // foreign key attribute that is shown to user
-               'model' => "App\Models\Club" // foreign key model
+                'name' => 'club_id', // the db column for the foreign key
+                'label' => "Club",
+                'type' => 'select2',
+                'entity' => 'club', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => "App\Models\Club" // foreign key model
             ],
             [  // Select2
-               'label' => "Season",
-               'type' => 'select2',
-               'name' => 'season_id', // the db column for the foreign key
-               'entity' => 'season', // the method that defines the relationship in your Model
-               'attribute' => 'description', // foreign key attribute that is shown to user
-               'model' => "App\Models\Season" // foreign key model
+                'name' => 'season_id', // the db column for the foreign key
+                'label' => "Season",
+                'type' => 'select2',
+                'entity' => 'season', // the method that defines the relationship in your Model
+                'attribute' => 'description', // foreign key attribute that is shown to user
+                'model' => "App\Models\Season" // foreign key model
             ],
             [  // Select2
-               'label' => "Category",
-               'type' => 'select2',
-               'name' => 'category_id', // the db column for the foreign key
-               'entity' => 'category', // the method that defines the relationship in your Model
-               'attribute' => 'name', // foreign key attribute that is shown to user
-               'model' => "App\Models\Category" // foreign key model
+                'name' => 'category_id', // the db column for the foreign key
+                'label' => "Category",
+                'type' => 'select2',
+                'entity' => 'category', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => "App\Models\Category" // foreign key model
             ],
             [ // Text
                 'name' => 'fpb_id',
@@ -80,20 +80,40 @@ class TeamCrudController extends CrudController
                 'type' => 'url',
             ],
             [  // Select2
-               'label' => "Age Group",
-               'type' => 'select2',
-               'name' => 'agegroup_id', // the db column for the foreign key
-               'entity' => 'agegroup', // the method that defines the relationship in your Model
-               'attribute' => 'description', // foreign key attribute that is shown to user
-               'model' => "App\Models\Agegroup" // foreign key model
+                'name' => 'agegroup_id', // the db column for the foreign key
+                'label' => "Age Group",
+                'type' => 'select2',
+                'entity' => 'agegroup', // the method that defines the relationship in your Model
+                'attribute' => 'description', // foreign key attribute that is shown to user
+                'model' => "App\Models\Agegroup" // foreign key model
             ],
             [  // Select2
-               'label' => "Competition Level",
-               'type' => 'select2',
-               'name' => 'competitionlevel_id', // the db column for the foreign key
-               'entity' => 'competitionlevel', // the method that defines the relationship in your Model
-               'attribute' => 'description', // foreign key attribute that is shown to user
-               'model' => "App\Models\Competitionlevel" // foreign key model
+                'name' => 'competitionlevel_id', // the db column for the foreign key
+                'label' => "Competition Level",
+                'type' => 'select2',
+                'entity' => 'competitionlevel', // the method that defines the relationship in your Model
+                'attribute' => 'description', // foreign key attribute that is shown to user
+                'model' => "App\Models\Competitionlevel" // foreign key model
+            ],
+            [
+                // n-n relationship (with pivot table)
+                'name' => 'competitions', // the method that defines the relationship in your Model
+                'label' => "Competitions", // Table column heading
+                'type' => 'select2_multiple',
+                'entity' => 'competitions', // the method that defines the relationship in your Model
+                'attribute' => "name", // foreign key attribute that is shown to user
+                'model' => "App\Models\Competition", // foreign key model
+                'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
+            ],
+            [
+                // n-n relationship (with pivot table)
+                'name' => 'phases', // the method that defines the relationship in your Model
+                'label' => "Phases", // Table column heading
+                'type' => 'select2_multiple',
+                'entity' => 'phases', // the method that defines the relationship in your Model
+                'attribute' => "description", // foreign key attribute that is shown to user
+                'model' => "App\Models\Phase", // foreign key model
+                'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
             ],
         ]);
         // $this->crud->removeField('name', 'update/create/both');
@@ -103,28 +123,28 @@ class TeamCrudController extends CrudController
         // $this->crud->addColumn(); // add a single column, at the end of the stack
         $this->crud->addColumns([
             [  // Select2
-               'label' => "Club",
-               'type' => 'select',
-               'name' => 'club_id', // the db column for the foreign key
-               'entity' => 'club', // the method that defines the relationship in your Model
-               'attribute' => 'name', // foreign key attribute that is shown to user
-               'model' => "App\Models\Club" // foreign key model
+                'name' => 'club_id', // the db column for the foreign key
+                'label' => "Club",
+                'type' => 'select',
+                'entity' => 'club', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => "App\Models\Club" // foreign key model
             ],
             [  // Select2
-               'label' => "Season",
-               'type' => 'select',
-               'name' => 'season_id', // the db column for the foreign key
-               'entity' => 'season', // the method that defines the relationship in your Model
-               'attribute' => 'description', // foreign key attribute that is shown to user
-               'model' => "App\Models\Season" // foreign key model
+                'name' => 'season_id', // the db column for the foreign key
+                'label' => "Season",
+                'type' => 'select',
+                'entity' => 'season', // the method that defines the relationship in your Model
+                'attribute' => 'description', // foreign key attribute that is shown to user
+                'model' => "App\Models\Season" // foreign key model
             ],
             [  // Select2
-               'label' => "Category",
-               'type' => 'select',
-               'name' => 'category_id', // the db column for the foreign key
-               'entity' => 'category', // the method that defines the relationship in your Model
-               'attribute' => 'name', // foreign key attribute that is shown to user
-               'model' => "App\Models\Category" // foreign key model
+                'name' => 'category_id', // the db column for the foreign key
+                'label' => "Category",
+                'type' => 'select',
+                'entity' => 'category', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => "App\Models\Category" // foreign key model
             ],
             [ // Text
                 'name' => 'fpb_id',
@@ -144,20 +164,38 @@ class TeamCrudController extends CrudController
                 //'suffix' => ''
             ],
             [  // Select2
-               'label' => "Age Group",
-               'type' => 'select',
-               'name' => 'agegroup_id', // the db column for the foreign key
-               'entity' => 'agegroup', // the method that defines the relationship in your Model
-               'attribute' => 'description', // foreign key attribute that is shown to user
-               'model' => "App\Models\Agegroup" // foreign key model
+                'name' => 'agegroup_id', // the db column for the foreign key
+                'label' => "Age Group",
+                'type' => 'select',
+                'entity' => 'agegroup', // the method that defines the relationship in your Model
+                'attribute' => 'description', // foreign key attribute that is shown to user
+                'model' => "App\Models\Agegroup" // foreign key model
             ],
             [  // Select2
-               'label' => "Competition Level",
-               'type' => 'select',
-               'name' => 'competitionlevel_id', // the db column for the foreign key
-               'entity' => 'competitionlevel', // the method that defines the relationship in your Model
-               'attribute' => 'description', // foreign key attribute that is shown to user
-               'model' => "App\Models\Competitionlevel" // foreign key model
+                'name' => 'competitionlevel_id', // the db column for the foreign key
+                'label' => "Competition Level",
+                'type' => 'select',
+                'entity' => 'competitionlevel', // the method that defines the relationship in your Model
+                'attribute' => 'description', // foreign key attribute that is shown to user
+                'model' => "App\Models\Competitionlevel" // foreign key model
+            ],
+            [
+                // n-n relationship (with pivot table)
+                'name' => 'competitions', // the method that defines the relationship in your Model
+                'label' => "Competitions", // Table column heading
+                'type' => 'select_multiple',
+                'entity' => 'competitions', // the method that defines the relationship in your Model
+                'attribute' => "name", // foreign key attribute that is shown to user
+                'model' => "App\Models\Competition", // foreign key model
+            ],
+            [
+                // n-n relationship (with pivot table)
+                'name' => 'phases', // the method that defines the relationship in your Model
+                'label' => "Phases", // Table column heading
+                'type' => 'select_multiple',
+                'entity' => 'phases', // the method that defines the relationship in your Model
+                'attribute' => "description", // foreign key attribute that is shown to user
+                'model' => "App\Models\Phase", // foreign key model
             ],
         ]); // add multiple columns, at the end of the stack
         // $this->crud->removeColumn('column_name'); // remove a column from the stack

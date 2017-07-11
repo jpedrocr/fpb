@@ -57,6 +57,14 @@ class Team extends Model
     {
         return $this->belongsTo('App\Models\Season');
     }
+    public function competitions()
+    {
+        return $this->belongsToMany('App\Models\Competition');
+    }
+    public function phases()
+    {
+        return $this->belongsToMany('App\Models\Phase');
+    }
 
     /*
     |--------------------------------------------------------------------------

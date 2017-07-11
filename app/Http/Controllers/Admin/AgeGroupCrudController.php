@@ -34,12 +34,12 @@ class AgegroupCrudController extends CrudController
         // $this->crud->addField($options, 'update/create/both');
         $this->crud->addFields([
             [  // Select2
-               'label' => "Gender",
-               'type' => 'select2',
-               'name' => 'gender_id', // the db column for the foreign key
-               'entity' => 'gender', // the method that defines the relationship in your Model
-               'attribute' => 'description', // foreign key attribute that is shown to user
-               'model' => "App\Models\Gender" // foreign key model
+                'name' => 'gender_id', // the db column for the foreign key
+                'label' => "Gender",
+                'type' => 'select2',
+                'entity' => 'gender', // the method that defines the relationship in your Model
+                'attribute' => 'description', // foreign key attribute that is shown to user
+                'model' => "App\Models\Gender" // foreign key model
             ],
             [ // Text
                 'name' => 'description',
@@ -57,12 +57,12 @@ class AgegroupCrudController extends CrudController
         // $this->crud->addColumn(); // add a single column, at the end of the stack
         $this->crud->addColumns([
             [  // Select2
-               'label' => "Gender",
-               'type' => 'select',
-               'name' => 'gender_id', // the db column for the foreign key
-               'entity' => 'gender', // the method that defines the relationship in your Model
-               'attribute' => 'description', // foreign key attribute that is shown to user
-               'model' => "App\Models\Gender" // foreign key model
+                'name' => 'gender_id', // the db column for the foreign key
+                'label' => "Gender",
+                'type' => 'select',
+                'entity' => 'gender', // the method that defines the relationship in your Model
+                'attribute' => 'description', // foreign key attribute that is shown to user
+                'model' => "App\Models\Gender" // foreign key model
             ],
             [ // Text
                 'name' => 'description',

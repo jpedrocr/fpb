@@ -34,20 +34,20 @@ class ClubCrudController extends CrudController
         // $this->crud->addField($options, 'update/create/both');
         $this->crud->addFields([
             [  // Select2
-               'label' => "Association",
-               'type' => 'select2',
-               'name' => 'association_id', // the db column for the foreign key
-               'entity' => 'association', // the method that defines the relationship in your Model
-               'attribute' => 'name', // foreign key attribute that is shown to user
-               'model' => "App\Models\Association" // foreign key model
+                'name' => 'association_id', // the db column for the foreign key
+                'label' => "Association",
+                'type' => 'select2',
+                'entity' => 'association', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => "App\Models\Association" // foreign key model
             ],
             [  // Select2
-               'label' => "Category",
-               'type' => 'select2',
-               'name' => 'category_id', // the db column for the foreign key
-               'entity' => 'category', // the method that defines the relationship in your Model
-               'attribute' => 'name', // foreign key attribute that is shown to user
-               'model' => "App\Models\Category" // foreign key model
+                'name' => 'category_id', // the db column for the foreign key
+                'label' => "Category",
+                'type' => 'select2',
+                'entity' => 'category', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => "App\Models\Category" // foreign key model
             ],
             [ // Text
                 'name' => 'fpb_id',
@@ -143,20 +143,20 @@ class ClubCrudController extends CrudController
         // $this->crud->addColumn(); // add a single column, at the end of the stack
         $this->crud->addColumns([
             [  // Select2
-               'label' => "Association",
-               'type' => 'select',
-               'name' => 'association_id', // the db column for the foreign key
-               'entity' => 'association', // the method that defines the relationship in your Model
-               'attribute' => 'name', // foreign key attribute that is shown to user
-               'model' => "App\Models\Association" // foreign key model
+                'name' => 'association_id', // the db column for the foreign key
+                'label' => "Association",
+                'type' => 'select',
+                'entity' => 'association', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => "App\Models\Association" // foreign key model
             ],
             [  // Select2
-               'label' => "Category",
-               'type' => 'select',
-               'name' => 'category_id', // the db column for the foreign key
-               'entity' => 'category', // the method that defines the relationship in your Model
-               'attribute' => 'name', // foreign key attribute that is shown to user
-               'model' => "App\Models\Category" // foreign key model
+                'name' => 'category_id', // the db column for the foreign key
+                'label' => "Category",
+                'type' => 'select',
+                'entity' => 'category', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => "App\Models\Category" // foreign key model
             ],
             [ // Text
                 'name' => 'fpb_id',

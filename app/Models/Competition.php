@@ -59,7 +59,11 @@ class Competition extends Model
     }
     public function phases()
     {
-        return $this->hasMany('App\Model\Phase');
+        return $this->hasMany('App\Models\Phase');
+    }
+    public function teams()
+    {
+        return $this->belongsToMany('App\Models\Team');
     }
 
     /*

@@ -15,6 +15,8 @@ use App\Models\Gender;
 use App\Models\Agegroup;
 use App\Models\Competitionlevel;
 use App\Models\Season;
+use App\Models\Competition;
+use App\Models\Phase;
 
 class TeamController extends Controller
 {
@@ -101,5 +103,57 @@ class TeamController extends Controller
                 [ 'season_id', '=', $season_id ],
             ])
             ->get();
+    }
+    public function getCompetitionsAndPhasesFromFPB($team_fpb_id)
+    {
+        $team = Team::where('fpb_id', $team_fpb_id)->first();
+
+        $html = '';
+        $crawler = new Crawler();
+        $crawler->addHtmlContent($html);
+
+        $client = new Client();
+        $crawler = $client->request('GET', 'http://www.fpb.pt/fpb2014/do?com=DS;1;317.104000;++ID('.$team_fpb_id.
+            ')+CO(COMPETICOES)+BL(COMPETICOES);+MYBASEDIV(dEquipa_Ficha_Home_Comp);+RCNT(1000)+RINI(1)&');
+
+        $crawler
+            ->filterXPath('//div[contains(@class, "LinhaSeparadora01")]')
+            ->each(function ($node) use ($team) {
+                $competition_fpb_id = $node
+                    ->nextAll()
+                    ->eq(0)
+                    ->filterXPath('//a[contains(@href, "!site.go?s=1&show=com&id=")]')
+                    ->evaluate('substring-after(@href, "&id=")')[0];
+
+                $competition_id = Competition::where('fpb_id', $competition_fpb_id)->first()->id;
+
+                if ($team->competitions()->where('id', $competition_id)->count()==0) {
+                    $team->competitions()->attach($competition_id);
+                //     dump('Team:'.$team->id.'->Competition:'.$competition_id.' attached');
+                // } else {
+                //     dump('Team:'.$team->id.'->Competition:'.$competition_id.' already attached.');
+                }
+
+                $nextAll = $node->nextAll();
+                $eq = 1;
+                while (($eq<$nextAll->count()) and ($nextAll->eq($eq)->attr('class')=="Titulo04 TextoCor01")) {
+                    $phase_description = trim(explode("\n", $nextAll->eq($eq)->text())[2]);
+
+                    if ($team->phases()->where('description', $phase_description)->count()==0) {
+                        $phase_id = Phase::where([
+                                [ 'competition_id', '=', $competition_id ],
+                                [ 'description', '=', $phase_description ],
+                            ])->first()->id;
+                        $team->phases()->attach($phase_id);
+                    //     dump('Team:'.$team->id.'->Competition:'.$competition_id.'->Phase:'.$phase_description.' attached');
+                    // } else {
+                    //     dump('Team:'.$team->id.'->Competition:'.$competition_id.'->Phase:'.$phase_description.' already attached.');
+                    }
+
+                    $eq++;
+                }
+            });
+
+        return $team->competitions()->count() . ' Competitions and ' . $team->phases()->count() . ' Phases';
     }
 }

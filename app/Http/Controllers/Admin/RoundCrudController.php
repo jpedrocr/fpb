@@ -34,12 +34,12 @@ class RoundCrudController extends CrudController
         // $this->crud->addField($options, 'update/create/both');
         $this->crud->addFields([
             [  // Select2
-               'label' => "Phase",
-               'type' => 'select2',
-               'name' => 'phase_id', // the db column for the foreign key
-               'entity' => 'phase', // the method that defines the relationship in your Model
-               'attribute' => 'description', // foreign key attribute that is shown to user
-               'model' => "App\Models\Phase" // foreign key model
+                'name' => 'phase_id', // the db column for the foreign key
+                'label' => "Phase",
+                'type' => 'select2',
+                'entity' => 'phase', // the method that defines the relationship in your Model
+                'attribute' => 'description', // foreign key attribute that is shown to user
+                'model' => "App\Models\Phase" // foreign key model
             ],
             [ // Text
                 'name' => 'fpb_id',
@@ -76,12 +76,12 @@ class RoundCrudController extends CrudController
         // $this->crud->addColumn(); // add a single column, at the end of the stack
         $this->crud->addColumns([
             [  // Select2
-               'label' => "Phase",
-               'type' => 'select',
-               'name' => 'phase_id', // the db column for the foreign key
-               'entity' => 'phase', // the method that defines the relationship in your Model
-               'attribute' => 'description', // foreign key attribute that is shown to user
-               'model' => "App\Models\Phase" // foreign key model
+                'name' => 'phase_id', // the db column for the foreign key
+                'label' => "Phase",
+                'type' => 'select',
+                'entity' => 'phase', // the method that defines the relationship in your Model
+                'attribute' => 'description', // foreign key attribute that is shown to user
+                'model' => "App\Models\Phase" // foreign key model
             ],
             [ // Text
                 'name' => 'fpb_id',

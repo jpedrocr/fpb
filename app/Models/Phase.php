@@ -41,7 +41,11 @@ class Phase extends Model
     }
     public function rounds()
     {
-        return $this->hasMany('App\Model\Round');
+        return $this->hasMany('App\Models\Round');
+    }
+    public function teams()
+    {
+        return $this->belongsToMany('App\Models\Team');
     }
 
     /*

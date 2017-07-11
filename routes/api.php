@@ -43,4 +43,5 @@ Route::group([
     Route::get('/team', 'TeamController@index');
     Route::get('club/{club_fpb_id}/season/{season_fpb_id}/team', 'TeamController@indexFromClubAndSeason');
     Route::get('club/{club_fpb_id}/team/getFromFPB', 'TeamController@getFromFPB');
+    Route::get('team/{team_fpb_id}/getCompetitionsFromFPB', 'TeamController@getCompetitionsAndPhasesFromFPB');
 });

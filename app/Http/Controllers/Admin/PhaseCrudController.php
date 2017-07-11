@@ -34,12 +34,12 @@ class PhaseCrudController extends CrudController
         // $this->crud->addField($options, 'update/create/both');
         $this->crud->addFields([
             [  // Select2
-               'label' => "Competition",
-               'type' => 'select2',
-               'name' => 'competition_id', // the db column for the foreign key
-               'entity' => 'competition', // the method that defines the relationship in your Model
-               'attribute' => 'name', // foreign key attribute that is shown to user
-               'model' => "App\Models\Competition" // foreign key model
+                'name' => 'competition_id', // the db column for the foreign key
+                'label' => "Competition",
+                'type' => 'select2',
+                'entity' => 'competition', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => "App\Models\Competition" // foreign key model
             ],
             [ // Text
                 'name' => 'fpb_id',
@@ -66,6 +66,16 @@ class PhaseCrudController extends CrudController
                 //'prefix' => '',
                 //'suffix' => ''
             ],
+            [
+                // n-n relationship (with pivot table)
+                'name' => 'teams', // the method that defines the relationship in your Model
+                'label' => "Teams", // Table column heading
+                'type' => 'select2_multiple',
+                'entity' => 'teams', // the method that defines the relationship in your Model
+                'attribute' => "name", // foreign key attribute that is shown to user
+                'model' => "App\Models\Team", // foreign key model
+                'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
+            ],
         ]);
         // $this->crud->removeField('name', 'update/create/both');
         // $this->crud->removeFields($array_of_names, 'update/create/both');
@@ -74,12 +84,12 @@ class PhaseCrudController extends CrudController
         // $this->crud->addColumn(); // add a single column, at the end of the stack
         $this->crud->addColumns([
             [  // Select2
-               'label' => "Competition",
-               'type' => 'select',
-               'name' => 'competition_id', // the db column for the foreign key
-               'entity' => 'competition', // the method that defines the relationship in your Model
-               'attribute' => 'name', // foreign key attribute that is shown to user
-               'model' => "App\Models\Competition" // foreign key model
+                'name' => 'competition_id', // the db column for the foreign key
+                'label' => "Competition",
+                'type' => 'select',
+                'entity' => 'competition', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => "App\Models\Competition" // foreign key model
             ],
             [ // Text
                 'name' => 'fpb_id',
@@ -92,6 +102,15 @@ class PhaseCrudController extends CrudController
             [ // Text
                 'name' => 'status',
                 'label' => "Status",
+            ],
+            [
+                // n-n relationship (with pivot table)
+                'name' => 'teams', // the method that defines the relationship in your Model
+                'label' => "Teams", // Table column heading
+                'type' => 'select_multiple',
+                'entity' => 'teams', // the method that defines the relationship in your Model
+                'attribute' => "name", // foreign key attribute that is shown to user
+                'model' => "App\Models\Team", // foreign key model
             ],
         ]); // add multiple columns, at the end of the stack
         // $this->crud->removeColumn('column_name'); // remove a column from the stack
