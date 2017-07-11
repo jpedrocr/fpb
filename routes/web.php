@@ -26,6 +26,7 @@ Route::group([
     CRUD::resource('competition', 'CompetitionCrudController');
     CRUD::resource('phase', 'PhaseCrudController');
     CRUD::resource('round', 'RoundCrudController');
+    CRUD::resource('club', 'ClubCrudController');
 });
 
 Route::get('/', function () {

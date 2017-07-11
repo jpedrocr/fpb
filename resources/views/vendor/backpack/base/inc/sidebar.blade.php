@@ -44,6 +44,7 @@
                         <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/competition') }}"><i class="fa fa-user"></i> <span>Competitions</span></a></li>
                         <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/phase') }}"><i class="fa fa-user"></i> <span>Phases</span></a></li>
                         <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/round') }}"><i class="fa fa-user"></i> <span>Rounds</span></a></li>
+                        <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/club') }}"><i class="fa fa-user"></i> <span>Clubs</span></a></li>
                     </ul>
                 </li>
 

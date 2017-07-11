@@ -37,4 +37,7 @@ Route::group([
     Route::get('/round', 'RoundController@index');
     Route::get('phase/{phase_fpb_id}/round', 'RoundController@indexFromPhase');
     Route::get('phase/{phase_fpb_id}/round/getFromFPB', 'RoundController@getFromFPB');
+    Route::get('/club', 'ClubController@index');
+    Route::get('association/{association_fpb_id}/club', 'ClubController@indexFromAssociation');
+    Route::get('association/{association_fpb_id}/club/getFromFPB', 'ClubController@getFromFPB');
 });

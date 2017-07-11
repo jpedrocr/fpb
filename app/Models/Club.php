@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
 
-class Association extends Model
+class Club extends Model
 {
     use CrudTrait;
 
@@ -15,11 +15,14 @@ class Association extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'associations';
+    protected $table = 'clubs';
     protected $primaryKey = 'id';
     public $timestamps = true;
     protected $guarded = ['id'];
-    protected $fillable = ['category_id', 'fpb_id', 'name', 'image'];
+    protected $fillable = [
+        'association_id', 'category_id', 'fpb_id', 'name', 'image', 'alternative_name', 'founding_date', 'president',
+        'address', 'telephone', 'fax_number', 'email', 'url'
+    ];
     protected $hidden = ['created_at', 'updated_at'];
     protected $dates = ['created_at', 'updated_at'];
     protected $appends = [];
@@ -35,17 +38,13 @@ class Association extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+    public function association()
+    {
+        return $this->belongsTo('App\Models\Association');
+    }
     public function category()
     {
         return $this->belongsTo('App\Models\Category');
-    }
-    public function competitions()
-    {
-        return $this->hasMany('App\Model\Competition');
-    }
-    public function clubs()
-    {
-        return $this->hasMany('App\Model\Club');
     }
 
     /*
