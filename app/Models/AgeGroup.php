@@ -43,6 +43,10 @@ class Agegroup extends Model
     {
         return $this->hasMany('App\Model\Competition');
     }
+    public function teams()
+    {
+        return $this->hasMany('App\Model\Team');
+    }
 
     /*
     |--------------------------------------------------------------------------

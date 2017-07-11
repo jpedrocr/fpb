@@ -46,6 +46,10 @@ class Club extends Model
     {
         return $this->belongsTo('App\Models\Category');
     }
+    public function teams()
+    {
+        return $this->hasMany('App\Model\Team');
+    }
 
     /*
     |--------------------------------------------------------------------------

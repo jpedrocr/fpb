@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
 
-class Season extends Model
+class Team extends Model
 {
     use CrudTrait;
 
@@ -15,14 +15,16 @@ class Season extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'seasons';
+    protected $table = 'teams';
     protected $primaryKey = 'id';
     public $timestamps = true;
     protected $guarded = ['id'];
-    protected $fillable = ['fpb_id', 'start_year', 'end_year', 'current'];
+    protected $fillable = [
+        'club_id', 'category_id', 'fpb_id', 'name', 'image', 'agegroup_id', 'competitionlevel_id', 'season_id'
+    ];
     protected $hidden = ['created_at', 'updated_at'];
     protected $dates = ['created_at', 'updated_at'];
-    protected $appends = ['description'];
+    protected $appends = [];
 
     /*
     |--------------------------------------------------------------------------
@@ -35,13 +37,25 @@ class Season extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-    public function competitions()
+    public function club()
     {
-        return $this->hasMany('App\Model\Competition');
+        return $this->belongsTo('App\Models\Club');
     }
-    public function teams()
+    public function category()
     {
-        return $this->hasMany('App\Model\Team');
+        return $this->belongsTo('App\Models\Category');
+    }
+    public function agegroup()
+    {
+        return $this->belongsTo('App\Models\Agegroup');
+    }
+    public function competitionlevel()
+    {
+        return $this->belongsTo('App\Models\Competitionlevel');
+    }
+    public function season()
+    {
+        return $this->belongsTo('App\Models\Season');
     }
 
     /*
@@ -55,10 +69,6 @@ class Season extends Model
     | ACCESORS
     |--------------------------------------------------------------------------
     */
-    public function getDescriptionAttribute()
-    {
-        return $this->start_year . '/' . $this->end_year;
-    }
 
     /*
     |--------------------------------------------------------------------------

@@ -11,6 +11,7 @@ class DeleteAllSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('teams')->delete();
         DB::table('clubs')->delete();
         DB::table('rounds')->delete();
         DB::table('phases')->delete();
