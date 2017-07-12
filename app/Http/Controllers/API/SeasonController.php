@@ -32,21 +32,25 @@ class SeasonController extends Controller
                 return !($node->text() == "(Época)");
             })
             ->each(function ($node) {
-                if (Season::where('fpb_id', $node->attr('value'))->count()==0) {
-                    $description = explode('/', $node->text());
-                    $start_year = $description[0];
-                    $end_year = $description[1];
-                    Season::create([
-                        'fpb_id' => $node->attr('value'),
-                        'start_year' => $start_year,
-                        'end_year' => $end_year,
-                        'current' => ($node->attr('selected')!=null),
-                    ]);
-                //     dump($node->attr('value').'->'.$description[0].'/'.$description[1].' created');
-                // } else {
-                //     dump($node->attr('value').'->'.$node->text().' exists');
-                }
+                $this->updateOrCreateFromNode($node);
             });
         return Season::all();
+    }
+    public function updateOrCreateFromNode($node)
+    {
+        $fpb_id = $node->attr('value');
+        $description = explode('/', $node->text());
+        $start_year = $description[0];
+        $end_year = $description[1];
+        Season::updateOrCreate(
+            [
+                'fpb_id' => $fpb_id
+            ],
+            [
+                'start_year' => $start_year,
+                'end_year' => $end_year,
+                'current' => ($node->attr('selected')!=null),
+            ]
+        );
     }
 }

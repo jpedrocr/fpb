@@ -19,7 +19,10 @@ class Association extends Model
     protected $primaryKey = 'id';
     public $timestamps = true;
     protected $guarded = ['id'];
-    protected $fillable = ['category_id', 'fpb_id', 'name', 'image'];
+    protected $fillable = [
+        'category_id', 'fpb_id', 'name', 'image', 'president', 'technical_director', 'cad_president', 'address',
+        'telephone', 'fax_number', 'email', 'url'
+    ];
     protected $hidden = ['created_at', 'updated_at'];
     protected $dates = ['created_at', 'updated_at'];
     protected $appends = [];
@@ -41,11 +44,11 @@ class Association extends Model
     }
     public function competitions()
     {
-        return $this->hasMany('App\Model\Competition');
+        return $this->hasMany('App\Models\Competition');
     }
     public function clubs()
     {
-        return $this->hasMany('App\Model\Club');
+        return $this->hasMany('App\Models\Club');
     }
 
     /*

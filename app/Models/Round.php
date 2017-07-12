@@ -22,7 +22,7 @@ class Round extends Model
     protected $fillable = ['phase_id', 'fpb_id', 'lap_number', 'round_number'];
     protected $hidden = ['created_at', 'updated_at'];
     protected $dates = ['created_at', 'updated_at'];
-    protected $appends = [];
+    protected $appends = ['description'];
 
     /*
     |--------------------------------------------------------------------------
@@ -39,6 +39,10 @@ class Round extends Model
     {
         return $this->belongsTo('App\Models\Phase');
     }
+    public function games()
+    {
+        return $this->hasMany('App\Model\Game');
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -51,6 +55,10 @@ class Round extends Model
     | ACCESORS
     |--------------------------------------------------------------------------
     */
+    public function getDescriptionAttribute()
+    {
+        return $this->phase->competition->name . ' - ' . $this->phase->description . ' - ' . $this->lap_number . 'ª Volta - ' . $this->round_number . 'ª Jornada';
+    }
 
     /*
     |--------------------------------------------------------------------------

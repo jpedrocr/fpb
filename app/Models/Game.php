@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
 
-class Team extends Model
+class Game extends Model
 {
     use CrudTrait;
 
@@ -15,15 +15,16 @@ class Team extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'teams';
+    protected $table = 'games';
     protected $primaryKey = 'id';
     public $timestamps = true;
     protected $guarded = ['id'];
     protected $fillable = [
-        'club_id', 'category_id', 'fpb_id', 'name', 'image', 'agegroup_id', 'competitionlevel_id', 'season_id'
+        'round_id', 'category_id', 'fpb_id', 'hometeam_id', 'outteam_id',
+        'number', 'schedule', 'home_result', 'out_result', 'status'
     ];
     protected $hidden = ['created_at', 'updated_at'];
-    protected $dates = ['created_at', 'updated_at'];
+    protected $dates = ['schedule', 'created_at', 'updated_at'];
     protected $appends = [];
 
     /*
@@ -37,41 +38,21 @@ class Team extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-    public function club()
+    public function round()
     {
-        return $this->belongsTo('App\Models\Club');
+        return $this->belongsTo('App\Models\Round');
     }
     public function category()
     {
         return $this->belongsTo('App\Models\Category');
     }
-    public function agegroup()
+    public function hometeam()
     {
-        return $this->belongsTo('App\Models\Agegroup');
+        return $this->belongsTo('App\Models\Team', 'hometeam_id');
     }
-    public function competitionlevel()
+    public function outteam()
     {
-        return $this->belongsTo('App\Models\Competitionlevel');
-    }
-    public function season()
-    {
-        return $this->belongsTo('App\Models\Season');
-    }
-    public function competitions()
-    {
-        return $this->belongsToMany('App\Models\Competition');
-    }
-    public function phases()
-    {
-        return $this->belongsToMany('App\Models\Phase');
-    }
-    public function homegames()
-    {
-        return $this->hasMany('App\Model\Game', 'hometeam_id');
-    }
-    public function outgames()
-    {
-        return $this->hasMany('App\Model\Game', 'outteam_id');
+        return $this->belongsTo('App\Models\Team', 'outteam_id');
     }
 
     /*

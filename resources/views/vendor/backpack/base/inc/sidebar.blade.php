@@ -37,8 +37,8 @@
                     <ul class="treeview-menu">
                         <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/category') }}"><i class="fa fa-user"></i> <span>Categories</span></a></li>
                         <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/gender') }}"><i class="fa fa-user"></i> <span>Genders</span></a></li>
-                        <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/agegroup') }}"><i class="fa fa-user"></i> <span>Agegroups</span></a></li>
-                        <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/competitionlevel') }}"><i class="fa fa-user"></i> <span>Competitionlevels</span></a></li>
+                        <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/agegroup') }}"><i class="fa fa-user"></i> <span>Age Groups</span></a></li>
+                        <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/competitionlevel') }}"><i class="fa fa-user"></i> <span>Competition Levels</span></a></li>
                         <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/season') }}"><i class="fa fa-user"></i> <span>Seasons</span></a></li>
                         <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/association') }}"><i class="fa fa-user"></i> <span>Associations</span></a></li>
                         <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/competition') }}"><i class="fa fa-user"></i> <span>Competitions</span></a></li>
@@ -46,6 +46,7 @@
                         <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/round') }}"><i class="fa fa-user"></i> <span>Rounds</span></a></li>
                         <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/club') }}"><i class="fa fa-user"></i> <span>Clubs</span></a></li>
                         <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/team') }}"><i class="fa fa-user"></i> <span>Teams</span></a></li>
+                        <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/game') }}"><i class="fa fa-user"></i> <span>Games</span></a></li>
                     </ul>
                 </li>
 

@@ -21,7 +21,7 @@ class CreateClubsTable extends Migration
             $table->unsignedInteger('fpb_id')->unique();
             $table->string('name');
             $table->string('image')->nullable();
-            $table->string('alternative_name');
+            $table->string('alternative_name')->nullable();
             $table->string('founding_date')->nullable();
             $table->string('president')->nullable();
             $table->string('address')->nullable();

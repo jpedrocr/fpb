@@ -16,91 +16,92 @@ use App\Models\Agegroup;
 use App\Models\Competitionlevel;
 use App\Models\Season;
 
+use App\Http\Controllers\API\PhaseController;
+
 class CompetitionController extends Controller
 {
     public function index()
     {
         return Competition::all();
     }
-    public function indexFromAssociationAndSeason($association_fpb_id, $season_fpb_id)
+    public static function updateOrCreateFromFPB($association_fpb_id, $fpb_id)
     {
-        return Competition::where([
-                [ 'association_id', '=', Association::where('fpb_id', $association_fpb_id)->first()->id ],
-                [ 'season_id', '=', Season::where('fpb_id', $season_fpb_id)->first()->id ],
-            ])
-            ->get();
-    }
-    public function getFromFPB($association_fpb_id, $season_fpb_id)
-    {
-        $association_id = Association::where('fpb_id', $association_fpb_id)->first()->id;
-        $season_id = Season::where('fpb_id', $season_fpb_id)->first()->id;
-
         // $html = '';
         // $crawler = new Crawler();
         // $crawler->addHtmlContent($html);
 
         $client = new Client();
-        $crawler = $client->request('GET', 'http://www.fpb.pt/fpb2014/do?com=DS;1;.109030;++K_ID('.$association_fpb_id.
-            ')+K_ID_EPOCA('.$season_fpb_id.')+CO(PROVAS)+BL(PROVAS)+MYBASEDIV(dAssProvas);+RCNT(100)+RINI(1)&');
+        $crawler = $client->request('GET', 'http://www.fpb.pt/fpb2014/!site.go?s=1&show=com&id='.$fpb_id);
 
-        $crawler
-            ->filterXPath('//a[contains(@href, "!site.go?s=1&show=com&id=")]')
-            ->each(function ($node) use ($association_id, $season_id) {
-                $fpb_id = $node->evaluate('substring-after(@href, "&id=")')[0];
-                $name = $node->text();
+        $node = $crawler->filterXPath('//div[@class="COM_Header"]');
 
-                if (Competition::where('fpb_id', $fpb_id)->count()==0) {
-                    // $html2 = '';
-                    // $crawler2 = new Crawler();
-                    // $crawler2->addHtmlContent($html2);
+        $competition_details = $node->filterXPath('//div/div[@id="OutrosDados"]/strong');
+        $description = explode("/", $competition_details->eq(2)->text());
+        $start_year = $description[0];
+        $end_year = $description[1];
 
-                    $client2 = new Client();
-                    $crawler2 = $client2->request('GET', 'http://www.fpb.pt/fpb2014/!site.go?s=1&show=com&id='.$fpb_id.
-                        '&layout=calendario');
+        $association_id = Association::where('fpb_id', $association_fpb_id)->first()->id;
+        $category_id = Category::firstOrCreate(['fpb_id' => 'com'])->id;
+        $name = trim($node->filterXPath('//div/div[@id="Nome"]')->text());
+        $image = $node->filterXPath('//div/div[@id="Logo"]/img')->attr('src');
+        $agegroup_id = Agegroup::firstOrCreate(
+            ['description' => $competition_details->eq(0)->text()],
+            ['gender_id' => Gender::where('fpb_id', '-')->first()->id]
+        )->id;
+        $competitionlevel_id = Competitionlevel::firstOrCreate(
+            ['description' => $competition_details->eq(1)->text()],
+            ['gender_id' => Gender::where('fpb_id', '-')->first()->id]
+        )->id;
+        $season_id = Season::where([
+            ['start_year', '=', $start_year],
+            ['end_year', '=', $end_year],
+        ])->first()->id;
 
-                    $node2 = $crawler2->filterXPath('//div[@class="COM_Header"]');
+        return Competition::updateOrCreate(
+            [
+                'fpb_id' => $fpb_id
+            ],
+            [
+                'association_id' => $association_id,
+                'category_id' => $category_id,
+                'name' => $name,
+                'image' => $image,
+                'agegroup_id' => $agegroup_id,
+                'competitionlevel_id' => $competitionlevel_id,
+                'season_id' => $season_id,
+            ]
+        );
+    }
 
-                    $image = $node2->filterXPath('//div/div[@id="Logo"]/img')->attr('src');
-                    $competition_details = $node2->filterXPath('//div/div[@id="OutrosDados"]/strong');
+    public function getPhases($competition_fpb_id)
+    {
+        return Competition::where('fpb_id', $competition_fpb_id)->first()
+            ->phases()
+            ->get();
+    }
+    public static function getPhasesFromFPB($competition_fpb_id)
+    {
+        // $html = '';
+        // $crawler = new Crawler();
+        // $crawler->addHtmlContent($html);
 
-                    if (Agegroup::where('description', $competition_details->eq(0)->text())->count()==0) {
-                        $agegroup_id = Agegroup::create([
-                            'gender_id' => Gender::where('fpb_id', '-')->first()->id,
-                            'description' => $competition_details->eq(0)->text(),
-                        ])->id;
-                    } else {
-                        $agegroup_id = Agegroup::where('description', $competition_details->eq(0)->text())->first()->id;
-                    }
+        $client = new Client();
+        $crawler = $client->request('GET', 'http://www.fpb.pt/fpb2014/do?com=DS;1;.100014;++K_ID_COMPETICAO('.
+            $competition_fpb_id.')+CO(FASES)+BL(FASES)+MYBASEDIV(dCompFases);+RCNT(10000)+RINI(1)&');
 
-                    if (Competitionlevel::where('description', $competition_details->eq(1)->text())->count()==0) {
-                        $competitionlevel_id = Competitionlevel::create([
-                            'gender_id' => Gender::where('fpb_id', '-')->first()->id,
-                            'description' => $competition_details->eq(1)->text(),
-                        ])->id;
-                    } else {
-                        $competitionlevel_id =
-                            Competitionlevel::where('description', $competition_details->eq(1)->text())->first()->id;
-                    }
+        $crawler->filterXPath('//div[contains(@style, "margin:10px;")]')
+            ->each(function ($node) use ($competition_fpb_id) {
+                PhaseController::updateOrCreateFromFPB(
+                    $competition_fpb_id,
+                    $node->filterXPath('//div[contains(@id, "dFase_")]')->evaluate('substring-after(@id, "dFase_")')[0],
+                    $node->filterXPath('//div[contains(@class, "Titulo01")]')->text(),
+                    explode("\n", $node->text())[3]
+                );
+            }
+        );
 
-                    Competition::create([
-                        'association_id' => $association_id,
-                        'category_id' => Category::where('fpb_id', 'com')->first()->id,
-                        'fpb_id' => $fpb_id,
-                        'name' => $name,
-                        'image' => $image,
-                        'agegroup_id' => $agegroup_id,
-                        'competitionlevel_id' => $competitionlevel_id,
-                        'season_id' => $season_id
-                    ]);
-                // } else {
-                //     dump('Competition '.$fpb_id.'->'.$name.' exists');
-                }
-            });
-
-        return Competition::where([
-                [ 'association_id', '=', $association_id ],
-                [ 'season_id', '=', $season_id ],
-            ])
+        return Competition::where('fpb_id', $competition_fpb_id)->first()
+            ->phases()
             ->get();
     }
 }

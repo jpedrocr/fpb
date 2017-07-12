@@ -19,6 +19,14 @@ class CreateAssociationsTable extends Migration
             $table->unsignedInteger('fpb_id')->unique();
             $table->string('name');
             $table->string('image')->nullable();
+            $table->string('president')->nullable();
+            $table->string('technical_director')->nullable();
+            $table->string('cad_president')->nullable();
+            $table->string('address')->nullable();
+            $table->string('telephone')->nullable();
+            $table->string('fax_number')->nullable();
+            $table->string('email')->nullable();
+            $table->string('url')->nullable();
             $table->timestamps();
         });
     }
