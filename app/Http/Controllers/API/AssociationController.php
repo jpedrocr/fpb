@@ -34,12 +34,13 @@ class AssociationController extends Controller
             'MYBASEDIV(dShowAssociacoes);+RCNT(10)+RINI(1)&');
 
         $crawler->filterXPath('//a[contains(@href, "!site.go?s=1&show=ass&id=")]')
-            ->each(function ($node) {
-                AssociationController::updateOrCreateFromFPB(
-                    $node->evaluate('substring-after(@href, "&id=")')[0]
-                );
-            }
-        );
+            ->each(
+                function ($node) {
+                    AssociationController::updateOrCreateFromFPB(
+                        $node->evaluate('substring-after(@href, "&id=")')[0]
+                    );
+                }
+            );
 
         return Association::all();
     }
@@ -56,7 +57,7 @@ class AssociationController extends Controller
 
         $association_details = $content->filterXPath('//div/table[@class="TabelaHor01"]/tr/td');
 
-        $original_address = explode("<br>",trim($association_details->eq(3)->html()));
+        $original_address = explode("<br>", trim($association_details->eq(3)->html()));
         $address1 = trim($original_address[0]);
         $address2 = trim($original_address[1]);
         $category_id = Category::firstOrCreate(['fpb_id' => 'ass'])->id;
@@ -68,7 +69,8 @@ class AssociationController extends Controller
         $address = implode("\n", $original_address);
         $telephone = trim($association_details->eq(4)->text());
         $fax_number = trim($association_details->eq(5)->text());
-        $email = trim($association_details->eq(6)->filterXPath('//a')->evaluate('substring-after(@href, "mailto:")')[0]);
+        $email = trim($association_details->eq(6)->filterXPath('//a')
+            ->evaluate('substring-after(@href, "mailto:")')[0]);
         $url = trim($association_details->eq(7)->filterXPath('//a')->attr('href'));
 
         return Association::updateOrCreate(
@@ -109,13 +111,14 @@ class AssociationController extends Controller
             $season_fpb_id.')+CO(PROVAS)+BL(PROVAS)+MYBASEDIV(dAssProvas);+RCNT(100)+RINI(1)&');
 
         $crawler->filterXPath('//a[contains(@href, "!site.go?s=1&show=com&id=")]')
-            ->each(function ($node) use ($association_fpb_id) {
-                CompetitionController::updateOrCreateFromFPB(
-                    $association_fpb_id,
-                    $node->evaluate('substring-after(@href, "&id=")')[0]
-                );
-            }
-        );
+            ->each(
+                function ($node) use ($association_fpb_id) {
+                    CompetitionController::updateOrCreateFromFPB(
+                        $association_fpb_id,
+                        $node->evaluate('substring-after(@href, "&id=")')[0]
+                    );
+                }
+            );
 
         return Association::where('fpb_id', $association_fpb_id)->first()
             ->competitions()->where('season_id', Season::where('fpb_id', $season_fpb_id)->first()->id)
@@ -139,12 +142,13 @@ class AssociationController extends Controller
             .$association_fpb_id.')+CO(CLUBES)+BL(CLUBES)+MYBASEDIV(dAssoc_Home_Clubes);+RCNT(1000)+RINI(1)&');
 
         $crawler->filterXPath('//a[contains(@href, "!site.go?s=1&show=clu&id=")]')
-            ->each(function ($node) {
-                ClubController::updateOrCreateFromFPB(
-                    $node->evaluate('substring-after(@href, "&id=")')[0]
-                );
-            }
-        );
+            ->each(
+                function ($node) {
+                    ClubController::updateOrCreateFromFPB(
+                        $node->evaluate('substring-after(@href, "&id=")')[0]
+                    );
+                }
+            );
 
         return Association::where('fpb_id', $association_fpb_id)->first()
             ->clubs()

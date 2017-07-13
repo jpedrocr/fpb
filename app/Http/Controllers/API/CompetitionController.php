@@ -90,15 +90,17 @@ class CompetitionController extends Controller
             $competition_fpb_id.')+CO(FASES)+BL(FASES)+MYBASEDIV(dCompFases);+RCNT(10000)+RINI(1)&');
 
         $crawler->filterXPath('//div[contains(@style, "margin:10px;")]')
-            ->each(function ($node) use ($competition_fpb_id) {
-                PhaseController::updateOrCreateFromFPB(
-                    $competition_fpb_id,
-                    $node->filterXPath('//div[contains(@id, "dFase_")]')->evaluate('substring-after(@id, "dFase_")')[0],
-                    $node->filterXPath('//div[contains(@class, "Titulo01")]')->text(),
-                    explode("\n", $node->text())[3]
-                );
-            }
-        );
+            ->each(
+                function ($node) use ($competition_fpb_id) {
+                    PhaseController::updateOrCreateFromFPB(
+                        $competition_fpb_id,
+                        $node->filterXPath('//div[contains(@id, "dFase_")]')
+                            ->evaluate('substring-after(@id, "dFase_")')[0],
+                        $node->filterXPath('//div[contains(@class, "Titulo01")]')->text(),
+                        explode("\n", $node->text())[3]
+                    );
+                }
+            );
 
         return Competition::where('fpb_id', $competition_fpb_id)->first()
             ->phases()

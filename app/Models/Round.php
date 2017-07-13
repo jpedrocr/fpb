@@ -57,7 +57,11 @@ class Round extends Model
     */
     public function getDescriptionAttribute()
     {
-        return $this->phase->competition->name . ' - ' . $this->phase->description . ' - ' . $this->lap_number . 'ª Volta - ' . $this->round_number . 'ª Jornada';
+        return
+            $this->phase->competition->name . ' - ' .
+            $this->phase->description . ' - ' .
+            $this->lap_number . 'ª Volta - ' .
+            $this->round_number . 'ª Jornada';
     }
 
     /*

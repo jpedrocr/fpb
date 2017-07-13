@@ -49,14 +49,12 @@ class RoundController extends Controller
             ->each(function ($node) use ($round_fpb_id) {
                 $tds = $node->filterXPath('//td');
                 if ($tds->eq(0)->text()!="Jogo") {
-
                     GameController::updateOrCreateFromFPB(
                         $round_fpb_id,
                         $tds->eq(0)->filterXPath('//a[contains(@href, "!site.go?s=1&show=jog&id=")]')
                         ->evaluate('substring-after(@href, "!site.go?s=1&show=jog&id=")')[0],
                         trim($tds->eq(11)->text())
                     );
-
                 }
             });
 

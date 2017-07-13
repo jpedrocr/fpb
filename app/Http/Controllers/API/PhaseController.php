@@ -62,7 +62,7 @@ class PhaseController extends Controller
                     $phase_fpb_id,
                     $fpb_ids->eq($i)->evaluate('substring-after(@id, "dJornada_")')[0],
                     trim($description[0]),
-                    substr(trim(explode('ª jornada', $description[1])[0]),8)
+                    substr(trim(explode('ª jornada', $description[1])[0]), 8)
                 );
             }
         }

@@ -33,7 +33,7 @@ class ClubController extends Controller
 
         $club_details = $crawler->filterXPath('//table[@class="TabelaHor01"]/tr/td');
 
-        $original_address = explode("<br>",trim($club_details->eq(2)->html()));
+        $original_address = explode("<br>", trim($club_details->eq(2)->html()));
         $address1 = trim($original_address[0]);
         $address2 = trim($original_address[1]);
 
