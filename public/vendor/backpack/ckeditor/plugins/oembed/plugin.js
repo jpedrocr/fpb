@@ -1,4 +1,4 @@
-﻿/**
+/**
 * oEmbed Plugin plugin
 * Licensed under the MIT license
 * jQuery Embed Plugin: http://code.google.com/p/jquery-oembed/ (MIT License)

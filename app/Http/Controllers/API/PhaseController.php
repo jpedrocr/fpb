@@ -21,16 +21,17 @@ class PhaseController extends Controller
     }
     public static function updateOrCreateFromFPB($competition_fpb_id, $fpb_id, $description, $status)
     {
-        $competition_id = Competition::where('fpb_id', $competition_fpb_id)->first()->id;
-
         return Phase::updateOrCreate(
             [
                 'fpb_id' => $fpb_id
             ],
             [
-                'competition_id' => $competition_id,
-                'description' => $description,
-                'status' => $status,
+                'competition_id' =>
+                    Competition::where('fpb_id', $competition_fpb_id)->first()->id,
+                'description' =>
+                    $description,
+                'status' =>
+                    $status,
             ]
         );
     }

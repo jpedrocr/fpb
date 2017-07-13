@@ -60,35 +60,35 @@ class AssociationController extends Controller
         $original_address = explode("<br>", trim($association_details->eq(3)->html()));
         $address1 = trim($original_address[0]);
         $address2 = trim($original_address[1]);
-        $category_id = Category::firstOrCreate(['fpb_id' => 'ass'])->id;
-        $name = trim($content->filterXPath('//div/div[@class="Assoc_FichaHeader_Nome"]/div')->text());
-        $image = $content->filterXPath('//div/div[@class="Assoc_FichaHeader_Foto"]/img')->attr('src');
-        $president = trim($association_details->eq(0)->text());
-        $technical_director = trim($association_details->eq(1)->text());
-        $cad_president = trim($association_details->eq(2)->text());
-        $address = implode("\n", $original_address);
-        $telephone = trim($association_details->eq(4)->text());
-        $fax_number = trim($association_details->eq(5)->text());
-        $email = trim($association_details->eq(6)->filterXPath('//a')
-            ->evaluate('substring-after(@href, "mailto:")')[0]);
-        $url = trim($association_details->eq(7)->filterXPath('//a')->attr('href'));
 
         return Association::updateOrCreate(
             [
                 'fpb_id' => $fpb_id
             ],
             [
-                'category_id' => $category_id,
-                'name' => $name,
-                'image' => $image,
-                'president' => $president,
-                'technical_director' => $technical_director,
-                'cad_president' => $cad_president,
-                'address' => $address,
-                'telephone' => $telephone,
-                'fax_number' => $fax_number,
-                'email' => $email,
-                'url' => $url,
+                'category_id' =>
+                    Category::firstOrCreate(['fpb_id' => 'ass'])->id,
+                'name' =>
+                    trim($content->filterXPath('//div/div[@class="Assoc_FichaHeader_Nome"]/div')->text()),
+                'image' =>
+                    $content->filterXPath('//div/div[@class="Assoc_FichaHeader_Foto"]/img')->attr('src'),
+                'president' =>
+                    trim($association_details->eq(0)->text()),
+                'technical_director' =>
+                    trim($association_details->eq(1)->text()),
+                'cad_president' =>
+                    trim($association_details->eq(2)->text()),
+                'address' =>
+                    implode("\n", $original_address),
+                'telephone' =>
+                    trim($association_details->eq(4)->text()),
+                'fax_number' =>
+                    trim($association_details->eq(5)->text()),
+                'email' =>
+                    trim($association_details->eq(6)->filterXPath('//a')
+                        ->evaluate('substring-after(@href, "mailto:")')[0]),
+                'url' =>
+                    trim($association_details->eq(7)->filterXPath('//a')->attr('href')),
             ]
         );
     }

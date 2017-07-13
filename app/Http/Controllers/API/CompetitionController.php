@@ -40,35 +40,34 @@ class CompetitionController extends Controller
         $start_year = $description[0];
         $end_year = $description[1];
 
-        $association_id = Association::where('fpb_id', $association_fpb_id)->first()->id;
-        $category_id = Category::firstOrCreate(['fpb_id' => 'com'])->id;
-        $name = trim($node->filterXPath('//div/div[@id="Nome"]')->text());
-        $image = $node->filterXPath('//div/div[@id="Logo"]/img')->attr('src');
-        $agegroup_id = Agegroup::firstOrCreate(
-            ['description' => $competition_details->eq(0)->text()],
-            ['gender_id' => Gender::where('fpb_id', '-')->first()->id]
-        )->id;
-        $competitionlevel_id = Competitionlevel::firstOrCreate(
-            ['description' => $competition_details->eq(1)->text()],
-            ['gender_id' => Gender::where('fpb_id', '-')->first()->id]
-        )->id;
-        $season_id = Season::where([
-            ['start_year', '=', $start_year],
-            ['end_year', '=', $end_year],
-        ])->first()->id;
-
         return Competition::updateOrCreate(
             [
                 'fpb_id' => $fpb_id
             ],
             [
-                'association_id' => $association_id,
-                'category_id' => $category_id,
-                'name' => $name,
-                'image' => $image,
-                'agegroup_id' => $agegroup_id,
-                'competitionlevel_id' => $competitionlevel_id,
-                'season_id' => $season_id,
+                'association_id' =>
+                    Association::where('fpb_id', $association_fpb_id)->first()->id,
+                'category_id' =>
+                    Category::firstOrCreate(['fpb_id' => 'com'])->id,
+                'name' =>
+                    trim($node->filterXPath('//div/div[@id="Nome"]')->text()),
+                'image' =>
+                    $node->filterXPath('//div/div[@id="Logo"]/img')->attr('src'),
+                'agegroup_id' =>
+                    Agegroup::firstOrCreate(
+                        ['description' => $competition_details->eq(0)->text()],
+                        ['gender_id' => Gender::where('fpb_id', '-')->first()->id]
+                    )->id,
+                'competitionlevel_id' =>
+                    Competitionlevel::firstOrCreate(
+                        ['description' => $competition_details->eq(1)->text()],
+                        ['gender_id' => Gender::where('fpb_id', '-')->first()->id]
+                    )->id,
+                'season_id' =>
+                    Season::where([
+                        ['start_year', '=', $start_year],
+                        ['end_year', '=', $end_year],
+                    ])->first()->id,
             ]
         );
     }

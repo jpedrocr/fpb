@@ -21,16 +21,17 @@ class RoundController extends Controller
     }
     public static function updateOrCreateFromFPB($phase_fpb_id, $fpb_id, $lap_number, $round_number)
     {
-        $phase_id = Phase::where('fpb_id', $phase_fpb_id)->first()->id;
-
         return Round::updateOrCreate(
             [
                 'fpb_id' => $fpb_id
             ],
             [
-                'phase_id' => $phase_id,
-                'lap_number' => $lap_number,
-                'round_number' => $round_number,
+                'phase_id' =>
+                    Phase::where('fpb_id', $phase_fpb_id)->first()->id,
+                'lap_number' =>
+                    $lap_number,
+                'round_number' =>
+                    $round_number,
             ]
         );
     }
@@ -46,20 +47,22 @@ class RoundController extends Controller
             $round_fpb_id.');+RCNT(10000)+RINI(1)&');
 
         $crawler->filterXPath('//div[contains(@class, "Tabela01")]/table/tr')
-            ->each(function ($node) use ($round_fpb_id) {
-                $tds = $node->filterXPath('//td');
-                if ($tds->eq(0)->text()!="Jogo") {
-                    GameController::updateOrCreateFromFPB(
-                        $round_fpb_id,
-                        $tds->eq(0)->filterXPath('//a[contains(@href, "!site.go?s=1&show=jog&id=")]')
-                        ->evaluate('substring-after(@href, "!site.go?s=1&show=jog&id=")')[0],
-                        trim($tds->eq(11)->text())
-                    );
+            ->each(
+                function ($node) use ($round_fpb_id) {
+                    $tds = $node->filterXPath('//td');
+                    if ($tds->eq(0)->text()!="Jogo") {
+                        GameController::updateOrCreateFromFPB(
+                            $round_fpb_id,
+                            $tds->eq(0)->filterXPath('//a[contains(@href, "!site.go?s=1&show=jog&id=")]')
+                            ->evaluate('substring-after(@href, "!site.go?s=1&show=jog&id=")')[0],
+                            trim($tds->eq(11)->text())
+                        );
+                    }
                 }
-            });
+            );
 
-        // return Round::where('fpb_id', $round_fpb_id)->first()
-        //     ->teams()->where('season_id', Season::where('current', true)->first()->id)
-        //     ->get();
+        return Round::where('fpb_id', $round_fpb_id)->first()
+            ->games()
+            ->get();
     }
 }

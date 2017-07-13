@@ -1,85 +1,175 @@
 <!DOCTYPE html>
 <!--
-Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
--->
-<html>
-<head>
-	<meta charset="utf-8">
-	<title>Ajax &mdash; CKEditor Sample</title>
-	<script src="../../ckeditor.js"></script>
-	<link rel="stylesheet" href="sample.css">
-	<script>
+opyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 
-		var editor, html = '';
+r licensing, see LICENSE.md or http://ckeditor.com/license
+-
 
-		function createEditor() {
-			if ( editor )
+<h
+l>
+<he
+>
+	<me
+ charset="utf-8">
+	<tit
+>Ajax &mdash; CKEditor Sample</title>
+	<scri
+ src="../../ckeditor.js"></script>
+	<link
+l="stylesheet" href="sample.css">
+	<script
+
+
+		var
+
+or, html = '';
+
+		funct
+
+createEditor() {
+			if ( ed
+or )
 				return;
 
-			// Create a new editor inside the <div id="editor">, setting its value to html
-			var config = {};
-			editor = CKEDITOR.appendTo( 'editor', config, html );
+			// Crea
+
+ new editor inside the <div id="editor">, setting its value to html
+			var config
+ {};
+			editor = CK
+ITOR.appendTo( 'editor', config, html );
 		}
 
-		function removeEditor() {
-			if ( !editor )
+	functi
+ re
+
+Editor() {
+			if ( !editor
+
 				return;
 
-			// Retrieve the editor contents. In an Ajax application, this data would be
-			// sent to the server or used in any other way.
-			document.getElementById( 'editorcontents' ).innerHTML = html = editor.getData();
-			document.getElementById( 'contents' ).style.display = '';
 
-			// Destroy the editor.
+/ Retrieve
+
+ editor contents. In an Ajax application, this data would be
+			// sent to the
+erver or used in any other way.
+			document.getEle
+ntById( 'editorcontents' ).innerHTML = html = editor.getData();
+			document.getElem
+tById( 'contents' ).style.display = '';
+
+
+	// Destroy the
+
+or.
 			editor.destroy();
-			editor = null;
+		editor = null;
 		}
 
 	</script>
-</head>
-<body>
-	<h1 class="samples">
-		<a href="index.html">CKEditor Samples</a> &raquo; Create and Destroy Editor Instances for Ajax Applications
+
+hea
+
+<b
+
+
+	<h1 clas
+"sample
+>
+		<a
+ref="index.html">CKEd
+or Samples</a> &raquo; Create and Destroy Editor Instances for Ajax Applications
 	</h1>
-	<div class="warning deprecated">
-		This sample is not maintained anymore. Check out its <a href="http://sdk.ckeditor.com/samples/saveajax.html">brand new version in CKEditor SDK</a>.
+
+div class="warning
+epreca
+d">
+		This sample is not maintain
+ anymore. Check out its <a href="http://sdk.ckeditor.com/samples/saveajax.html">brand new version in CKEditor SDK</a>.
 	</div>
-	<div class="description">
-		<p>
-			This sample shows how to create and destroy CKEditor instances on the fly. After the removal of CKEditor the content created inside the editing
-			area will be displayed in a <code>&lt;div&gt;</code> element.
+
+div class="descript
+n">
+		<
+
+			This sample shows how
+ crea
+ and destroy CKEditor instances on the fly. After the removal of CKEditor the content created inside the editing
+			area will be displayed in a <c
+e>&lt;div&gt;</code> element.
 		</p>
-		<p>
-			For details of how to create this setup check the source code of this sample page
-			for JavaScript code responsible for the creation and destruction of a CKEditor instance.
+
+<p>
+
+For details of h
+ to cr
+te th
+ setup check the source code of this sample page
+			for JavaScript code responsible
+r the creation and destruction of a CKEditor instance.
 		</p>
-	</div>
-	<p>Click the buttons to create and remove a CKEditor instance.</p>
+
+div>
+	<
+Click the butto
+ to cr
+te and
+move a CKEditor instance.</p>
 	<p>
-		<input onclick="createEditor();" type="button" value="Create Editor">
-		<input onclick="removeEditor();" type="button" value="Remove Editor">
+
+nput onclick="createEditor(
+" ty
+="button" value="Create Editor">
+		<input onclick="removeEditor();" typ
+"button" value="Remove Editor">
 	</p>
-	<!-- This div will hold the editor. -->
+	<
+- This div will hold the edi
+r. --
 	<div id="editor">
 	</div>
-	<div id="contents" style="display: none">
+	<
+v id="co
+ents" style="displ
+: none"
 		<p>
 			Edited Contents:
-		</p>
-		<!-- This div will be used to display the editor contents. -->
+
+p>
+		<
+-
+is di
+will be used to dis
+ay the
+ditor contents. -->
 		<div id="editorcontents">
-		</div>
-	</div>
+		<
+iv>
+	</d
+
 	<div id="footer">
-		<hr>
+		<h
+
 		<p>
-			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
+
+KEditor
+ The text editor f
+ the I
+ernet
+ <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
-		<p id="copy">
-			Copyright &copy; 2003-2016, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
+		<p
+d="copy">
+			Co
+right &copy; 20
+-2016,
+a class="sample
+ href="http://cksource.com/">CKSource</a> - Frederico
 			Knabben. All rights reserved.
-		</p>
-	</div>
+		</p
+
+	</di
+
 </body>
-</html>
+</htm

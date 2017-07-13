@@ -46,32 +46,31 @@ class TeamController extends Controller
             ClubController::updateOrCreateFromFPB($club_fpb_id);
         }
 
-        $club_id = Club::where('fpb_id', $club_fpb_id)->first()->id;
-        $category_id = Category::where('fpb_id', 'equ')->first()->id;
-        $name = trim($node->filterXPath('//div[@id="NomeClube"]')->text());
-        $image = $node->filterXPath('//div[@id="Logo"]/img')->attr('src');
-        $season_id = Season::where('current', true)->first()->id;
-        $agegroup_id = Agegroup::firstOrCreate(
-            ['description' => $club_details->eq(0)->text()],
-            ['gender_id' => Gender::where('fpb_id', '-')->first()->id]
-        )->id;
-        $competitionlevel_id = Competitionlevel::firstOrCreate(
-            ['description' => $club_details->eq(1)->text()],
-            ['gender_id' => Gender::where('fpb_id', '-')->first()->id]
-        )->id;
-
         return Team::updateOrCreate(
             [
                 'fpb_id' => $fpb_id
             ],
             [
-                'club_id' => $club_id,
-                'category_id' => $category_id,
-                'name' => $name,
-                'image' => $image,
-                'season_id' => $season_id,
-                'agegroup_id' => $agegroup_id,
-                'competitionlevel_id' => $competitionlevel_id,
+                'club_id' =>
+                    Club::where('fpb_id', $club_fpb_id)->first()->id,
+                'category_id' =>
+                    Category::where('fpb_id', 'equ')->first()->id,
+                'name' =>
+                    trim($node->filterXPath('//div[@id="NomeClube"]')->text()),
+                'image' =>
+                    $node->filterXPath('//div[@id="Logo"]/img')->attr('src'),
+                'season_id' =>
+                    Season::where('current', true)->first()->id,
+                'agegroup_id' =>
+                    Agegroup::firstOrCreate(
+                        ['description' => $club_details->eq(0)->text()],
+                        ['gender_id' => Gender::where('fpb_id', '-')->first()->id]
+                    )->id,
+                'competitionlevel_id' =>
+                    Competitionlevel::firstOrCreate(
+                        ['description' => $club_details->eq(1)->text()],
+                        ['gender_id' => Gender::where('fpb_id', '-')->first()->id]
+                    )->id,
             ]
         );
     }
@@ -90,39 +89,41 @@ class TeamController extends Controller
 
         $crawler
             ->filterXPath('//div[contains(@class, "LinhaSeparadora01")]')
-            ->each(function ($node) use ($team) {
-                $competition_fpb_id = $node
-                    ->nextAll()
-                    ->eq(0)
-                    ->filterXPath('//a[contains(@href, "!site.go?s=1&show=com&id=")]')
-                    ->evaluate('substring-after(@href, "&id=")')[0];
+            ->each(
+                function ($node) use ($team) {
+                    $competition_fpb_id = $node
+                        ->nextAll()
+                        ->eq(0)
+                        ->filterXPath('//a[contains(@href, "!site.go?s=1&show=com&id=")]')
+                        ->evaluate('substring-after(@href, "&id=")')[0];
 
-                $competition = Competition::where('fpb_id', $competition_fpb_id)->first();
+                    $competition = Competition::where('fpb_id', $competition_fpb_id)->first();
 
-                if ($competition->phases()->count()==0) {
-                    CompetitionController::getPhasesFromFPB($competition_fpb_id);
-                }
-
-                if ($team->competitions()->where('id', $competition->id)->count()==0) {
-                    $team->competitions()->attach($competition->id);
-                }
-
-                $nextAll = $node->nextAll();
-                $eq = 1;
-                while (($eq<$nextAll->count()) and ($nextAll->eq($eq)->attr('class')=="Titulo04 TextoCor01")) {
-                    $phase_description = trim(explode("\n", $nextAll->eq($eq)->text())[2]);
-
-                    if ($team->phases()->where('description', $phase_description)->count()==0) {
-                        $phase_id = Phase::where([
-                                [ 'competition_id', '=', $competition->id ],
-                                [ 'description', '=', $phase_description ],
-                            ])->first()->id;
-                        $team->phases()->attach($phase_id);
+                    if ($competition->phases()->count()==0) {
+                        CompetitionController::getPhasesFromFPB($competition_fpb_id);
                     }
 
-                    $eq++;
+                    if ($team->competitions()->where('id', $competition->id)->count()==0) {
+                        $team->competitions()->attach($competition->id);
+                    }
+
+                    $nextAll = $node->nextAll();
+                    $eq = 1;
+                    while (($eq<$nextAll->count()) and ($nextAll->eq($eq)->attr('class')=="Titulo04 TextoCor01")) {
+                        $phase_description = trim(explode("\n", $nextAll->eq($eq)->text())[2]);
+
+                        if ($team->phases()->where('description', $phase_description)->count()==0) {
+                            $phase_id = Phase::where([
+                                    [ 'competition_id', '=', $competition->id ],
+                                    [ 'description', '=', $phase_description ],
+                                ])->first()->id;
+                            $team->phases()->attach($phase_id);
+                        }
+
+                        $eq++;
+                    }
                 }
-            });
+            );
 
         return Team::where('fpb_id', $team_fpb_id)
             ->with('competitions', 'phases')

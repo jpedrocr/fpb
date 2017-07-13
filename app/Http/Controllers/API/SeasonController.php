@@ -40,16 +40,17 @@ class SeasonController extends Controller
     {
         $fpb_id = $node->attr('value');
         $description = explode('/', $node->text());
-        $start_year = $description[0];
-        $end_year = $description[1];
         Season::updateOrCreate(
             [
                 'fpb_id' => $fpb_id
             ],
             [
-                'start_year' => $start_year,
-                'end_year' => $end_year,
-                'current' => ($node->attr('selected')!=null),
+                'start_year' =>
+                    $description[0],
+                'end_year' =>
+                    $description[1],
+                'current' =>
+                    ($node->attr('selected')!=null),
             ]
         );
     }

@@ -63,13 +63,14 @@ Route::group([
         http://fpb.app/api/association/getFromFPB
         http://fpb.app/api/association/50/season/55/getCompetitionsFromFPB
         http://fpb.app/api/association/3/season/55/getCompetitionsFromFPB
+        http://fpb.app/api/club/16/getTeamsFromFPB
+        http://fpb.app/api/team/27451/getCompetitionsFromFPB
+        http://fpb.app/api/round/88236/getGamesFromFPB
+
         http://fpb.app/api/competition/6171/getPhasesFromFPB
         http://fpb.app/api/phase/15045/getRoundsFromFPB
         http://fpb.app/api/round/88236/getGamesFromFPB
         http://fpb.app/api/association/3/getClubsFromFPB
-        http://fpb.app/api/club/16/getTeamsFromFPB
-        http://fpb.app/api/team/27451/getCompetitionsFromFPB
-        http://fpb.app/api/round/88236/getGamesFromFPB
     */
 
 });

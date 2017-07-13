@@ -43,38 +43,37 @@ class ClubController extends Controller
             AssociationController::updateOrCreateFromFPB($association_fpb_id);
         }
 
-        $association_id = Association::where('fpb_id', $association_fpb_id)->first()->id;
-        $category_id = Category::where('fpb_id', 'clu')->first()->id;
-        $name = $crawler->filterXPath('//div/div[@id="NomeClube"]')->text();
-        // $alternative_name = $alternative_name;
-        $image = $crawler->filterXPath('//div/div[@id="Logo"]/img')->attr('src');
-        $founding_date = trim($club_details->eq(0)->text());
-        $president = trim($club_details->eq(1)->text());
-        $address = implode("\n", $original_address);
-        $telephone = trim($club_details->eq(5)->text());
-        $fax_number = trim($club_details->eq(6)->text());
-        $email = trim($club_details->eq(7)->text());
-        $url = trim($club_details->eq(8)->text());
-        // $venue_id = Venue::where('name', trim($club_details->eq(4)->text()))->first()->id;
-
         return Club::updateOrCreate(
             [
                 'fpb_id' => $fpb_id
             ],
             [
-                'association_id' => $association_id,
-                'category_id' => $category_id,
-                'name' => $name,
-                // 'alternative_name' => $alternative_name,
-                'image' => $image,
-                'founding_date' => $founding_date,
-                'president' => $president,
-                'address' => $address,
-                'telephone' => $telephone,
-                'fax_number' => $fax_number,
-                'email' => $email,
-                'url' => $url,
-                // 'venue_id' => $venue_id,
+                'association_id' =>
+                    Association::where('fpb_id', $association_fpb_id)->first()->id,
+                'category_id' =>
+                    Category::where('fpb_id', 'clu')->first()->id,
+                'name' =>
+                    $crawler->filterXPath('//div/div[@id="NomeClube"]')->text(),
+                // 'alternative_name' =>
+                //     $alternative_name,
+                'image' =>
+                    $crawler->filterXPath('//div/div[@id="Logo"]/img')->attr('src'),
+                'founding_date' =>
+                    trim($club_details->eq(0)->text()),
+                'president' =>
+                    trim($club_details->eq(1)->text()),
+                'address' =>
+                    implode("\n", $original_address),
+                'telephone' =>
+                    trim($club_details->eq(5)->text()),
+                'fax_number' =>
+                    trim($club_details->eq(6)->text()),
+                'email' =>
+                    trim($club_details->eq(7)->text()),
+                'url' =>
+                    trim($club_details->eq(8)->text()),
+                // 'venue_id' =>
+                //     Venue::where('name', trim($club_details->eq(4)->text()))->first()->id,
             ]
         );
     }

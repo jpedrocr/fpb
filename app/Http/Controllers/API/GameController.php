@@ -49,29 +49,29 @@ class GameController extends Controller
 
         $results = $crawler->filterXPath('//div[@class="Centro"]//table//table/tr/td[@class="GameScoreFont01"]');
 
-        $round_id = Round::where('fpb_id', $round_fpb_id)->first()->id;
-        $category_id = Category::where('fpb_id', 'jog')->first()->id;
-        $hometeam_id = Team::where('fpb_id', $hometeam_fpb_id)->first()->id;
-        $outteam_id = Team::where('fpb_id', $outteam_fpb_id)->first()->id;
-        $number = $game_details->eq(0)->text();
-        $schedule = Carbon::create($date[2], $date[1], $date[0], $time[0], $time[1], 0, 'Europe/Lisbon');
-        $home_result = $results->eq(0)->text();
-        $out_result = $results->eq(1)->text();
-
         return Game::updateOrCreate(
             [
                 'fpb_id' => $fpb_id
             ],
             [
-                'round_id' => $round_id,
-                'category_id' => $category_id,
-                'hometeam_id' => $hometeam_id,
-                'outteam_id' => $outteam_id,
-                'number' => $number,
-                'schedule' => $schedule,
-                'home_result' => $home_result,
-                'out_result' => $out_result,
-                'status' => $status,
+                'round_id' =>
+                    Round::where('fpb_id', $round_fpb_id)->first()->id,
+                'category_id' =>
+                    Category::where('fpb_id', 'jog')->first()->id,
+                'hometeam_id' =>
+                    Team::where('fpb_id', $hometeam_fpb_id)->first()->id,
+                'outteam_id' =>
+                    Team::where('fpb_id', $outteam_fpb_id)->first()->id,
+                'number' =>
+                    $game_details->eq(0)->text(),
+                'schedule' =>
+                    Carbon::create($date[2], $date[1], $date[0], $time[0], $time[1], 0, 'Europe/Lisbon'),
+                'home_result' =>
+                    $results->eq(0)->text(),
+                'out_result' =>
+                    $out_result,
+                'status' =>
+                    $results->eq(1)->text(),
             ]
         );
     }
