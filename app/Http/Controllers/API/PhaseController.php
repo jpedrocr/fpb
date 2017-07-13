@@ -41,7 +41,7 @@ class PhaseController extends Controller
             ->rounds()
             ->get();
     }
-    public function getRoundsFromFPB($phase_fpb_id)
+    public function getRoundsFromFPB($phase_fpb_id, $club_fpb_id = null)
     {
         // $html = '';
         // $crawler = new Crawler();
@@ -63,7 +63,8 @@ class PhaseController extends Controller
                     $phase_fpb_id,
                     $fpb_ids->eq($i)->evaluate('substring-after(@id, "dJornada_")')[0],
                     trim($description[0]),
-                    substr(trim(explode('ª jornada', $description[1])[0]), 8)
+                    substr(trim(explode('ª jornada', $description[1])[0]), 8),
+                    $club_fpb_id
                 );
             }
         }

@@ -78,7 +78,7 @@ class CompetitionController extends Controller
             ->phases()
             ->get();
     }
-    public static function getPhasesFromFPB($competition_fpb_id)
+    public static function getPhasesFromFPB($competition_fpb_id, $phases_descriptions = null)
     {
         // $html = '';
         // $crawler = new Crawler();
@@ -90,14 +90,27 @@ class CompetitionController extends Controller
 
         $crawler->filterXPath('//div[contains(@style, "margin:10px;")]')
             ->each(
-                function ($node) use ($competition_fpb_id) {
-                    PhaseController::updateOrCreateFromFPB(
-                        $competition_fpb_id,
-                        $node->filterXPath('//div[contains(@id, "dFase_")]')
-                            ->evaluate('substring-after(@id, "dFase_")')[0],
-                        $node->filterXPath('//div[contains(@class, "Titulo01")]')->text(),
-                        explode("\n", $node->text())[3]
-                    );
+                function ($node) use ($competition_fpb_id, $phases_descriptions) {
+                    $fpb_id = $node->filterXPath('//div[contains(@id, "dFase_")]')
+                        ->evaluate('substring-after(@id, "dFase_")')[0];
+                    $description = $node->filterXPath('//div[contains(@class, "Titulo01")]')->text();
+                    if ($phases_descriptions != null) {
+                        if (in_array($description, $phases_descriptions)) {
+                            PhaseController::updateOrCreateFromFPB(
+                                $competition_fpb_id,
+                                $fpb_id,
+                                $description,
+                                explode("\n", $node->text())[3]
+                            );
+                        }
+                    } else {
+                        PhaseController::updateOrCreateFromFPB(
+                            $competition_fpb_id,
+                            $fpb_id,
+                            $node->filterXPath('//div[contains(@class, "Titulo01")]')->text(),
+                            explode("\n", $node->text())[3]
+                        );
+                    }
                 }
             );
 

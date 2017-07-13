@@ -41,7 +41,7 @@ class Round extends Model
     }
     public function games()
     {
-        return $this->hasMany('App\Model\Game');
+        return $this->hasMany('App\Models\Game');
     }
 
     /*

@@ -19,9 +19,9 @@ class RoundController extends Controller
     {
         return Round::all();
     }
-    public static function updateOrCreateFromFPB($phase_fpb_id, $fpb_id, $lap_number, $round_number)
+    public static function updateOrCreateFromFPB($phase_fpb_id, $fpb_id, $lap_number, $round_number, $club_fpb_id = null)
     {
-        return Round::updateOrCreate(
+        $round = Round::updateOrCreate(
             [
                 'fpb_id' => $fpb_id
             ],
@@ -34,8 +34,12 @@ class RoundController extends Controller
                     $round_number,
             ]
         );
+        if ($club_fpb_id!=null) {
+            RoundController::getGamesFromFPB($fpb_id, $club_fpb_id);
+        }
+        return $round;
     }
-    public function getGamesFromFPB($round_fpb_id)
+    public static function getGamesFromFPB($round_fpb_id, $club_fpb_id = null)
     {
         // $html = '';
         // $crawler = new Crawler();
@@ -48,14 +52,15 @@ class RoundController extends Controller
 
         $crawler->filterXPath('//div[contains(@class, "Tabela01")]/table/tr')
             ->each(
-                function ($node) use ($round_fpb_id) {
+                function ($node) use ($round_fpb_id, $club_fpb_id) {
                     $tds = $node->filterXPath('//td');
                     if ($tds->eq(0)->text()!="Jogo") {
                         GameController::updateOrCreateFromFPB(
                             $round_fpb_id,
                             $tds->eq(0)->filterXPath('//a[contains(@href, "!site.go?s=1&show=jog&id=")]')
                             ->evaluate('substring-after(@href, "!site.go?s=1&show=jog&id=")')[0],
-                            trim($tds->eq(11)->text())
+                            trim($tds->eq(11)->text()),
+                            $club_fpb_id
                         );
                     }
                 }

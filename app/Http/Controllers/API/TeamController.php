@@ -99,10 +99,6 @@ class TeamController extends Controller
 
                     $competition = Competition::where('fpb_id', $competition_fpb_id)->first();
 
-                    if ($competition->phases()->count()==0) {
-                        CompetitionController::getPhasesFromFPB($competition_fpb_id);
-                    }
-
                     if ($team->competitions()->where('id', $competition->id)->count()==0) {
                         $team->competitions()->attach($competition->id);
                     }
@@ -111,6 +107,10 @@ class TeamController extends Controller
                     $eq = 1;
                     while (($eq<$nextAll->count()) and ($nextAll->eq($eq)->attr('class')=="Titulo04 TextoCor01")) {
                         $phase_description = trim(explode("\n", $nextAll->eq($eq)->text())[2]);
+
+                        if ($competition->phases()->where('description', $phase_description)->count()==0) {
+                            CompetitionController::getPhasesFromFPB($competition_fpb_id, [$phase_description]);
+                        }
 
                         if ($team->phases()->where('description', $phase_description)->count()==0) {
                             $phase_id = Phase::where([

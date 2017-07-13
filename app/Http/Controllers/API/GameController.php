@@ -22,7 +22,7 @@ class GameController extends Controller
     {
         return Game::all();
     }
-    public static function updateOrCreateFromFPB($round_fpb_id, $fpb_id, $status)
+    public static function updateOrCreateFromFPB($round_fpb_id, $fpb_id, $status, $club_fpb_id = null)
     {
         // $html = '';
         // $crawler = new Crawler();
@@ -49,30 +49,65 @@ class GameController extends Controller
 
         $results = $crawler->filterXPath('//div[@class="Centro"]//table//table/tr/td[@class="GameScoreFont01"]');
 
-        return Game::updateOrCreate(
-            [
-                'fpb_id' => $fpb_id
-            ],
-            [
-                'round_id' =>
-                    Round::where('fpb_id', $round_fpb_id)->first()->id,
-                'category_id' =>
-                    Category::where('fpb_id', 'jog')->first()->id,
-                'hometeam_id' =>
-                    Team::where('fpb_id', $hometeam_fpb_id)->first()->id,
-                'outteam_id' =>
-                    Team::where('fpb_id', $outteam_fpb_id)->first()->id,
-                'number' =>
-                    $game_details->eq(0)->text(),
-                'schedule' =>
-                    Carbon::create($date[2], $date[1], $date[0], $time[0], $time[1], 0, 'Europe/Lisbon'),
-                'home_result' =>
-                    $results->eq(0)->text(),
-                'out_result' =>
-                    $out_result,
-                'status' =>
-                    $results->eq(1)->text(),
-            ]
-        );
+        dump($results->eq(0)->text() != '' ? $results->eq(0)->text() : 0);
+
+        if ($club_fpb_id!=null) {
+            $hometeam = Team::where('fpb_id', $hometeam_fpb_id)->first();
+            $outteam = Team::where('fpb_id', $outteam_fpb_id)->first();
+            if (($hometeam->club()->first()->fpb_id == $club_fpb_id) or
+                ($outteam->club()->first()->fpb_id == $club_fpb_id) ) {
+                return Game::updateOrCreate(
+                    [
+                        'fpb_id' => $fpb_id
+                    ],
+                    [
+                        'round_id' =>
+                            Round::where('fpb_id', $round_fpb_id)->first()->id,
+                        'category_id' =>
+                            Category::where('fpb_id', 'jog')->first()->id,
+                        'hometeam_id' =>
+                            $hometeam->id,
+                        'outteam_id' =>
+                            $outteam->id,
+                        'number' =>
+                            $game_details->eq(0)->text(),
+                        'schedule' =>
+                            Carbon::create($date[2], $date[1], $date[0], $time[0], $time[1], 0, 'Europe/Lisbon'),
+                        'home_result' =>
+                            $results->eq(0)->text() != '' ? $results->eq(0)->text() : null,
+                        'out_result' =>
+                            $results->eq(1)->text() != '' ? $results->eq(1)->text() : null,
+                        'status' =>
+                            $status,
+                    ]
+                );
+            }
+        } else {
+            return Game::updateOrCreate(
+                [
+                    'fpb_id' => $fpb_id
+                ],
+                [
+                    'round_id' =>
+                        Round::where('fpb_id', $round_fpb_id)->first()->id,
+                    'category_id' =>
+                        Category::where('fpb_id', 'jog')->first()->id,
+                    'hometeam_id' =>
+                        Team::where('fpb_id', $hometeam_fpb_id)->first()->id,
+                    'outteam_id' =>
+                        Team::where('fpb_id', $outteam_fpb_id)->first()->id,
+                    'number' =>
+                        $game_details->eq(0)->text(),
+                    'schedule' =>
+                        Carbon::create($date[2], $date[1], $date[0], $time[0], $time[1], 0, 'Europe/Lisbon'),
+                    'home_result' =>
+                        $results->eq(0)->text(),
+                    'out_result' =>
+                        $results->eq(1)->text(),
+                    'status' =>
+                        $status,
+                ]
+            );
+        }
     }
 }

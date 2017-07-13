@@ -26,7 +26,7 @@ class CompetitionlevelRequest extends \Backpack\CRUD\app\Http\Requests\CrudReque
     {
         return [
             'gender_id' => 'required',
-            'description' => 'required|min:5|max:255'
+            'description' => 'required|min:1|max:255'
         ];
     }
 

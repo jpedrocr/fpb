@@ -94,6 +94,8 @@ class AssociationCrudController extends CrudController
         // $this->crud->setColumnsDetails(['column_1', 'column_2'], ['attribute' => 'value']);
 
         // ------ CRUD BUTTONS
+        $this->crud->addButtonFromView('top', 'getAssociationsFromFPB', 'getAssociationsFromFPB', 'end');
+        $this->crud->addButtonFromView('line', 'getCompetitionsFromFPB', 'getCompetitionsFromFPB', 'end');
         // possible positions: 'beginning' and 'end'; defaults to 'beginning' for the 'line' stack, 'end' for the
         //  others;
         // $this->crud->addButton($stack, $name, $type, $content, $position); // add a button; possible types are: view,
