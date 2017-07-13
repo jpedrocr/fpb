@@ -19,8 +19,13 @@ class RoundController extends Controller
     {
         return Round::all();
     }
-    public static function updateOrCreateFromFPB($phase_fpb_id, $fpb_id, $lap_number, $round_number, $club_fpb_id = null)
-    {
+    public static function updateOrCreateFromFPB(
+        $phase_fpb_id,
+        $fpb_id,
+        $lap_number,
+        $round_number,
+        $club_fpb_id = null
+    ) {
         $round = Round::updateOrCreate(
             [
                 'fpb_id' => $fpb_id
