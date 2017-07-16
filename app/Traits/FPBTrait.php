@@ -1,6 +1,7 @@
 <?php
 namespace App\Traits;
 
+use Illuminate\Support\Facades\Log;
 use Goutte\Client;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -10,6 +11,8 @@ trait FPBTrait
     {
         if ($html == null) {
             $client = new Client();
+            Log::getMonolog()->info('Goutte::GET::'.$url);
+            sleep(1);
             return $client->request('GET', $url);
         } else {
             $crawler = new Crawler();

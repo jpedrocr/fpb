@@ -54,6 +54,7 @@ Route::group([
     Route::get('club/{club_fpb_id}/season/{season_fpb_id}/getTeams', 'ClubController@getSeasonTeams');
 
     Route::get('team', 'TeamController@index');
+    Route::get('team/{team_fpb_id}/getCompetitions', 'TeamController@getCompetitionsAndPhases')->name('getTeamCompetitions');
     Route::post('team/{team_fpb_id}/getCompetitionsFromFPB', 'TeamController@getCompetitionsAndPhasesFromFPB')->name('getTeamCompetitionsFromFPB');
 
     Route::get('game', 'GameController@index');

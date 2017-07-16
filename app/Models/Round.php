@@ -106,25 +106,71 @@ class Round extends Model
     }
     public static function getGamesFromFPB($round_fpb_id, $club_fpb_id = null)
     {
-        return self::crawlFPB(
-            'http://www.fpb.pt/fpb2014/do?com=DS;1;.100014;++K_ID_COMPETICAO_JORNADA('.
-                $round_fpb_id.')+CO(JOGOS)+BL(JOGOS)+MYBASEDIV(dJornada_'.
-                $round_fpb_id.');+RCNT(10000)+RINI(1)&',
-            function ($crawler) {
-                return $crawler->filterXPath('//div[contains(@class, "Tabela01")]/table/tr');
-            },
-            function ($crawler) use ($round_fpb_id, $club_fpb_id) {
-                $tds = $crawler->filterXPath('//td');
-                if ($tds->eq(0)->text()!="Jogo") {
-                    Game::updateOrCreateFromFPB(
-                        $round_fpb_id,
-                        $tds->eq(0)->filterXPath('//a[contains(@href, "!site.go?s=1&show=jog&id=")]')
-                            ->evaluate('substring-after(@href, "!site.go?s=1&show=jog&id=")')[0],
-                        trim($tds->eq(11)->text()),
-                        $club_fpb_id
-                    );
+        if ($club_fpb_id!=null) {
+            return self::crawlFPB(
+                'http://www.fpb.pt/fpb2014/do?com=DS;1;.100014;++K_ID_COMPETICAO_JORNADA('.
+                    $round_fpb_id.')+CO(JOGOS)+BL(JOGOS)+MYBASEDIV(dJornada_'.
+                    $round_fpb_id.');+RCNT(10000)+RINI(1)&',
+                function ($crawler) {
+                    return $crawler->filterXPath('//div[contains(@class, "Tabela01")]/table/tr');
+                },
+                function ($crawler) use ($round_fpb_id, $club_fpb_id) {
+                    $tds = $crawler->filterXPath('//td');
+
+                    if ($tds->eq(0)->text()!="Jogo") {
+                        $teams = $crawler->filterXPath('//a[contains(@href, "!site.go?s=1&show=equ&id=")]')
+                            ->evaluate('substring-after(@href, "&id=")');
+                        $hometeam_fpb_id = $teams[0];
+                        $outteam_fpb_id = $teams[1];
+
+                        $hometeam = Team::updateOrCreateFromFPB($hometeam_fpb_id, false);
+                        $outteam = Team::updateOrCreateFromFPB($outteam_fpb_id, false);
+
+                        if (($hometeam->club()->first()->fpb_id == $club_fpb_id) or
+                            ($outteam->club()->first()->fpb_id == $club_fpb_id) ) {
+                            Game::updateOrCreateFromFPB(
+                                $round_fpb_id,
+                                $tds->eq(0)->filterXPath('//a[contains(@href, "!site.go?s=1&show=jog&id=")]')
+                                    ->evaluate('substring-after(@href, "!site.go?s=1&show=jog&id=")')[0],
+                                $hometeam->id,
+                                $outteam->id,
+                                trim($tds->eq(11)->text()),
+                                $club_fpb_id
+                            );
+                        }
+                    }
                 }
-            }
-        );
+            );
+        } else {
+            return self::crawlFPB(
+                'http://www.fpb.pt/fpb2014/do?com=DS;1;.100014;++K_ID_COMPETICAO_JORNADA('.
+                    $round_fpb_id.')+CO(JOGOS)+BL(JOGOS)+MYBASEDIV(dJornada_'.
+                    $round_fpb_id.');+RCNT(10000)+RINI(1)&',
+                function ($crawler) {
+                    return $crawler->filterXPath('//div[contains(@class, "Tabela01")]/table/tr');
+                },
+                function ($crawler) use ($round_fpb_id, $club_fpb_id) {
+                    $tds = $crawler->filterXPath('//td');
+
+                    if ($tds->eq(0)->text()!="Jogo") {
+
+                        $teams = $crawler->filterXPath('//a[contains(@href, "!site.go?s=1&show=equ&id=")]')
+                            ->evaluate('substring-after(@href, "&id=")');
+                        $hometeam_fpb_id = $teams[0];
+                        $outteam_fpb_id = $teams[1];
+
+                        Game::updateOrCreateFromFPB(
+                            $round_fpb_id,
+                            $tds->eq(0)->filterXPath('//a[contains(@href, "!site.go?s=1&show=jog&id=")]')
+                                ->evaluate('substring-after(@href, "!site.go?s=1&show=jog&id=")')[0],
+                            Team::updateOrCreateFromFPB($hometeam_fpb_id, false)->id,
+                            Team::updateOrCreateFromFPB($outteam_fpb_id, false)->id,
+                            trim($tds->eq(11)->text()),
+                            $club_fpb_id
+                        );
+                    }
+                }
+            );
+        }
     }
 }

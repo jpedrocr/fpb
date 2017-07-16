@@ -27,6 +27,12 @@ class TeamController extends Controller
     {
         return Team::all();
     }
+    public function getCompetitionsAndPhases($team_fpb_id)
+    {
+        return Team::where('fpb_id', $team_fpb_id)
+            ->with('competitions', 'phases')
+            ->first();
+    }
     public function getCompetitionsAndPhasesFromFPB($team_fpb_id)
     {
         Team::getCompetitionsAndPhasesFromFPB($team_fpb_id);

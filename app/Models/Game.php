@@ -85,16 +85,11 @@ class Game extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-    public static function updateOrCreateFromFPB($round_fpb_id, $fpb_id, $status, $club_fpb_id = null, $update = true)
+    public static function updateOrCreateFromFPB($round_fpb_id, $fpb_id, $hometeam_id, $outteam_id, $status, $update = true)
     {
         $game = Game::where('fpb_id', $fpb_id);
         if (($game->count()==0) or ($update)) {
             $crawler = self::crawler('http://www.fpb.pt/fpb2014/!site.go?s=1&show=jog&id='.$fpb_id);
-
-            $teams = $crawler->filterXPath('//a[contains(@href, "!site.go?s=1&show=equ&id=")]')
-                ->evaluate('substring-after(@href, "&id=")');
-            $hometeam_fpb_id = $teams[0];
-            $outteam_fpb_id = $teams[1];
 
             $game_details = $crawler->filterXPath('//table[@class="JOG_Infox"]/tr/td');
             $date = explode("/", $game_details->eq(2)->text());
@@ -108,64 +103,31 @@ class Game extends Model
 
             $results = $crawler->filterXPath('//div[@class="Centro"]//table//table/tr/td[@class="GameScoreFont01"]');
 
-            if ($club_fpb_id!=null) {
-                $hometeam = Team::updateOrCreateFromFPB($hometeam_fpb_id, false);
-                $outteam = Team::updateOrCreateFromFPB($outteam_fpb_id, false);
-                if (($hometeam->club()->first()->fpb_id == $club_fpb_id) or
-                    ($outteam->club()->first()->fpb_id == $club_fpb_id) ) {
-                    return Game::updateOrCreate(
-                        [
-                            'fpb_id' => $fpb_id
-                        ],
-                        [
-                            'round_id' =>
-                                Round::where('fpb_id', $round_fpb_id)->first()->id,
-                            'category_id' =>
-                                Category::where('fpb_id', 'jog')->first()->id,
-                            'hometeam_id' =>
-                                $hometeam->id,
-                            'outteam_id' =>
-                                $outteam->id,
-                            'number' =>
-                                $game_details->eq(0)->text(),
-                            'schedule' =>
-                                $schedule,
-                            'home_result' =>
-                                $results->eq(0)->text() != '' ? $results->eq(0)->text() : null,
-                            'out_result' =>
-                                $results->eq(1)->text() != '' ? $results->eq(1)->text() : null,
-                            'status' =>
-                                $status,
-                        ]
-                    );
-                }
-            } else {
-                return Game::updateOrCreate(
-                    [
-                        'fpb_id' => $fpb_id
-                    ],
-                    [
-                        'round_id' =>
-                            Round::where('fpb_id', $round_fpb_id)->first()->id,
-                        'category_id' =>
-                            Category::where('fpb_id', 'jog')->first()->id,
-                        'hometeam_id' =>
-                            Team::updateOrCreateFromFPB($hometeam_fpb_id, false)->id,
-                        'outteam_id' =>
-                            Team::updateOrCreateFromFPB($outteam_fpb_id, false)->id,
-                        'number' =>
-                            $game_details->eq(0)->text(),
-                        'schedule' =>
-                            Carbon::create($date[2], $date[1], $date[0], $time[0], $time[1], 0, 'Europe/Lisbon'),
-                        'home_result' =>
-                            $results->eq(0)->text(),
-                        'out_result' =>
-                            $results->eq(1)->text(),
-                        'status' =>
-                            $status,
-                    ]
-                );
-            }
+            return Game::updateOrCreate(
+                [
+                    'fpb_id' => $fpb_id
+                ],
+                [
+                    'round_id' =>
+                        Round::where('fpb_id', $round_fpb_id)->first()->id,
+                    'category_id' =>
+                        Category::where('fpb_id', 'jog')->first()->id,
+                    'hometeam_id' =>
+                        $hometeam_id,
+                    'outteam_id' =>
+                        $outteam_id,
+                    'number' =>
+                        $game_details->eq(0)->text(),
+                    'schedule' =>
+                        Carbon::create($date[2], $date[1], $date[0], $time[0], $time[1], 0, 'Europe/Lisbon'),
+                    'home_result' =>
+                        $results->eq(0)->text(),
+                    'out_result' =>
+                        $results->eq(1)->text(),
+                    'status' =>
+                        $status,
+                ]
+            );
         } else {
             return $game->first();
         }
