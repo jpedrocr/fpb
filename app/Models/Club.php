@@ -25,14 +25,14 @@ class Club extends Model
     protected $table = 'clubs';
     protected $primaryKey = 'id';
     public $timestamps = true;
-    protected $guarded = ['id'];
+    protected $guarded = [ 'id' ];
     protected $fillable = [
         'association_id', 'category_id', 'fpb_id', 'name', 'image', 'alternative_name', 'founding_date', 'president',
         'address', 'telephone', 'fax_number', 'email', 'url'
     ];
-    protected $hidden = ['created_at', 'updated_at'];
-    protected $dates = ['created_at', 'updated_at'];
-    protected $appends = [];
+    protected $hidden = [ 'created_at', 'updated_at' ];
+    protected $dates = [ 'created_at', 'updated_at' ];
+    protected $appends = [ ];
 
     /*
     |--------------------------------------------------------------------------
@@ -93,11 +93,11 @@ class Club extends Model
             $club_details = $crawler->filterXPath('//table[@class="TabelaHor01"]/tr/td');
 
             $original_address = explode("<br>", trim($club_details->eq(2)->html()));
-            $address1 = trim($original_address[0]);
-            $address2 = trim($original_address[1]);
+            $address1 = trim($original_address[ 0 ]);
+            $address2 = trim($original_address[ 1 ]);
 
             $association_fpb_id = $club_details->eq(3)->filterXPath('//a')
-                ->evaluate('substring-after(@href, "&id=")')[0];
+                ->evaluate('substring-after(@href, "&id=")')[ 0 ];
 
             return Club::updateOrCreate(
                 [
@@ -142,12 +142,12 @@ class Club extends Model
             'http://www.fpb.pt/fpb2014/do?com=DS;1;.105010;++K_ID_CLUBE('
                 .$this->fpb_id
                 .')+CO(EQUIPAS)+BL(EQUIPAS-02);+MYBASEDIV(dClube_Ficha_Home_Equipas);+RCNT(1000)+RINI(1)&',
-            function ($crawler) {
+            function($crawler) {
                 return $crawler->filterXPath('//a[contains(@href, "!site.go?s=1&show=equ&id=")]');
             },
-            function ($crawler) {
+            function($crawler) {
                 Team::updateOrCreateFromFPB(
-                    $crawler->evaluate('substring-after(@href, "&id=")')[0]
+                    $crawler->evaluate('substring-after(@href, "&id=")')[ 0 ]
                 );
             }
         );

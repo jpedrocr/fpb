@@ -21,16 +21,16 @@ class AssociationController extends Controller
     }
     public function getCompetitions(Association $association, Season $season)
     {
-        return $association->load(['competitions' => function ($query) use ($season) {
+        return $association->load([ 'competitions' => function($query) use ($season) {
             $query->where('season_id', $season->id);
-        }]);
+        } ]);
     }
     public function getCompetitionsFromFPB(Association $association, Season $season)
     {
         $association->getCompetitionsFromFPB($season);
-        return $association->load(['competitions' => function ($query) use ($season) {
+        return $association->load([ 'competitions' => function($query) use ($season) {
             $query->where('season_id', $season->id);
-        }]);
+        } ]);
     }
 
     public function getClubs(Association $association)

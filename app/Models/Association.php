@@ -24,14 +24,14 @@ class Association extends Model
     protected $table = 'associations';
     protected $primaryKey = 'id';
     public $timestamps = true;
-    protected $guarded = ['id'];
+    protected $guarded = [ 'id' ];
     protected $fillable = [
         'category_id', 'fpb_id', 'name', 'image', 'president', 'technical_director', 'cad_president', 'address',
         'telephone', 'fax_number', 'email', 'url'
     ];
-    protected $hidden = ['created_at', 'updated_at'];
-    protected $dates = ['created_at', 'updated_at'];
-    protected $appends = [];
+    protected $hidden = [ 'created_at', 'updated_at' ];
+    protected $dates = [ 'created_at', 'updated_at' ];
+    protected $appends = [ ];
 
     /*
     |--------------------------------------------------------------------------
@@ -94,8 +94,8 @@ class Association extends Model
             $association_details = $content->filterXPath('//div/table[@class="TabelaHor01"]/tr/td');
 
             $original_address = explode("<br>", trim($association_details->eq(3)->html()));
-            $address1 = trim($original_address[0]);
-            $address2 = trim($original_address[1]);
+            $address1 = trim($original_address[ 0 ]);
+            $address2 = trim($original_address[ 1 ]);
 
             return Association::updateOrCreate(
                 [
@@ -103,7 +103,7 @@ class Association extends Model
                 ],
                 [
                     'category_id' =>
-                        Category::firstOrCreate(['fpb_id' => 'ass'])->id,
+                        Category::firstOrCreate([ 'fpb_id' => 'ass' ])->id,
                     'name' =>
                         trim($content->filterXPath('//div/div[@class="Assoc_FichaHeader_Nome"]/div')->text()),
                     'image' =>
@@ -122,7 +122,7 @@ class Association extends Model
                         trim($association_details->eq(5)->text()),
                     'email' =>
                         trim($association_details->eq(6)->filterXPath('//a')
-                            ->evaluate('substring-after(@href, "mailto:")')[0]),
+                            ->evaluate('substring-after(@href, "mailto:")')[ 0 ]),
                     'url' =>
                         trim($association_details->eq(7)->filterXPath('//a')->attr('href')),
                 ]
@@ -137,12 +137,12 @@ class Association extends Model
         return self::crawlFPB(
             'http://www.fpb.pt/fpb2014/do?com=DS;1;.109050;++BL(B1)+CO(B1)+'.
                 'MYBASEDIV(dShowAssociacoes);+RCNT(10)+RINI(1)&',
-            function ($crawler) {
+            function($crawler) {
                 return $crawler->filterXPath('//a[contains(@href, "!site.go?s=1&show=ass&id=")]');
             },
-            function ($crawler) {
+            function($crawler) {
                 Association::updateOrCreateFromFPB(
-                    $crawler->evaluate('substring-after(@href, "&id=")')[0]
+                    $crawler->evaluate('substring-after(@href, "&id=")')[ 0 ]
                 );
             }
         );
@@ -154,13 +154,13 @@ class Association extends Model
             'http://www.fpb.pt/fpb2014/do?com=DS;1;.109030;++K_ID('.
                 $this->fpb_id.')+K_ID_EPOCA('.
                 $season->fpb_id.')+CO(PROVAS)+BL(PROVAS)+MYBASEDIV(dAssProvas);+RCNT(100)+RINI(1)&',
-            function ($crawler) {
+            function($crawler) {
                 return $crawler->filterXPath('//a[contains(@href, "!site.go?s=1&show=com&id=")]');
             },
-            function ($crawler) use ($association) {
+            function($crawler) use ($association) {
                 Competition::updateOrCreateFromFPB(
                     $association->fpb_id,
-                    $crawler->evaluate('substring-after(@href, "&id=")')[0]
+                    $crawler->evaluate('substring-after(@href, "&id=")')[ 0 ]
                 );
             }
         );
@@ -172,11 +172,11 @@ class Association extends Model
             return $this->crawlFPB(
                 'http://www.fpb.pt/fpb2014/do?com=DS;1;.109012;++K_ID('
                 .$this->fpb_id.')+CO(CLUBES)+BL(CLUBES)+MYBASEDIV(dAssoc_Home_Clubes);+RCNT(1000)+RINI(1)&',
-                function ($crawler) {
+                function($crawler) {
                     return $crawler->filterXPath('//a[contains(@href, "!site.go?s=1&show=clu&id=")]');
                 },
-                function ($crawler) use ($association, $club_fpb_id) {
-                    $fpb_id = $crawler->evaluate('substring-after(@href, "&id=")')[0];
+                function($crawler) use ($association, $club_fpb_id) {
+                    $fpb_id = $crawler->evaluate('substring-after(@href, "&id=")')[ 0 ];
                     if ($club_fpb_id==$fpb_id) {
                         Club::updateOrCreateFromFPB(
                             $fpb_id
@@ -188,12 +188,12 @@ class Association extends Model
             return $this->crawlFPB(
                 'http://www.fpb.pt/fpb2014/do?com=DS;1;.109012;++K_ID('
                 .$this->fpb_id.')+CO(CLUBES)+BL(CLUBES)+MYBASEDIV(dAssoc_Home_Clubes);+RCNT(1000)+RINI(1)&',
-                function ($crawler) {
+                function($crawler) {
                     return $crawler->filterXPath('//a[contains(@href, "!site.go?s=1&show=clu&id=")]');
                 },
-                function ($crawler) use ($association) {
+                function($crawler) use ($association) {
                     Club::updateOrCreateFromFPB(
-                        $crawler->evaluate('substring-after(@href, "&id=")')[0]
+                        $crawler->evaluate('substring-after(@href, "&id=")')[ 0 ]
                     );
                 }
             );

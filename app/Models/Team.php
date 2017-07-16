@@ -30,13 +30,13 @@ class Team extends Model
     protected $table = 'teams';
     protected $primaryKey = 'id';
     public $timestamps = true;
-    protected $guarded = ['id'];
+    protected $guarded = [ 'id' ];
     protected $fillable = [
         'club_id', 'category_id', 'fpb_id', 'name', 'image', 'agegroup_id', 'competitionlevel_id', 'season_id'
     ];
-    protected $hidden = ['created_at', 'updated_at'];
-    protected $dates = ['created_at', 'updated_at'];
-    protected $appends = [];
+    protected $hidden = [ 'created_at', 'updated_at' ];
+    protected $dates = [ 'created_at', 'updated_at' ];
+    protected $appends = [ ];
 
     /*
     |--------------------------------------------------------------------------
@@ -122,7 +122,7 @@ class Team extends Model
             $club_details = $node->filterXPath('//div/span[@class="Info"]');
 
             $club_fpb_id = $node->filterXPath('//a[contains(@href, "!site.go?s=1&show=clu&id=")]')
-                ->evaluate('substring-after(@href, "&id=")')[0];
+                ->evaluate('substring-after(@href, "&id=")')[ 0 ];
 
             return Team::updateOrCreate(
                 [
@@ -141,13 +141,13 @@ class Team extends Model
                         Season::where('current', true)->first()->id,
                     'agegroup_id' =>
                         Agegroup::firstOrCreate(
-                            ['description' => $club_details->eq(0)->text()],
-                            ['gender_id' => Gender::where('fpb_id', '-')->first()->id]
+                            [ 'description' => $club_details->eq(0)->text() ],
+                            [ 'gender_id' => Gender::where('fpb_id', '-')->first()->id ]
                         )->id,
                     'competitionlevel_id' =>
                         Competitionlevel::firstOrCreate(
-                            ['description' => $club_details->eq(1)->text()],
-                            ['gender_id' => Gender::where('fpb_id', '-')->first()->id]
+                            [ 'description' => $club_details->eq(1)->text() ],
+                            [ 'gender_id' => Gender::where('fpb_id', '-')->first()->id ]
                         )->id,
                 ]
             );
@@ -162,15 +162,15 @@ class Team extends Model
             'http://www.fpb.pt/fpb2014/do?com=DS;1;317.104000;++ID('
             .$this->fpb_id
             .')+CO(COMPETICOES)+BL(COMPETICOES);+MYBASEDIV(dEquipa_Ficha_Home_Comp);+RCNT(1000)+RINI(1)&',
-            function ($crawler) {
+            function($crawler) {
                 return $crawler->filterXPath('//div[contains(@class, "LinhaSeparadora01")]');
             },
-            function ($crawler) use ($team) {
+            function($crawler) use ($team) {
                 $competition_fpb_id = $crawler
                     ->nextAll()
                     ->eq(0)
                     ->filterXPath('//a[contains(@href, "!site.go?s=1&show=com&id=")]')
-                    ->evaluate('substring-after(@href, "&id=")')[0];
+                    ->evaluate('substring-after(@href, "&id=")')[ 0 ];
 
                 $competition = Competition::where('fpb_id', $competition_fpb_id)->first();
 
@@ -180,11 +180,11 @@ class Team extends Model
 
                 $nextAll = $crawler->nextAll();
                 $eq = 1;
-                while (($eq<$nextAll->count()) and ($nextAll->eq($eq)->attr('class')=="Titulo04 TextoCor01")) {
-                    $phase_description = trim(explode("\n", $nextAll->eq($eq)->text())[2]);
+                while (($eq < $nextAll->count()) and ($nextAll->eq($eq)->attr('class')=="Titulo04 TextoCor01")) {
+                    $phase_description = trim(explode("\n", $nextAll->eq($eq)->text())[ 2 ]);
 
                     if ($competition->phases()->where('description', $phase_description)->count()==0) {
-                        $competition->getPhasesFromFPB([$phase_description]);
+                        $competition->getPhasesFromFPB([ $phase_description ]);
                     }
 
                     if ($team->phases()->where('description', $phase_description)->count()==0) {
