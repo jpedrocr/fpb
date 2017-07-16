@@ -21,16 +21,18 @@ class AssociationController extends Controller
     }
     public function getCompetitions($association_fpb_id, $season_fpb_id)
     {
-        return Association::where('fpb_id', $association_fpb_id)->with(['competitions' => function ($query) use ($season_fpb_id) {
-            $query->where('season_id', Season::where('fpb_id', $season_fpb_id)->first()->id);
-        }])->first();
+        return Association::where('fpb_id', $association_fpb_id)
+            ->with(['competitions' => function ($query) use ($season_fpb_id) {
+                $query->where('season_id', Season::where('fpb_id', $season_fpb_id)->first()->id);
+            }])->first();
     }
     public function getCompetitionsFromFPB($association_fpb_id, $season_fpb_id)
     {
         Association::getCompetitionsFromFPB($association_fpb_id, $season_fpb_id);
-        return Association::where('fpb_id', $association_fpb_id)->with(['competitions' => function ($query) use ($season_fpb_id) {
-            $query->where('season_id', Season::where('fpb_id', $season_fpb_id)->first()->id);
-        }])->first();
+        return Association::where('fpb_id', $association_fpb_id)
+            ->with(['competitions' => function ($query) use ($season_fpb_id) {
+                $query->where('season_id', Season::where('fpb_id', $season_fpb_id)->first()->id);
+            }])->first();
     }
 
     public function getClubs($association_fpb_id)
