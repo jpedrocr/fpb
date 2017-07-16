@@ -12,11 +12,12 @@ class SeasonsTableSeeder extends Seeder
      */
     public function run()
     {
-        Season::create([
-            'fpb_id' => 55,
-            'start_year' => 2016,
-            'end_year' => 2017,
-            'current' => true,
-        ]);
+        Season::getFromFPB();
+        // Season::create([
+        //     'fpb_id' => 55,
+        //     'start_year' => 2016,
+        //     'end_year' => 2017,
+        //     'current' => true,
+        // ]);
     }
 }

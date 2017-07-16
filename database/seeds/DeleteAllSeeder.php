@@ -25,5 +25,22 @@ class DeleteAllSeeder extends Seeder
         DB::table('competitionlevels')->delete();
         DB::table('genders')->delete();
         DB::table('categories')->delete();
+
+        // SET FOREIGN_KEY_CHECKS=0;
+        // TRUNCATE TABLE games;
+        // TRUNCATE TABLE phase_team;
+        // TRUNCATE TABLE competition_team;
+        // TRUNCATE TABLE teams;
+        // TRUNCATE TABLE clubs;
+        // TRUNCATE TABLE rounds;
+        // TRUNCATE TABLE phases;
+        // TRUNCATE TABLE competitions;
+        // TRUNCATE TABLE associations;
+        // TRUNCATE TABLE seasons;
+        // TRUNCATE TABLE agegroups;
+        // TRUNCATE TABLE competitionlevels;
+        // TRUNCATE TABLE genders;
+        // TRUNCATE TABLE categories;
+        // SET FOREIGN_KEY_CHECKS=1;
     }
 }

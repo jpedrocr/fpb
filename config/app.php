@@ -184,6 +184,10 @@ return [
         Backpack\CRUD\CrudServiceProvider::class,
         Backpack\PermissionManager\PermissionManagerServiceProvider::class,
 
+        /*
+        * Other Service Providers...
+        */
+        Prologue\Alerts\AlertsServiceProvider::class,
     ],
 
     /*
@@ -199,6 +203,7 @@ return [
 
     'aliases' => [
 
+        'Alert' => Prologue\Alerts\Facades\Alert::class,
         'App' => Illuminate\Support\Facades\App::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
         'Auth' => Illuminate\Support\Facades\Auth::class,

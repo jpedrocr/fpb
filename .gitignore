@@ -19,5 +19,6 @@ npm-debug.log
 yarn-error.log
 .env
 .steps
+.sql
 *.bat
 /estrutura_fpb

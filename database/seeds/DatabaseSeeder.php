@@ -17,13 +17,13 @@ class DatabaseSeeder extends Seeder
         $this->call(GendersTableSeeder::class);
         $this->call(AgegroupsTableSeeder::class);
         $this->call(CompetitionlevelsTableSeeder::class);
-        // $this->call(SeasonsTableSeeder::class);
-        // $this->call(AssociationsTableSeeder::class);
-        // $this->call(CompetitionsTableSeeder::class);
-        // $this->call(PhasesTableSeeder::class);
-        // $this->call(RoundsTableSeeder::class);
+        $this->call(SeasonsTableSeeder::class);
+        $this->call(AssociationsTableSeeder::class);
+        $this->call(CompetitionsTableSeeder::class);
         // $this->call(ClubsTableSeeder::class);
-        // $this->call(TeamsTableSeeder::class);
+        $this->call(TeamsTableSeeder::class);
+        $this->call(PhasesTableSeeder::class);
+        // $this->call(RoundsTableSeeder::class);
         // $this->call(GamesTableSeeder::class);
     }
 }
