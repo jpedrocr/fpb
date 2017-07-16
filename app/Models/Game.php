@@ -25,14 +25,14 @@ class Game extends Model
     protected $table = 'games';
     protected $primaryKey = 'id';
     public $timestamps = true;
-    protected $guarded = ['id'];
+    protected $guarded = [ 'id' ];
     protected $fillable = [
         'round_id', 'category_id', 'fpb_id', 'hometeam_id', 'outteam_id',
         'number', 'schedule', 'home_result', 'out_result', 'status'
     ];
-    protected $hidden = ['created_at', 'updated_at'];
-    protected $dates = ['schedule', 'created_at', 'updated_at'];
-    protected $appends = [];
+    protected $hidden = [ 'created_at', 'updated_at' ];
+    protected $dates = [ 'schedule', 'created_at', 'updated_at' ];
+    protected $appends = [ ];
 
     /*
     |--------------------------------------------------------------------------
@@ -110,8 +110,8 @@ class Game extends Model
             $date = explode("/", $game_details->eq(2)->text());
             $time = explode(":", str_replace('.', ':', $game_details->eq(3)->text()));
 
-            if (is_array($date) and is_array($time) and (count($date) == 3) and (count($time) == 2)) {
-                $schedule = Carbon::create($date[2], $date[1], $date[0], $time[0], $time[1], 0, 'Europe/Lisbon');
+            if (is_array($date) and is_array($time) and (count($date)==3) and (count($time)==2)) {
+                $schedule = Carbon::create($date[ 2 ], $date[ 1 ], $date[ 0 ], $time[ 0 ], $time[ 1 ], 0, 'Europe/Lisbon');
             } else {
                 $schedule = null;
             }
@@ -136,9 +136,9 @@ class Game extends Model
                     'schedule' =>
                         $schedule,
                     'home_result' =>
-                        $results->eq(0)->text() != '' ? $results->eq(0)->text() : null,
+                        $results->eq(0)->text()!='' ? $results->eq(0)->text() : null,
                     'out_result' =>
-                        $results->eq(1)->text() != '' ? $results->eq(1)->text() : null,
+                        $results->eq(1)->text()!='' ? $results->eq(1)->text() : null,
                     'status' =>
                         $status,
                 ]

@@ -9,7 +9,7 @@ trait CrawlFPBTrait
 {
     public static function crawler($url, $html = null)
     {
-        if ($html == null) {
+        if ($html==null) {
             $client = new Client();
             Log::getMonolog()->info('Goutte::GET::'.$url);
             sleep(1);

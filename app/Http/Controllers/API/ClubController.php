@@ -16,15 +16,15 @@ class ClubController extends Controller
     }
     public function getTeams(Club $club)
     {
-        return $club->load(['teams' => function ($query) {
+        return $club->load([ 'teams' => function($query) {
             $query->where('season_id', Season::where('current', true)->first()->id);
-        }]);
+        } ]);
     }
     public function getTeamsFromFPB(Club $club)
     {
         $club->getTeamsFromFPB();
-        return $club->load(['teams' => function ($query) {
+        return $club->load([ 'teams' => function($query) {
             $query->where('season_id', Season::where('current', true)->first()->id);
-        }]);
+        } ]);
     }
 }

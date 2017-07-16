@@ -20,11 +20,11 @@ class Season extends Model
     protected $table = 'seasons';
     protected $primaryKey = 'id';
     public $timestamps = true;
-    protected $guarded = ['id'];
-    protected $fillable = ['fpb_id', 'start_year', 'end_year', 'current'];
-    protected $hidden = ['created_at', 'updated_at'];
-    protected $dates = ['created_at', 'updated_at'];
-    protected $appends = ['description'];
+    protected $guarded = [ 'id' ];
+    protected $fillable = [ 'fpb_id', 'start_year', 'end_year', 'current' ];
+    protected $hidden = [ 'created_at', 'updated_at' ];
+    protected $dates = [ 'created_at', 'updated_at' ];
+    protected $appends = [ 'description' ];
 
     /*
     |--------------------------------------------------------------------------
@@ -53,7 +53,7 @@ class Season extends Model
     */
     public function getDescriptionAttribute()
     {
-        return $this->start_year . '/' . $this->end_year;
+        return $this->start_year.'/'.$this->end_year;
     }
 
     /*
@@ -87,9 +87,9 @@ class Season extends Model
                 ],
                 [
                     'start_year' =>
-                        $years[0],
+                        $years[ 0 ],
                     'end_year' =>
-                        $years[1],
+                        $years[ 1 ],
                     'current' =>
                         $current,
                 ]
@@ -103,16 +103,16 @@ class Season extends Model
         return self::crawlFPB(
             'http://www.fpb.pt/fpb2014/do?com=DS;1;.60100;++BL(B1)+CO(B1)+K_ID(10004)'.
                 '+MYBASEDIV(dShowCompeticoes);+RCNT(10)+RINI(1)&',
-            function ($crawler) {
+            function($crawler) {
                 return $crawler
                     ->filter('option')
                     ->reduce(
-                        function ($node) {
-                            return !($node->text() == "(Época)");
+                        function($node) {
+                            return !($node->text()=="(Época)");
                         }
                     );
             },
-            function ($crawler) {
+            function($crawler) {
                 self::updateOrCreateFromFPB(
                     $crawler->attr('value'),
                     $crawler->text(),

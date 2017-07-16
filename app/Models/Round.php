@@ -22,11 +22,11 @@ class Round extends Model
     protected $table = 'rounds';
     protected $primaryKey = 'id';
     public $timestamps = true;
-    protected $guarded = ['id'];
-    protected $fillable = ['phase_id', 'fpb_id', 'lap_number', 'round_number'];
-    protected $hidden = ['created_at', 'updated_at'];
-    protected $dates = ['created_at', 'updated_at'];
-    protected $appends = ['description'];
+    protected $guarded = [ 'id' ];
+    protected $fillable = [ 'phase_id', 'fpb_id', 'lap_number', 'round_number' ];
+    protected $hidden = [ 'created_at', 'updated_at' ];
+    protected $dates = [ 'created_at', 'updated_at' ];
+    protected $appends = [ 'description' ];
 
     /*
     |--------------------------------------------------------------------------
@@ -56,10 +56,10 @@ class Round extends Model
     public function getDescriptionAttribute()
     {
         return
-            $this->phase->competition->name . ' - ' .
-            $this->phase->description . ' - ' .
-            $this->lap_number . 'ª Volta - ' .
-            $this->round_number . 'ª Jornada';
+            $this->phase->competition->name.' - '.
+            $this->phase->description.' - '.
+            $this->lap_number.'ª Volta - '.
+            $this->round_number.'ª Jornada';
     }
 
     /*
@@ -121,27 +121,27 @@ class Round extends Model
                 'http://www.fpb.pt/fpb2014/do?com=DS;1;.100014;++K_ID_COMPETICAO_JORNADA('.
                     $this->fpb_id.')+CO(JOGOS)+BL(JOGOS)+MYBASEDIV(dJornada_'.
                     $this->fpb_id.');+RCNT(10000)+RINI(1)&',
-                function ($crawler) {
+                function($crawler) {
                     return $crawler->filterXPath('//div[contains(@class, "Tabela01")]/table/tr');
                 },
-                function ($crawler) use ($round, $club_fpb_id) {
+                function($crawler) use ($round, $club_fpb_id) {
                     $tds = $crawler->filterXPath('//td');
 
                     if ($tds->eq(0)->text()!="Jogo") {
                         $teams = $crawler->filterXPath('//a[contains(@href, "!site.go?s=1&show=equ&id=")]')
                             ->evaluate('substring-after(@href, "&id=")');
-                        $hometeam_fpb_id = $teams[0];
-                        $outteam_fpb_id = $teams[1];
+                        $hometeam_fpb_id = $teams[ 0 ];
+                        $outteam_fpb_id = $teams[ 1 ];
 
                         $hometeam = Team::updateOrCreateFromFPB($hometeam_fpb_id, false);
                         $outteam = Team::updateOrCreateFromFPB($outteam_fpb_id, false);
 
-                        if (($hometeam->club()->first()->fpb_id == $club_fpb_id) or
-                            ($outteam->club()->first()->fpb_id == $club_fpb_id) ) {
+                        if (($hometeam->club()->first()->fpb_id==$club_fpb_id) or
+                            ($outteam->club()->first()->fpb_id==$club_fpb_id)) {
                             Game::updateOrCreateFromFPB(
                                 $round->fpb_id,
                                 $tds->eq(0)->filterXPath('//a[contains(@href, "!site.go?s=1&show=jog&id=")]')
-                                    ->evaluate('substring-after(@href, "!site.go?s=1&show=jog&id=")')[0],
+                                    ->evaluate('substring-after(@href, "!site.go?s=1&show=jog&id=")')[ 0 ],
                                 $hometeam->id,
                                 $outteam->id,
                                 trim($tds->eq(11)->text())
@@ -155,22 +155,22 @@ class Round extends Model
                 'http://www.fpb.pt/fpb2014/do?com=DS;1;.100014;++K_ID_COMPETICAO_JORNADA('.
                     $round_fpb_id.')+CO(JOGOS)+BL(JOGOS)+MYBASEDIV(dJornada_'.
                     $round_fpb_id.');+RCNT(10000)+RINI(1)&',
-                function ($crawler) {
+                function($crawler) {
                     return $crawler->filterXPath('//div[contains(@class, "Tabela01")]/table/tr');
                 },
-                function ($crawler) use ($round) {
+                function($crawler) use ($round) {
                     $tds = $crawler->filterXPath('//td');
 
                     if ($tds->eq(0)->text()!="Jogo") {
                         $teams = $crawler->filterXPath('//a[contains(@href, "!site.go?s=1&show=equ&id=")]')
                             ->evaluate('substring-after(@href, "&id=")');
-                        $hometeam_fpb_id = $teams[0];
-                        $outteam_fpb_id = $teams[1];
+                        $hometeam_fpb_id = $teams[ 0 ];
+                        $outteam_fpb_id = $teams[ 1 ];
 
                         Game::updateOrCreateFromFPB(
                             $round->fpb_id,
                             $tds->eq(0)->filterXPath('//a[contains(@href, "!site.go?s=1&show=jog&id=")]')
-                                ->evaluate('substring-after(@href, "!site.go?s=1&show=jog&id=")')[0],
+                                ->evaluate('substring-after(@href, "!site.go?s=1&show=jog&id=")')[ 0 ],
                             Team::updateOrCreateFromFPB($hometeam_fpb_id, false)->id,
                             Team::updateOrCreateFromFPB($outteam_fpb_id, false)->id,
                             trim($tds->eq(11)->text())
