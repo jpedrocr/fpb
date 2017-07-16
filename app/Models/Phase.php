@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
-use App\Traits\FPBTrait;
+use App\Traits\CrawlFPBTrait;
 
 use App\Models\Competition;
 
 class Phase extends Model
 {
     use CrudTrait;
-    use FPBTrait;
+    use CrawlFPBTrait;
 
      /*
     |--------------------------------------------------------------------------
@@ -69,6 +69,15 @@ class Phase extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'fpb_id';
+    }
     public static function updateOrCreateFromFPB($competition_fpb_id, $fpb_id, $description, $status, $update = true)
     {
         $phase = Phase::where('fpb_id', $fpb_id);
@@ -90,10 +99,10 @@ class Phase extends Model
             return $phase->first();
         }
     }
-    public static function getRoundsFromFPB($phase_fpb_id, $club_fpb_id = null)
+    public function getRoundsFromFPB($club_fpb_id = null)
     {
-        $crawler = self::crawler('http://www.fpb.pt/fpb2014/do?com=DS;1;.100014;++K_ID_COMPETICAO_FASE('
-            .$phase_fpb_id.')+CO(JORNADAS)+BL(JORNADAS)+MYBASEDIV(dFase_'.$phase_fpb_id.');+RCNT(100000)+RINI(1)&');
+        $crawler = $this->crawler('http://www.fpb.pt/fpb2014/do?com=DS;1;.100014;++K_ID_COMPETICAO_FASE('
+            .$this->fpb_id.')+CO(JORNADAS)+BL(JORNADAS)+MYBASEDIV(dFase_'.$this->fpb_id.');+RCNT(100000)+RINI(1)&');
 
         $fpb_ids = $crawler->filterXPath('//div[contains(@id, "dJornada_")]');
         $descriptions = $crawler->filterXPath('//div[contains(@class, "Titulo03")]');
@@ -103,7 +112,7 @@ class Phase extends Model
                 $description = explode(' ª volta', $descriptions->eq($i)->text());
 
                 Round::updateOrCreateFromFPB(
-                    $phase_fpb_id,
+                    $this->fpb_id,
                     $fpb_ids->eq($i)->evaluate('substring-after(@id, "dJornada_")')[0],
                     trim($description[0]),
                     substr(trim(explode('ª jornada', $description[1])[0]), 8),

@@ -205,7 +205,6 @@ class TeamCrudController extends CrudController
         // $this->crud->setColumnsDetails(['column_1', 'column_2'], ['attribute' => 'value']);
 
         // ------ CRUD BUTTONS
-        $this->crud->addButtonFromView('top', 'getTeamsFromFPB', 'getTeamsFromFPB', 'end');
         $this->crud->addButtonFromView('line', 'getTeamCompetitionsFromFPB', 'getTeamCompetitionsFromFPB', 'end');
         // possible positions: 'beginning' and 'end'; defaults to 'beginning' for the 'line' stack, 'end' for the
         //  others;

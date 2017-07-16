@@ -13,11 +13,13 @@ class RoundController extends Controller
     {
         return Round::all();
     }
-    public static function getGamesFromFPB($round_fpb_id, $club_fpb_id = null)
+    public static function getGames(Round $round)
     {
-        Round::getGamesFromFPB($round_fpb_id, $club_fpb_id);
-        return Round::where('fpb_id', $round_fpb_id)
-            ->with('games')
-            ->first();
+        return $round->load('games');
+    }
+    public static function getGamesFromFPB(Round $round)
+    {
+        $round->getGamesFromFPB($request->club_fpb_id);
+        return $round->load('games');
     }
 }

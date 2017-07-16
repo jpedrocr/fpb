@@ -13,17 +13,13 @@ class PhaseController extends Controller
     {
         return Phase::all();
     }
-    public function getRounds($phase_fpb_id)
+    public function getRounds(Phase $phase)
     {
-        return Phase::where('fpb_id', $phase_fpb_id)
-            ->with('rounds')
-            ->first();
+        return $phase->load('rounds', 'rounds.games');
     }
-    public function getRoundsFromFPB($phase_fpb_id, $club_fpb_id = null)
+    public function getRoundsFromFPB(Phase $phase, Request $request)
     {
-        Phase::getRoundsFromFPB($phase_fpb_id, $club_fpb_id);
-        return Phase::where('fpb_id', $phase_fpb_id)
-            ->with('rounds')
-            ->first();
+        $phase->getRoundsFromFPB($request->club_fpb_id);
+        return $phase->load('rounds', 'rounds.games', 'rounds.games.hometeam', 'rounds.games.outteam');
     }
 }

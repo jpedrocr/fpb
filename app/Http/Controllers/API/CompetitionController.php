@@ -13,17 +13,13 @@ class CompetitionController extends Controller
     {
         return Competition::all();
     }
-    public function getPhases($competition_fpb_id)
+    public function getPhases(Competition $competition)
     {
-        return Competition::where('fpb_id', $competition_fpb_id)
-            ->with('competitions', 'phases')
-            ->first();
+        return $competition->load('competitions', 'phases');
     }
-    public static function getPhasesFromFPB($competition_fpb_id, $phases_descriptions = null)
+    public static function getPhasesFromFPB(Competition $competition, Request $request)
     {
-        Competition::getPhasesFromFPB($competition_fpb_id, $phases_descriptions);
-        return Competition::where('fpb_id', $competition_fpb_id)->first()
-            ->phases()
-            ->get();
+        $competition->getPhasesFromFPB($request->phases_descriptions);
+        return $competition->load('competitions', 'phases');
     }
 }

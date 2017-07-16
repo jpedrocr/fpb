@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
-use App\Traits\FPBTrait;
+use App\Traits\CrawlFPBTrait;
 
 use App\Models\Category;
 use App\Models\Competition;
@@ -13,7 +13,7 @@ use App\Models\Club;
 class Association extends Model
 {
     use CrudTrait;
-    use FPBTrait;
+    use CrawlFPBTrait;
 
      /*
     |--------------------------------------------------------------------------
@@ -74,6 +74,15 @@ class Association extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'fpb_id';
+    }
     public static function updateOrCreateFromFPB($fpb_id, $update = true)
     {
         $association = Association::where('fpb_id', $fpb_id);
@@ -138,37 +147,56 @@ class Association extends Model
             }
         );
     }
-    public static function getCompetitionsFromFPB($association_fpb_id, $season_fpb_id)
+    public function getCompetitionsFromFPB(Season $season)
     {
-        return self::crawlFPB(
+        $association = $this;
+        return $this->crawlFPB(
             'http://www.fpb.pt/fpb2014/do?com=DS;1;.109030;++K_ID('.
-                $association_fpb_id.')+K_ID_EPOCA('.
-                $season_fpb_id.')+CO(PROVAS)+BL(PROVAS)+MYBASEDIV(dAssProvas);+RCNT(100)+RINI(1)&',
+                $this->fpb_id.')+K_ID_EPOCA('.
+                $season->fpb_id.')+CO(PROVAS)+BL(PROVAS)+MYBASEDIV(dAssProvas);+RCNT(100)+RINI(1)&',
             function ($crawler) {
                 return $crawler->filterXPath('//a[contains(@href, "!site.go?s=1&show=com&id=")]');
             },
-            function ($crawler) use ($association_fpb_id) {
+            function ($crawler) use ($association) {
                 Competition::updateOrCreateFromFPB(
-                    $association_fpb_id,
+                    $association->fpb_id,
                     $crawler->evaluate('substring-after(@href, "&id=")')[0]
                 );
             }
         );
     }
-    public static function getClubsFromFPB($association_fpb_id)
+    public function getClubsFromFPB($club_fpb_id = null)
     {
-        return self::crawlFPB(
-            'http://www.fpb.pt/fpb2014/do?com=DS;1;.109012;++K_ID('
-                .$association_fpb_id.')+CO(CLUBES)+BL(CLUBES)+MYBASEDIV(dAssoc_Home_Clubes);+RCNT(1000)+RINI(1)&',
-            function ($crawler) {
-                return $crawler->filterXPath('//a[contains(@href, "!site.go?s=1&show=clu&id=")]');
-            },
-            function ($crawler) use ($association_fpb_id) {
-                Club::updateOrCreateFromFPB(
-                    $association_fpb_id,
-                    $crawler->evaluate('substring-after(@href, "&id=")')[0]
-                );
-            }
-        );
+        $association = $this;
+        if ($club_fpb_id!=null) {
+            return $this->crawlFPB(
+                'http://www.fpb.pt/fpb2014/do?com=DS;1;.109012;++K_ID('
+                .$this->fpb_id.')+CO(CLUBES)+BL(CLUBES)+MYBASEDIV(dAssoc_Home_Clubes);+RCNT(1000)+RINI(1)&',
+                function ($crawler) {
+                    return $crawler->filterXPath('//a[contains(@href, "!site.go?s=1&show=clu&id=")]');
+                },
+                function ($crawler) use ($association, $club_fpb_id) {
+                    $fpb_id = $crawler->evaluate('substring-after(@href, "&id=")')[0];
+                    if ($club_fpb_id==$fpb_id) {
+                        Club::updateOrCreateFromFPB(
+                            $fpb_id
+                        );
+                    }
+                }
+            );
+        } else {
+            return $this->crawlFPB(
+                'http://www.fpb.pt/fpb2014/do?com=DS;1;.109012;++K_ID('
+                .$this->fpb_id.')+CO(CLUBES)+BL(CLUBES)+MYBASEDIV(dAssoc_Home_Clubes);+RCNT(1000)+RINI(1)&',
+                function ($crawler) {
+                    return $crawler->filterXPath('//a[contains(@href, "!site.go?s=1&show=clu&id=")]');
+                },
+                function ($crawler) use ($association) {
+                    Club::updateOrCreateFromFPB(
+                        $crawler->evaluate('substring-after(@href, "&id=")')[0]
+                    );
+                }
+            );
+        }
     }
 }

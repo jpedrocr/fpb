@@ -1,10 +1,12 @@
 @if ($crud->hasAccess('update'))
-<button onclick="axios.post('{{ route('getTeamCompetitionsFromFPB', ['team_fpb_id' => $entry->fpb_id]) }}')
+<button onclick="axios.post('{{ route('getClubsFromFPB', ['association' => 3]) }}', {
+    club_fpb_id: 16
+  })
   .then(function (response) {
     console.log(response);
     new PNotify({
       // title: 'Regular Notice',
-      text: 'Team ' + response.data.fpb_id + ' competitions and phases associated',
+      text: 'SDC club created',
       type: 'success',
       icon: false
     });
@@ -17,7 +19,7 @@
       type: 'faulure',
       icon: false
     });
-  });" class="btn btn-xs btn-default" data-style="zoom-in">
-    <i class="fa fa-refresh"></i> Sync Competitions &amp; Phases
+  });" class="btn btn-primary ladda-button" data-style="zoom-in">
+    <span class="ladda-label"><i class="fa fa-plus"></i> {{ trans('backpack::crud.add') }} SDC {{ $crud->entity_name }} from FPB</span>
 </button>
 @endif

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
-use App\Traits\FPBTrait;
+use App\Traits\CrawlFPBTrait;
 
 use App\Models\Competition;
 use App\Models\Association;
@@ -17,7 +17,7 @@ use App\Models\Season;
 class Competition extends Model
 {
     use CrudTrait;
-    use FPBTrait;
+    use CrawlFPBTrait;
 
      /*
     |--------------------------------------------------------------------------
@@ -93,6 +93,15 @@ class Competition extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'fpb_id';
+    }
     public static function updateOrCreateFromFPB($association_fpb_id, $fpb_id, $update = true)
     {
         $competition = Club::where('fpb_id', $fpb_id);
@@ -140,36 +149,49 @@ class Competition extends Model
             return $competition->first();
         }
     }
-    public static function getPhasesFromFPB($competition_fpb_id, $phases_descriptions = null)
+    public function getPhasesFromFPB($phases_descriptions = null)
     {
-        return self::crawlFPB(
-            'http://www.fpb.pt/fpb2014/do?com=DS;1;.100014;++K_ID_COMPETICAO('.
-                $competition_fpb_id.')+CO(FASES)+BL(FASES)+MYBASEDIV(dCompFases);+RCNT(10000)+RINI(1)&',
-            function ($crawler) {
-                return $crawler->filterXPath('//div[contains(@style, "margin:10px;")]');
-            },
-            function ($crawler) use ($competition_fpb_id, $phases_descriptions) {
-                $fpb_id = $crawler->filterXPath('//div[contains(@id, "dFase_")]')
-                    ->evaluate('substring-after(@id, "dFase_")')[0];
-                $description = trim($crawler->filterXPath('//div[contains(@class, "Titulo01")]')->text());
-                if ($phases_descriptions != null) {
+        $competition = $this;
+        if ($phases_descriptions != null) {
+            return $this->crawlFPB(
+                'http://www.fpb.pt/fpb2014/do?com=DS;1;.100014;++K_ID_COMPETICAO('.
+                    $this->fpb_id.')+CO(FASES)+BL(FASES)+MYBASEDIV(dCompFases);+RCNT(10000)+RINI(1)&',
+                function ($crawler) {
+                    return $crawler->filterXPath('//div[contains(@style, "margin:10px;")]');
+                },
+                function ($crawler) use ($competition, $phases_descriptions) {
+                    $fpb_id = $crawler->filterXPath('//div[contains(@id, "dFase_")]')
+                        ->evaluate('substring-after(@id, "dFase_")')[0];
+                    $description = trim($crawler->filterXPath('//div[contains(@class, "Titulo01")]')->text());
                     if (in_array($description, $phases_descriptions)) {
                         Phase::updateOrCreateFromFPB(
-                            $competition_fpb_id,
+                            $competition->fpb_id,
                             $fpb_id,
                             $description,
                             explode("\n", $crawler->text())[3]
                         );
                     }
-                } else {
+                }
+            );
+        } else {
+            return $this->crawlFPB(
+                'http://www.fpb.pt/fpb2014/do?com=DS;1;.100014;++K_ID_COMPETICAO('.
+                    $this->fpb_id.')+CO(FASES)+BL(FASES)+MYBASEDIV(dCompFases);+RCNT(10000)+RINI(1)&',
+                function ($crawler) {
+                    return $crawler->filterXPath('//div[contains(@style, "margin:10px;")]');
+                },
+                function ($crawler) use ($competition, $phases_descriptions) {
+                    $fpb_id = $crawler->filterXPath('//div[contains(@id, "dFase_")]')
+                        ->evaluate('substring-after(@id, "dFase_")')[0];
+                    $description = trim($crawler->filterXPath('//div[contains(@class, "Titulo01")]')->text());
                     Phase::updateOrCreateFromFPB(
-                        $competition_fpb_id,
+                        $competition->fpb_id,
                         $fpb_id,
                         $description,
                         explode("\n", $crawler->text())[3]
                     );
                 }
-            }
-        );
+            );
+        }
     }
 }

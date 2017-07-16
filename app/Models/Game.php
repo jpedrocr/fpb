@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
-use App\Traits\FPBTrait;
+use App\Traits\CrawlFPBTrait;
 use Carbon\Carbon;
 
 use App\Models\Round;
@@ -14,7 +14,7 @@ use App\Models\Team;
 class Game extends Model
 {
     use CrudTrait;
-    use FPBTrait;
+    use CrawlFPBTrait;
 
      /*
     |--------------------------------------------------------------------------
@@ -85,8 +85,23 @@ class Game extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-    public static function updateOrCreateFromFPB($round_fpb_id, $fpb_id, $hometeam_id, $outteam_id, $status, $update = true)
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
     {
+        return 'fpb_id';
+    }
+    public static function updateOrCreateFromFPB(
+        $round_fpb_id,
+        $fpb_id,
+        $hometeam_id,
+        $outteam_id,
+        $status,
+        $update = true
+    ) {
         $game = Game::where('fpb_id', $fpb_id);
         if (($game->count()==0) or ($update)) {
             $crawler = self::crawler('http://www.fpb.pt/fpb2014/!site.go?s=1&show=jog&id='.$fpb_id);
@@ -119,11 +134,11 @@ class Game extends Model
                     'number' =>
                         $game_details->eq(0)->text(),
                     'schedule' =>
-                        Carbon::create($date[2], $date[1], $date[0], $time[0], $time[1], 0, 'Europe/Lisbon'),
+                        $schedule,
                     'home_result' =>
-                        $results->eq(0)->text(),
+                        $results->eq(0)->text() != '' ? $results->eq(0)->text() : null,
                     'out_result' =>
-                        $results->eq(1)->text(),
+                        $results->eq(1)->text() != '' ? $results->eq(1)->text() : null,
                     'status' =>
                         $status,
                 ]

@@ -19,33 +19,27 @@ class AssociationController extends Controller
         Association::getAssociationsFromFPB();
         return Association::all();
     }
-    public function getCompetitions($association_fpb_id, $season_fpb_id)
+    public function getCompetitions(Association $association, Season $season)
     {
-        return Association::where('fpb_id', $association_fpb_id)
-            ->with(['competitions' => function ($query) use ($season_fpb_id) {
-                $query->where('season_id', Season::where('fpb_id', $season_fpb_id)->first()->id);
-            }])->first();
+        return $association->load(['competitions' => function ($query) use ($season) {
+            $query->where('season_id', $season->id);
+        }]);
     }
-    public function getCompetitionsFromFPB($association_fpb_id, $season_fpb_id)
+    public function getCompetitionsFromFPB(Association $association, Season $season)
     {
-        Association::getCompetitionsFromFPB($association_fpb_id, $season_fpb_id);
-        return Association::where('fpb_id', $association_fpb_id)
-            ->with(['competitions' => function ($query) use ($season_fpb_id) {
-                $query->where('season_id', Season::where('fpb_id', $season_fpb_id)->first()->id);
-            }])->first();
+        $association->getCompetitionsFromFPB($season);
+        return $association->load(['competitions' => function ($query) use ($season) {
+            $query->where('season_id', $season->id);
+        }]);
     }
 
-    public function getClubs($association_fpb_id)
+    public function getClubs(Association $association)
     {
-        return Association::where('fpb_id', $association_fpb_id)
-            ->with('clubs')
-            ->first();
+        return $association->load('clubs');
     }
-    public function getClubsFromFPB($association_fpb_id)
+    public function getClubsFromFPB(Association $association, Request $request)
     {
-        Association::getClubsFromFPB($association_fpb_id, $season_fpb_id);
-        return Association::where('fpb_id', $association_fpb_id)
-            ->with('clubs')
-            ->first();
+        $association->getClubsFromFPB($request->club_fpb_id);
+        return $association->load('clubs');
     }
 }

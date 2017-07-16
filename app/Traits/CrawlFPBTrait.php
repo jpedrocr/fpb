@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Log;
 use Goutte\Client;
 use Symfony\Component\DomCrawler\Crawler;
 
-trait FPBTrait
+trait CrawlFPBTrait
 {
     public static function crawler($url, $html = null)
     {

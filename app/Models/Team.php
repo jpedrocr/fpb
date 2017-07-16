@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
-use App\Traits\FPBTrait;
+use App\Traits\CrawlFPBTrait;
 
 use App\Models\Club;
 use App\Models\Category;
@@ -19,7 +19,7 @@ use App\Models\Game;
 class Team extends Model
 {
     use CrudTrait;
-    use FPBTrait;
+    use CrawlFPBTrait;
 
      /*
     |--------------------------------------------------------------------------
@@ -103,6 +103,15 @@ class Team extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'fpb_id';
+    }
     public static function updateOrCreateFromFPB($fpb_id, $update = true)
     {
         $team = Team::where('fpb_id', $fpb_id);
@@ -146,13 +155,13 @@ class Team extends Model
             return $team->first();
         }
     }
-    public static function getCompetitionsAndPhasesFromFPB($team_fpb_id)
+    public function getCompetitionsAndPhasesFromFPB()
     {
-        $team = Team::where('fpb_id', $team_fpb_id)->first();
-
-        return self::crawlFPB(
-            'http://www.fpb.pt/fpb2014/do?com=DS;1;317.104000;++ID('.$team_fpb_id.
-                ')+CO(COMPETICOES)+BL(COMPETICOES);+MYBASEDIV(dEquipa_Ficha_Home_Comp);+RCNT(1000)+RINI(1)&',
+        $team = $this;
+        return $this->crawlFPB(
+            'http://www.fpb.pt/fpb2014/do?com=DS;1;317.104000;++ID('
+            .$this->fpb_id
+            .')+CO(COMPETICOES)+BL(COMPETICOES);+MYBASEDIV(dEquipa_Ficha_Home_Comp);+RCNT(1000)+RINI(1)&',
             function ($crawler) {
                 return $crawler->filterXPath('//div[contains(@class, "LinhaSeparadora01")]');
             },
@@ -175,7 +184,7 @@ class Team extends Model
                     $phase_description = trim(explode("\n", $nextAll->eq($eq)->text())[2]);
 
                     if ($competition->phases()->where('description', $phase_description)->count()==0) {
-                        Competition::getPhasesFromFPB($competition_fpb_id, [$phase_description]);
+                        $competition->getPhasesFromFPB([$phase_description]);
                     }
 
                     if ($team->phases()->where('description', $phase_description)->count()==0) {

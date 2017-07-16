@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
-use App\Traits\FPBTrait;
+use App\Traits\CrawlFPBTrait;
 
 use App\Models\Association;
 use App\Models\Category;
@@ -14,7 +14,7 @@ use App\Models\Team;
 class Club extends Model
 {
     use CrudTrait;
-    use FPBTrait;
+    use CrawlFPBTrait;
 
      /*
     |--------------------------------------------------------------------------
@@ -75,6 +75,15 @@ class Club extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'fpb_id';
+    }
     public static function updateOrCreateFromFPB($fpb_id, $update = true)
     {
         $club = Club::where('fpb_id', $fpb_id);
@@ -127,11 +136,12 @@ class Club extends Model
             return $club->first();
         }
     }
-    public static function getTeamsFromFPB($club_fpb_id)
+    public function getTeamsFromFPB()
     {
-        return self::crawlFPB(
+        return $this->crawlFPB(
             'http://www.fpb.pt/fpb2014/do?com=DS;1;.105010;++K_ID_CLUBE('
-                .$club_fpb_id.')+CO(EQUIPAS)+BL(EQUIPAS-02);+MYBASEDIV(dClube_Ficha_Home_Equipas);+RCNT(1000)+RINI(1)&',
+                .$this->fpb_id
+                .')+CO(EQUIPAS)+BL(EQUIPAS-02);+MYBASEDIV(dClube_Ficha_Home_Equipas);+RCNT(1000)+RINI(1)&',
             function ($crawler) {
                 return $crawler->filterXPath('//a[contains(@href, "!site.go?s=1&show=equ&id=")]');
             },

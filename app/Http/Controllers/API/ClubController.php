@@ -14,23 +14,17 @@ class ClubController extends Controller
     {
         return Club::all();
     }
-    public function getTeams($club_fpb_id)
+    public function getTeams(Club $club)
     {
-        return Club::where('fpb_id', $club_fpb_id)->with(['teams' => function ($query) {
+        return $club->load(['teams' => function ($query) {
             $query->where('season_id', Season::where('current', true)->first()->id);
-        }])->first();
+        }]);
     }
-    public function getTeamsFromFPB($club_fpb_id)
+    public function getTeamsFromFPB(Club $club)
     {
-        Club::getTeamsFromFPB($club_fpb_id);
-        return Club::where('fpb_id', $club_fpb_id)->with(['teams' => function ($query) {
+        $club->getTeamsFromFPB();
+        return $club->load(['teams' => function ($query) {
             $query->where('season_id', Season::where('current', true)->first()->id);
-        }])->first();
-    }
-    public function getSeasonTeams($club_fpb_id, $season_fpb_id)
-    {
-        return Club::where('fpb_id', $club_fpb_id)->with(['teams' => function ($query) use ($season_fpb_id) {
-            $query->where('season_id', Season::where('fpb_id', $season_fpb_id)->first()->id);
-        }])->first();
+        }]);
     }
 }
