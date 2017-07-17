@@ -80,7 +80,7 @@ class Season extends Model
     /**
      * Update or Create Season from url
      *
-     * @return App\Models\Season
+     * @return \App\Models\Season
      */
     public static function updateOrCreateFromFPB($fpb_id, $description, $current, $update = true)
     {
@@ -107,7 +107,7 @@ class Season extends Model
     /**
      * Crawl Seasons url
      *
-     * @return App\Models\Season
+     * @return string
      */
     public static function getSeasonsFromFPB()
     {
@@ -128,13 +128,13 @@ class Season extends Model
      */
     public static function seasonsURL()
     {
-        return 'http://www.fpb.pt/fpb2014/do?com=DS;1;.60100;++BL(B1)+CO(B1)+K_ID(10004)'.
+        return 'http://www.fpb.pt/fpb2014/do?com=DS;1;.60100;++BL(B1)+CO(B1)+K_ID(10004)' .
             '+MYBASEDIV(dShowCompeticoes);+RCNT(10)+RINI(1)&';
     }
     /**
      * Seasons crawler filter
      *
-     * @return Symfony\Component\DomCrawler\Crawler
+     * @return \Symfony\Component\DomCrawler\Crawler
      */
     public static function filter($crawler)
     {
@@ -142,21 +142,21 @@ class Season extends Model
             ->filter('option')
             ->reduce(
                 function ($node) {
-                    return !($node->text() == "(Época)");
+                    return !($node->text() == '(Época)');
                 }
             );
     }
     /**
      * Seasons crawler action: Update or Create Season from url
      *
-     * @return App\Models\Season
+     * @return \App\Models\Season
      */
     public static function eachAny($crawler)
     {
         return self::updateOrCreateFromFPB(
             $crawler->attr('value'),
             $crawler->text(),
-            $crawler->attr('selected')!=null
+            $crawler->attr('selected') != null
         );
     }
 }

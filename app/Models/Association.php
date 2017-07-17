@@ -89,7 +89,7 @@ class Association extends Model
     /**
      * Update or Create Association from url
      *
-     * @return App\Models\Association
+     * @return \App\Models\Association
      */
     public static function updateOrCreateFromFPB($fpb_id, $update = true)
     {
@@ -147,7 +147,7 @@ class Association extends Model
     /**
      * Crawl Associations url
      *
-     * @return App\Models\Association
+     * @return \App\Models\Association
      */
     public static function getAssociationsFromFPB()
     {
@@ -175,7 +175,7 @@ class Association extends Model
     /**
      * Associations crawler filter
      *
-     * @return Symfony\Component\DomCrawler\Crawler
+     * @return \Symfony\Component\DomCrawler\Crawler
      */
     public static function filter($crawler)
     {
@@ -184,7 +184,7 @@ class Association extends Model
     /**
      * Associations crawler action: Update or Create Association from url
      *
-     * @return App\Models\Association
+     * @return \App\Models\Association
      */
     public static function eachAny($crawler)
     {
