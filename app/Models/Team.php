@@ -180,7 +180,7 @@ class Team extends Model
 
                 $nextAll = $crawler->nextAll();
                 $eq = 1;
-                while (($eq<$nextAll->count()) and ($nextAll->eq($eq)->attr('class')=="Titulo04 TextoCor01")) {
+                while (($eq<$nextAll->count()) && ($nextAll->eq($eq)->attr('class')=="Titulo04 TextoCor01")) {
                     $phase_description = trim(explode("\n", $nextAll->eq($eq)->text())[2]);
 
                     if ($competition->phases()->where('description', $phase_description)->count()==0) {

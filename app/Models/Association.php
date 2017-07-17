@@ -147,7 +147,7 @@ class Association extends Model
     /**
      * Crawl Associations url
      *
-     * @return \App\Models\Association
+     * @return string
      */
     public static function getAssociationsFromFPB()
     {
