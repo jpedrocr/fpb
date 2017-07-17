@@ -19,7 +19,7 @@ class RoundCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel('App\Models\Round');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/round');
+        $this->crud->setRoute(config('backpack.base.route_prefix').'/round');
         $this->crud->setEntityNameStrings('round', 'rounds');
 
         /*
@@ -33,7 +33,7 @@ class RoundCrudController extends CrudController
         // ------ CRUD FIELDS
         // $this->crud->addField($options, 'update/create/both');
         $this->crud->addFields([
-            [  // Select2
+            [ // Select2
                 'name' => 'phase_id', // the db column for the foreign key
                 'label' => "Phase",
                 'type' => 'select2',
@@ -75,7 +75,7 @@ class RoundCrudController extends CrudController
         // ------ CRUD COLUMNS
         // $this->crud->addColumn(); // add a single column, at the end of the stack
         $this->crud->addColumns([
-            [  // Select2
+            [ // Select2
                 'name' => 'phase_id', // the db column for the foreign key
                 'label' => "Phase",
                 'type' => 'select',

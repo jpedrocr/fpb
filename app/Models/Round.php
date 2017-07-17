@@ -58,7 +58,7 @@ class Round extends Model
         return
             $this->phase->competition->name . ' - ' .
             $this->phase->description . ' - ' .
-            $this->lap_number . 'ª Volta - ' .
+            $this->lap_number . 'ª Volta - '  .
             $this->round_number . 'ª Jornada';
     }
 
@@ -91,7 +91,7 @@ class Round extends Model
         $update = true
     ) {
         $round = Round::where('fpb_id', $fpb_id);
-        if (($round->count()==0) || ($update)) {
+        if (($round->count() == 0) || ($update)) {
             $round = Round::updateOrCreate(
                 [
                     'fpb_id' => $fpb_id
@@ -105,7 +105,7 @@ class Round extends Model
                         $round_number,
                 ]
             );
-            if ($club_fpb_id!=null) {
+            if ($club_fpb_id != null) {
                 $round->getGamesFromFPB($club_fpb_id);
             }
             return $round;
@@ -116,7 +116,7 @@ class Round extends Model
     public function getGamesFromFPB($club_fpb_id = null)
     {
         $round = $this;
-        if ($club_fpb_id!=null) {
+        if ($club_fpb_id != null) {
             return $this->crawlFPB(
                 'http://www.fpb.pt/fpb2014/do?com=DS;1;.100014;++K_ID_COMPETICAO_JORNADA('.
                     $this->fpb_id.')+CO(JOGOS)+BL(JOGOS)+MYBASEDIV(dJornada_'.
@@ -127,7 +127,7 @@ class Round extends Model
                 function ($crawler) use ($round, $club_fpb_id) {
                     $tds = $crawler->filterXPath('//td');
 
-                    if ($tds->eq(0)->text()!="Jogo") {
+                    if ($tds->eq(0)->text() != "Jogo") {
                         $teams = $crawler->filterXPath('//a[contains(@href, "!site.go?s=1&show=equ&id=")]')
                             ->evaluate('substring-after(@href, "&id=")');
                         $hometeam_fpb_id = $teams[0];
@@ -136,8 +136,8 @@ class Round extends Model
                         $hometeam = Team::updateOrCreateFromFPB($hometeam_fpb_id, false);
                         $outteam = Team::updateOrCreateFromFPB($outteam_fpb_id, false);
 
-                        if (($hometeam->club()->first()->fpb_id == $club_fpb_id) or
-                            ($outteam->club()->first()->fpb_id == $club_fpb_id) ) {
+                        if (($hometeam->club()->first()->fpb_id == $club_fpb_id) ||
+                            ($outteam->club()->first()->fpb_id == $club_fpb_id)) {
                             Game::updateOrCreateFromFPB(
                                 $round->fpb_id,
                                 $tds->eq(0)->filterXPath('//a[contains(@href, "!site.go?s=1&show=jog&id=")]')
@@ -161,7 +161,7 @@ class Round extends Model
                 function ($crawler) use ($round) {
                     $tds = $crawler->filterXPath('//td');
 
-                    if ($tds->eq(0)->text()!="Jogo") {
+                    if ($tds->eq(0)->text() != "Jogo") {
                         $teams = $crawler->filterXPath('//a[contains(@href, "!site.go?s=1&show=equ&id=")]')
                             ->evaluate('substring-after(@href, "&id=")');
                         $hometeam_fpb_id = $teams[0];

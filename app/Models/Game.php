@@ -110,8 +110,16 @@ class Game extends Model
             $date = explode("/", $game_details->eq(2)->text());
             $time = explode(":", str_replace('.', ':', $game_details->eq(3)->text()));
 
-            if (is_array($date) && is_array($time) && (count($date) == 3) && (count($time) == 2)) {
-                $schedule = Carbon::create($date[2], $date[1], $date[0], $time[0], $time[1], 0, 'Europe/Lisbon');
+            if (is_array($date) && is_array($time) && (count($date)==3) && (count($time)==2)) {
+                $schedule = Carbon::create(
+                    $date[2],
+                    $date[1],
+                    $date[0],
+                    $time[0],
+                    $time[1],
+                    0,
+                    'Europe/Lisbon'
+                );
             } else {
                 $schedule = null;
             }

@@ -19,7 +19,7 @@ class GameCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel('App\Models\Game');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/game');
+        $this->crud->setRoute(config('backpack.base.route_prefix').'/game');
         $this->crud->setEntityNameStrings('game', 'games');
 
         /*
@@ -33,7 +33,7 @@ class GameCrudController extends CrudController
         // ------ CRUD FIELDS
         // $this->crud->addField($options, 'update/create/both');
         $this->crud->addFields([
-            [  // Select2
+            [ // Select2
                 'name' => 'round_id', // the db column for the foreign key
                 'label' => "Round",
                 'type' => 'select2',
@@ -41,7 +41,7 @@ class GameCrudController extends CrudController
                 'attribute' => 'description', // foreign key attribute that is shown to user
                 'model' => "App\Models\Round" // foreign key model
             ],
-            [  // Select2
+            [ // Select2
                 'name' => 'category_id', // the db column for the foreign key
                 'label' => "Category",
                 'type' => 'select2',
@@ -58,7 +58,7 @@ class GameCrudController extends CrudController
                 // 'prefix' => "$",
                 // 'suffix' => ".00",
             ],
-            [  // Select2
+            [ // Select2
                 'name' => 'hometeam_id', // the db column for the foreign key
                 'label' => "Home Team",
                 'type' => 'select2',
@@ -66,7 +66,7 @@ class GameCrudController extends CrudController
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => "App\Models\Team" // foreign key model
             ],
-            [  // Select2
+            [ // Select2
                 'name' => 'outteam_id', // the db column for the foreign key
                 'label' => "Out Team",
                 'type' => 'select2',
@@ -126,7 +126,7 @@ class GameCrudController extends CrudController
         // ------ CRUD COLUMNS
         // $this->crud->addColumn(); // add a single column, at the end of the stack
         $this->crud->addColumns([
-            [  // Select2
+            [ // Select2
                 'name' => 'round_id', // the db column for the foreign key
                 'label' => "Round",
                 'type' => 'select',
@@ -134,7 +134,7 @@ class GameCrudController extends CrudController
                 'attribute' => 'description', // foreign key attribute that is shown to user
                 'model' => "App\Models\Round" // foreign key model
             ],
-            [  // Select2
+            [ // Select2
                 'name' => 'category_id', // the db column for the foreign key
                 'label' => "Category",
                 'type' => 'select',
@@ -154,7 +154,7 @@ class GameCrudController extends CrudController
                 'name' => 'schedule',
                 'label' => "Schedule",
             ],
-            [  // Select2
+            [ // Select2
                 'name' => 'hometeam_id', // the db column for the foreign key
                 'label' => "Home Team",
                 'type' => 'select',
@@ -170,7 +170,7 @@ class GameCrudController extends CrudController
                 'name' => 'out_result',
                 'label' => "Out Result",
             ],
-            [  // Select2
+            [ // Select2
                 'name' => 'outteam_id', // the db column for the foreign key
                 'label' => "Out Team",
                 'type' => 'select',

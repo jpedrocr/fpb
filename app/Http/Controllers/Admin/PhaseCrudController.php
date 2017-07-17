@@ -19,7 +19,7 @@ class PhaseCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel('App\Models\Phase');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/phase');
+        $this->crud->setRoute(config('backpack.base.route_prefix').'/phase');
         $this->crud->setEntityNameStrings('phase', 'phases');
 
         /*
@@ -33,7 +33,7 @@ class PhaseCrudController extends CrudController
         // ------ CRUD FIELDS
         // $this->crud->addField($options, 'update/create/both');
         $this->crud->addFields([
-            [  // Select2
+            [ // Select2
                 'name' => 'competition_id', // the db column for the foreign key
                 'label' => "Competition",
                 'type' => 'select2',
@@ -83,7 +83,7 @@ class PhaseCrudController extends CrudController
         // ------ CRUD COLUMNS
         // $this->crud->addColumn(); // add a single column, at the end of the stack
         $this->crud->addColumns([
-            [  // Select2
+            [ // Select2
                 'name' => 'competition_id', // the db column for the foreign key
                 'label' => "Competition",
                 'type' => 'select',

@@ -19,7 +19,7 @@ class AgegroupCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel('App\Models\Agegroup');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/agegroup');
+        $this->crud->setRoute(config('backpack.base.route_prefix').'/agegroup');
         $this->crud->setEntityNameStrings('age group', 'age groups');
 
         /*
@@ -33,7 +33,7 @@ class AgegroupCrudController extends CrudController
         // ------ CRUD FIELDS
         // $this->crud->addField($options, 'update/create/both');
         $this->crud->addFields([
-            [  // Select2
+            [ // Select2
                 'name' => 'gender_id', // the db column for the foreign key
                 'label' => "Gender",
                 'type' => 'select2',
@@ -56,7 +56,7 @@ class AgegroupCrudController extends CrudController
         // ------ CRUD COLUMNS
         // $this->crud->addColumn(); // add a single column, at the end of the stack
         $this->crud->addColumns([
-            [  // Select2
+            [ // Select2
                 'name' => 'gender_id', // the db column for the foreign key
                 'label' => "Gender",
                 'type' => 'select',

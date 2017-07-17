@@ -19,7 +19,7 @@ class TeamCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel('App\Models\Team');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/team');
+        $this->crud->setRoute(config('backpack.base.route_prefix').'/team');
         $this->crud->setEntityNameStrings('team', 'teams');
 
         /*
@@ -33,7 +33,7 @@ class TeamCrudController extends CrudController
         // ------ CRUD FIELDS
         // $this->crud->addField($options, 'update/create/both');
         $this->crud->addFields([
-            [  // Select2
+            [ // Select2
                 'name' => 'club_id', // the db column for the foreign key
                 'label' => "Club",
                 'type' => 'select2',
@@ -41,7 +41,7 @@ class TeamCrudController extends CrudController
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => "App\Models\Club" // foreign key model
             ],
-            [  // Select2
+            [ // Select2
                 'name' => 'season_id', // the db column for the foreign key
                 'label' => "Season",
                 'type' => 'select2',
@@ -49,7 +49,7 @@ class TeamCrudController extends CrudController
                 'attribute' => 'description', // foreign key attribute that is shown to user
                 'model' => "App\Models\Season" // foreign key model
             ],
-            [  // Select2
+            [ // Select2
                 'name' => 'category_id', // the db column for the foreign key
                 'label' => "Category",
                 'type' => 'select2',
@@ -79,7 +79,7 @@ class TeamCrudController extends CrudController
                 'label' => "Name",
                 'type' => 'url',
             ],
-            [  // Select2
+            [ // Select2
                 'name' => 'agegroup_id', // the db column for the foreign key
                 'label' => "Age Group",
                 'type' => 'select2',
@@ -87,7 +87,7 @@ class TeamCrudController extends CrudController
                 'attribute' => 'description', // foreign key attribute that is shown to user
                 'model' => "App\Models\Agegroup" // foreign key model
             ],
-            [  // Select2
+            [ // Select2
                 'name' => 'competitionlevel_id', // the db column for the foreign key
                 'label' => "Competition Level",
                 'type' => 'select2',
@@ -122,7 +122,7 @@ class TeamCrudController extends CrudController
         // ------ CRUD COLUMNS
         // $this->crud->addColumn(); // add a single column, at the end of the stack
         $this->crud->addColumns([
-            [  // Select2
+            [ // Select2
                 'name' => 'club_id', // the db column for the foreign key
                 'label' => "Club",
                 'type' => 'select',
@@ -130,7 +130,7 @@ class TeamCrudController extends CrudController
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => "App\Models\Club" // foreign key model
             ],
-            [  // Select2
+            [ // Select2
                 'name' => 'season_id', // the db column for the foreign key
                 'label' => "Season",
                 'type' => 'select',
@@ -138,7 +138,7 @@ class TeamCrudController extends CrudController
                 'attribute' => 'description', // foreign key attribute that is shown to user
                 'model' => "App\Models\Season" // foreign key model
             ],
-            [  // Select2
+            [ // Select2
                 'name' => 'category_id', // the db column for the foreign key
                 'label' => "Category",
                 'type' => 'select',
@@ -163,7 +163,7 @@ class TeamCrudController extends CrudController
                 //'prefix' => '',
                 //'suffix' => ''
             ],
-            [  // Select2
+            [ // Select2
                 'name' => 'agegroup_id', // the db column for the foreign key
                 'label' => "Age Group",
                 'type' => 'select',
@@ -171,7 +171,7 @@ class TeamCrudController extends CrudController
                 'attribute' => 'description', // foreign key attribute that is shown to user
                 'model' => "App\Models\Agegroup" // foreign key model
             ],
-            [  // Select2
+            [ // Select2
                 'name' => 'competitionlevel_id', // the db column for the foreign key
                 'label' => "Competition Level",
                 'type' => 'select',

@@ -19,7 +19,7 @@ class ClubCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel('App\Models\Club');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/club');
+        $this->crud->setRoute(config('backpack.base.route_prefix').'/club');
         $this->crud->setEntityNameStrings('club', 'clubs');
 
         /*
@@ -33,7 +33,7 @@ class ClubCrudController extends CrudController
         // ------ CRUD FIELDS
         // $this->crud->addField($options, 'update/create/both');
         $this->crud->addFields([
-            [  // Select2
+            [ // Select2
                 'name' => 'association_id', // the db column for the foreign key
                 'label' => "Association",
                 'type' => 'select2',
@@ -41,7 +41,7 @@ class ClubCrudController extends CrudController
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => "App\Models\Association" // foreign key model
             ],
-            [  // Select2
+            [ // Select2
                 'name' => 'category_id', // the db column for the foreign key
                 'label' => "Category",
                 'type' => 'select2',
@@ -142,7 +142,7 @@ class ClubCrudController extends CrudController
         // ------ CRUD COLUMNS
         // $this->crud->addColumn(); // add a single column, at the end of the stack
         $this->crud->addColumns([
-            [  // Select2
+            [ // Select2
                 'name' => 'association_id', // the db column for the foreign key
                 'label' => "Association",
                 'type' => 'select',
@@ -150,7 +150,7 @@ class ClubCrudController extends CrudController
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => "App\Models\Association" // foreign key model
             ],
-            [  // Select2
+            [ // Select2
                 'name' => 'category_id', // the db column for the foreign key
                 'label' => "Category",
                 'type' => 'select',

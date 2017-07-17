@@ -19,7 +19,7 @@ class GenderCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel('App\Models\Gender');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/gender');
+        $this->crud->setRoute(config('backpack.base.route_prefix').'/gender');
         $this->crud->setEntityNameStrings('gender', 'genders');
 
         /*

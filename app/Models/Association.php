@@ -103,7 +103,7 @@ class Association extends Model
                 ],
                 [
                     'category_id' =>
-                        Category::firstOrCreate(['fpb_id' => 'ass'])->id,
+                        Category::firstOrCreate(['fpb_id' => 'ass' ])->id,
                     'name' =>
                         trim($content->filterXPath('//div/div[@class="Assoc_FichaHeader_Nome"]/div')->text()),
                     'image' =>

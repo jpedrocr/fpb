@@ -19,7 +19,7 @@ class SeasonCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel('App\Models\Season');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/season');
+        $this->crud->setRoute(config('backpack.base.route_prefix').'/season');
         $this->crud->setEntityNameStrings('season', 'seasons');
 
         /*
