@@ -86,7 +86,7 @@ class Association extends Model
     public static function updateOrCreateFromFPB($fpb_id, $update = true)
     {
         $association = Association::where('fpb_id', $fpb_id);
-        if (($association->count()==0) or ($update)) {
+        if (($association->count()==0) || ($update)) {
             $crawler = self::crawler('http://www.fpb.pt/fpb2014/!site.go?s=1&show=ass&id='.$fpb_id);
 
             $content = $crawler->filterXPath('//div[@id="dConteudosx"]');
@@ -167,7 +167,6 @@ class Association extends Model
     }
     public function getClubsFromFPB($club_fpb_id = null)
     {
-        $association = $this;
         if ($club_fpb_id!=null) {
             return $this->crawlFPB(
                 'http://www.fpb.pt/fpb2014/do?com=DS;1;.109012;++K_ID('
@@ -175,7 +174,7 @@ class Association extends Model
                 function ($crawler) {
                     return $crawler->filterXPath('//a[contains(@href, "!site.go?s=1&show=clu&id=")]');
                 },
-                function ($crawler) use ($association, $club_fpb_id) {
+                function ($crawler) use ($club_fpb_id) {
                     $fpb_id = $crawler->evaluate('substring-after(@href, "&id=")')[0];
                     if ($club_fpb_id==$fpb_id) {
                         Club::updateOrCreateFromFPB(
@@ -191,7 +190,7 @@ class Association extends Model
                 function ($crawler) {
                     return $crawler->filterXPath('//a[contains(@href, "!site.go?s=1&show=clu&id=")]');
                 },
-                function ($crawler) use ($association) {
+                function ($crawler) {
                     Club::updateOrCreateFromFPB(
                         $crawler->evaluate('substring-after(@href, "&id=")')[0]
                     );

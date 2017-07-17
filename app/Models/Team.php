@@ -115,7 +115,7 @@ class Team extends Model
     public static function updateOrCreateFromFPB($fpb_id, $update = true)
     {
         $team = Team::where('fpb_id', $fpb_id);
-        if (($team->count()==0) or ($update)) {
+        if (($team->count()==0) || ($update)) {
             $crawler = self::crawler('http://www.fpb.pt/fpb2014/!site.go?s=1&show=equ&id='.$fpb_id);
 
             $node = $crawler->filterXPath('//div[@class="Equipa_Header"]');

@@ -17,7 +17,7 @@ class RoundController extends Controller
     {
         return $round->load('games');
     }
-    public static function getGamesFromFPB(Round $round)
+    public static function getGamesFromFPB(Round $round, Request $request)
     {
         $round->getGamesFromFPB($request->club_fpb_id);
         return $round->load('games');

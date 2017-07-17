@@ -87,7 +87,7 @@ class Club extends Model
     public static function updateOrCreateFromFPB($fpb_id, $update = true)
     {
         $club = Club::where('fpb_id', $fpb_id);
-        if (($club->count()==0) or ($update)) {
+        if (($club->count()==0) || ($update)) {
             $crawler = self::crawler('http://www.fpb.pt/fpb2014/!site.go?s=1&show=clu&id='.$fpb_id);
 
             $club_details = $crawler->filterXPath('//table[@class="TabelaHor01"]/tr/td');

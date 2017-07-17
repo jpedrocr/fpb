@@ -105,7 +105,7 @@ class Competition extends Model
     public static function updateOrCreateFromFPB($association_fpb_id, $fpb_id, $update = true)
     {
         $competition = Club::where('fpb_id', $fpb_id);
-        if (($competition->count()==0) or ($update)) {
+        if (($competition->count()==0) || ($update)) {
             $crawler = self::crawler('http://www.fpb.pt/fpb2014/!site.go?s=1&show=com&id='.$fpb_id);
 
             $node = $crawler->filterXPath('//div[@class="COM_Header"]');

@@ -79,7 +79,7 @@ class Season extends Model
     public static function updateOrCreateFromFPB($fpb_id, $description, $current, $update = true)
     {
         $season = Season::where('fpb_id', $fpb_id);
-        if (($season->count()==0) or ($update)) {
+        if (($season->count()==0) || ($update)) {
             $years = explode('/', $description);
             Season::updateOrCreate(
                 [

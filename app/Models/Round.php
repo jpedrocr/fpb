@@ -91,7 +91,7 @@ class Round extends Model
         $update = true
     ) {
         $round = Round::where('fpb_id', $fpb_id);
-        if (($round->count()==0) or ($update)) {
+        if (($round->count()==0) || ($update)) {
             $round = Round::updateOrCreate(
                 [
                     'fpb_id' => $fpb_id
@@ -153,8 +153,8 @@ class Round extends Model
         } else {
             return $this->crawlFPB(
                 'http://www.fpb.pt/fpb2014/do?com=DS;1;.100014;++K_ID_COMPETICAO_JORNADA('.
-                    $round_fpb_id.')+CO(JOGOS)+BL(JOGOS)+MYBASEDIV(dJornada_'.
-                    $round_fpb_id.');+RCNT(10000)+RINI(1)&',
+                    $this->fpb_id.')+CO(JOGOS)+BL(JOGOS)+MYBASEDIV(dJornada_'.
+                    $this->fpb_id.');+RCNT(10000)+RINI(1)&',
                 function ($crawler) {
                     return $crawler->filterXPath('//div[contains(@class, "Tabela01")]/table/tr');
                 },

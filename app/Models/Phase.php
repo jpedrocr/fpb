@@ -81,7 +81,7 @@ class Phase extends Model
     public static function updateOrCreateFromFPB($competition_fpb_id, $fpb_id, $description, $status, $update = true)
     {
         $phase = Phase::where('fpb_id', $fpb_id);
-        if (($phase->count()==0) or ($update)) {
+        if (($phase->count()==0) || ($update)) {
             return Phase::updateOrCreate(
                 [
                     'fpb_id' => $fpb_id
