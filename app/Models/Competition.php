@@ -149,6 +149,27 @@ class Competition extends Model
             return $competition->first();
         }
     }
+    /**
+     * Competitions crawler filter
+     *
+     * @return Symfony\Component\DomCrawler\Crawler
+     */
+    public static function filter($crawler)
+    {
+        return $crawler->filterXPath('//a[contains(@href, "!site.go?s=1&show=com&id=")]');
+    }
+    /**
+    * Competitions crawler action: Update or Create Competition from url
+     *
+     * @return App\Models\Competition
+     */
+    public static function eachAny($crawler, $association_fpb_id)
+    {
+        Competition::updateOrCreateFromFPB(
+            $association_fpb_id,
+            $crawler->evaluate('substring-after(@href, "&id=")')[0]
+        );
+    }
     public function getPhasesFromFPB($phases_descriptions = null)
     {
         $competition = $this;

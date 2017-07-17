@@ -136,6 +136,41 @@ class Club extends Model
             return $club->first();
         }
     }
+    /**
+     * Clubs crawler filter
+     *
+     * @return Symfony\Component\DomCrawler\Crawler
+     */
+    public static function filter($crawler)
+    {
+        return $crawler->filterXPath('//a[contains(@href, "!site.go?s=1&show=clu&id=")]');
+    }
+    /**
+     * Clubs crawler action: Update or Create Club from url, if it's the requested Club
+     *
+     * @return App\Models\Club
+     */
+    public static function eachOne($crawler, $club_fpb_id)
+    {
+        $fpb_id = $crawler->evaluate('substring-after(@href, "&id=")')[0];
+        if ($club_fpb_id == $fpb_id) {
+            Club::updateOrCreateFromFPB(
+                $fpb_id
+            );
+        }
+    }
+    /**
+     * Clubs crawler action: Update or Create Club from url
+     *
+     * @return App\Models\Club
+     */
+    public static function eachAny($crawler)
+    {
+        Club::updateOrCreateFromFPB(
+            $crawler->evaluate('substring-after(@href, "&id=")')[0]
+        );
+    }
+
     public function getTeamsFromFPB()
     {
         return $this->crawlFPB(

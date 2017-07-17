@@ -103,14 +103,14 @@ class Game extends Model
         $update = true
     ) {
         $game = Game::where('fpb_id', $fpb_id);
-        if (($game->count()==0) || ($update)) {
-            $crawler = self::crawler('http://www.fpb.pt/fpb2014/!site.go?s=1&show=jog&id='.$fpb_id);
+        if (($game->count() == 0) || ($update)) {
+            $crawler = self::crawler('http://www.fpb.pt/fpb2014/!site.go?s=1&show=jog&id=' . $fpb_id);
 
             $game_details = $crawler->filterXPath('//table[@class="JOG_Infox"]/tr/td');
             $date = explode("/", $game_details->eq(2)->text());
             $time = explode(":", str_replace('.', ':', $game_details->eq(3)->text()));
 
-            if (is_array($date) && is_array($time) && (count($date)==3) && (count($time)==2)) {
+            if (is_array($date) && is_array($time) && (count($date) == 3) && (count($time) == 2)) {
                 $schedule = Carbon::create(
                     $date[2],
                     $date[1],
