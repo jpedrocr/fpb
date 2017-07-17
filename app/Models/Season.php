@@ -76,12 +76,18 @@ class Season extends Model
     {
         return 'fpb_id';
     }
+
+    /**
+     * Update or Create Season from url
+     *
+     * @return App\Models\Season
+     */
     public static function updateOrCreateFromFPB($fpb_id, $description, $current, $update = true)
     {
-        $season = Season::where('fpb_id', $fpb_id);
-        if (($season->count()==0) || ($update)) {
+        $season = self::where('fpb_id', $fpb_id);
+        if (self::newOrUpdate($season, $update)) {
             $years = explode('/', $description);
-            Season::updateOrCreate(
+            return self::updateOrCreate(
                 [
                     'fpb_id' => $fpb_id
                 ],
@@ -98,27 +104,59 @@ class Season extends Model
             return $season->first();
         }
     }
-    public static function getFromFPB()
+    /**
+     * Crawl Seasons url
+     *
+     * @return App\Models\Season
+     */
+    public static function getSeasonsFromFPB()
     {
         return self::crawlFPB(
-            'http://www.fpb.pt/fpb2014/do?com=DS;1;.60100;++BL(B1)+CO(B1)+K_ID(10004)'.
-                '+MYBASEDIV(dShowCompeticoes);+RCNT(10)+RINI(1)&',
+            self::seasonsURL(),
             function ($crawler) {
-                return $crawler
-                    ->filter('option')
-                    ->reduce(
-                        function ($node) {
-                            return !($node->text() == "(Época)");
-                        }
-                    );
+                return self::filter($crawler);
             },
             function ($crawler) {
-                self::updateOrCreateFromFPB(
-                    $crawler->attr('value'),
-                    $crawler->text(),
-                    $crawler->attr('selected')!=null
-                );
+                return self::eachAny($crawler);
             }
+        );
+    }
+    /**
+     * List of Seasons url
+     *
+     * @return string
+     */
+    public static function seasonsURL()
+    {
+        return 'http://www.fpb.pt/fpb2014/do?com=DS;1;.60100;++BL(B1)+CO(B1)+K_ID(10004)'.
+            '+MYBASEDIV(dShowCompeticoes);+RCNT(10)+RINI(1)&';
+    }
+    /**
+     * Seasons crawler filter
+     *
+     * @return Symfony\Component\DomCrawler\Crawler
+     */
+    public static function filter($crawler)
+    {
+        return $crawler
+            ->filter('option')
+            ->reduce(
+                function ($node) {
+                    return !($node->text() == "(Época)");
+                }
+            );
+    }
+    /**
+     * Seasons crawler action: Update or Create Season from url
+     *
+     * @return App\Models\Season
+     */
+    public static function eachAny($crawler)
+    {
+        return self::updateOrCreateFromFPB(
+            $crawler->attr('value'),
+            $crawler->text(),
+            $crawler->attr('selected')!=null
         );
     }
 }

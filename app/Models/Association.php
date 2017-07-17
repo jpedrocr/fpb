@@ -188,7 +188,7 @@ class Association extends Model
      */
     public static function eachAny($crawler)
     {
-        self::updateOrCreateFromFPB(
+        return self::updateOrCreateFromFPB(
             $crawler->evaluate('substring-after(@href, "&id=")')[0]
         );
     }
