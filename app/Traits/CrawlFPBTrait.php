@@ -33,4 +33,13 @@ trait CrawlFPBTrait
         }
         return self::class;
     }
+    /**
+     * Entity is new or will be updated?
+     *
+     * @return boolean
+     */
+    public static function newOrUpdate($entitys, $update)
+    {
+        return (($entitys->count() == 0) || ($update));
+    }
 }

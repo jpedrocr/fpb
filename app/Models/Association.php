@@ -93,7 +93,7 @@ class Association extends Model
      */
     public static function updateOrCreateFromFPB($fpb_id, $update = true)
     {
-        $association = Association::where('fpb_id', $fpb_id);
+        $association = self::where('fpb_id', $fpb_id);
         if (self::newOrUpdate($association, $update)) {
             $crawler = self::crawler(self::urlAssociation($fpb_id));
 
@@ -138,15 +138,6 @@ class Association extends Model
         } else {
             return $association->first();
         }
-    }
-    /**
-     * Association is new or will be updated?
-     *
-     * @return boolean
-     */
-    public static function newOrUpdate($association, $update)
-    {
-        return (($association->count() == 0) || ($update));
     }
     /**
      * Single Association url
@@ -201,7 +192,7 @@ class Association extends Model
      */
     public static function eachAny($crawler)
     {
-        Association::updateOrCreateFromFPB(
+        self::updateOrCreateFromFPB(
             $crawler->evaluate('substring-after(@href, "&id=")')[0]
         );
     }
@@ -209,7 +200,7 @@ class Association extends Model
     /**
      * Crawl Competitions url
      *
-     * @return App\Models\Competition
+     * @return string
      */
     public function getCompetitionsFromFPB(Season $season)
     {
@@ -238,7 +229,7 @@ class Association extends Model
      *
      * Crawl Clubs url
      *
-     * @return App\Models\Club
+     * @return string
      */
     public function getClubsFromFPB($club_fpb_id = null)
     {
@@ -248,7 +239,7 @@ class Association extends Model
                 return Club::filter($crawler);
             },
             $club_fpb_id != null ?
-                function ($crawler) {
+                function ($crawler) use ($club_fpb_id) {
                     return Club::eachOne($crawler, $club_fpb_id);
                 } :
                 function ($crawler) {
@@ -263,7 +254,7 @@ class Association extends Model
      */
     public function associationClubsURL()
     {
-        return 'http://www.fpb.pt/fpb2014/do?com=DS;1;.109012;++K_ID('.
+        return 'http://www.fpb.pt/fpb2014/do?com=DS;1;.109012;++K_ID(' .
             $this->fpb_id .
             ')+CO(CLUBES)+BL(CLUBES)+MYBASEDIV(dAssoc_Home_Clubes);+RCNT(1000)+RINI(1)&';
     }

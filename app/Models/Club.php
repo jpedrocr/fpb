@@ -154,7 +154,7 @@ class Club extends Model
     {
         $fpb_id = $crawler->evaluate('substring-after(@href, "&id=")')[0];
         if ($club_fpb_id == $fpb_id) {
-            Club::updateOrCreateFromFPB(
+            self::updateOrCreateFromFPB(
                 $fpb_id
             );
         }
@@ -166,7 +166,7 @@ class Club extends Model
      */
     public static function eachAny($crawler)
     {
-        Club::updateOrCreateFromFPB(
+        self::updateOrCreateFromFPB(
             $crawler->evaluate('substring-after(@href, "&id=")')[0]
         );
     }

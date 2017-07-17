@@ -19,7 +19,7 @@ class Competition extends Model
     use CrudTrait;
     use CrawlFPBTrait;
 
-     /*
+    /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES
     |--------------------------------------------------------------------------
@@ -159,13 +159,13 @@ class Competition extends Model
         return $crawler->filterXPath('//a[contains(@href, "!site.go?s=1&show=com&id=")]');
     }
     /**
-    * Competitions crawler action: Update or Create Competition from url
+     * Competitions crawler action: Update or Create Competition from url
      *
      * @return App\Models\Competition
      */
     public static function eachAny($crawler, $association_fpb_id)
     {
-        Competition::updateOrCreateFromFPB(
+        self::updateOrCreateFromFPB(
             $association_fpb_id,
             $crawler->evaluate('substring-after(@href, "&id=")')[0]
         );
