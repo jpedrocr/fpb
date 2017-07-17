@@ -101,11 +101,7 @@ class Association extends Model
 
             $association_details = $content->filterXPath('//div/table[@class="TabelaHor01"]/tr/td');
 
-            $original_address = explode("<br>", trim($association_details->eq(3)->html()));
-            $address1 = trim($original_address[0]);
-            $address2 = trim($original_address[1]);
-
-            return Association::updateOrCreate(
+            return self::updateOrCreate(
                 [
                     'fpb_id' => $fpb_id
                 ],
@@ -123,7 +119,7 @@ class Association extends Model
                     'cad_president' =>
                         trim($association_details->eq(2)->text()),
                     'address' =>
-                        implode("\n", $original_address),
+                        implode("\n", explode('<br>', trim($association_details->eq(3)->html()))),
                     'telephone' =>
                         trim($association_details->eq(4)->text()),
                     'fax_number' =>
